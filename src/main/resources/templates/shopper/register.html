@@ -30,9 +30,9 @@
 		<div class="container">
 			<h1 class="tt-title-subpages noborder" style="padding-bottom: 15px;">TẠO TÀI KHOẢN MỚI</h1>
 			<div th:if="${param.success}">
-				<div class="alert alert-info">
+				<h2 class="tt-title-subpages noborder text-success">
 					Chào mừng bạn đã trở lại shop!
-				</div>
+				</h2>
 			</div>
 			<div class="tt-login-form">
 				<div class="row justify-content-center">
@@ -44,22 +44,22 @@
 									<div class="form-group">
 										<label for="">TÊN *</label>
 										<div class="tt-required">* bắt buộc</div>
-										<input type="text" th:field="*{name}" name="name" class="form-control" id="name" placeholder="Nhập tên" required>
+										<input type="text" th:field="*{name}" name="name" class="form-control" id="name" placeholder="Nhập tên" >
 										<p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
 									</div>
 									<div class="form-group">
 										<label for="">E-MAIL *</label>
-										<input type="email" th:field="*{email}" name="email" class="form-control" id="email" placeholder="Enter E-mail" required>
+										<input type="email" th:field="*{email}" name="email" class="form-control" id="email" placeholder="Enter E-mail" >
 										<p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
 									</div>
 									<div class="form-group">
 										<label for="">SỐ ĐIỆN THOẠI *</label>
-										<input type="tel" th:field="*{phone}" name="phone" class="form-control" id="phone" placeholder="Enter Phone" required>
+										<input type="tel" th:field="*{phone}" name="phone" class="form-control" id="phone" placeholder="Enter Phone" >
 										<p th:if="${#fields.hasErrors('phone')}" class="text-danger" th:errors="*{phone}"></p>
 									</div>
 									<div class="form-group">
 										<label for="">MẬT KHẨU *</label>
-										<input type="password" th:field="*{password}" name="password" class="form-control" id="password" placeholder="Enter Password" minlength="8" required>
+										<input type="password" th:field="*{password}" name="password" class="form-control" id="password" placeholder="Enter Password"  >
 										<p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
 									</div>
 									<div class="row">

@@ -10,18 +10,25 @@ $.ajaxPrefilter(function (options, original_Options, jqXHR) {
 
 function getContent() {
 	$.ajax({
-		url: '',
-		type: 'POST',
-		dataType: 'html',
+		url: '/api/admin/products/data',
+		type: 'GET',
+		dataType: 'json',
 		data: [
 			{ topshoe: 'topshoe' }
 		]
 	})
 		.done(function (res) {
 			topshoe.log("Navigated to " + window.location.href);
-			$('#router-outlet').html(res);
+			if (!Array.isArray(res)) {
+				console.error("Invalid response format");
+				return;
+			}
+			console.log("Response data:", res); // Log the response data for debugging
+	
+	
+			// $('#router-outlet').html(tableHtml);
+			// $('#router-outlet').html(res);
 			initActiveMenu();
-
 		})
 		.fail(function () {
 			console.error("Error routing page");

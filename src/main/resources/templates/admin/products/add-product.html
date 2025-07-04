@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- begin::Head -->
+
+<head>
+    <title>Admin | TopShoe</title>
+    <th:block th:insert="~{admin/fragments/common :: global_css}"></th:block>
+</head>
+
+<!-- end::Head -->
+
+<!-- begin::Body -->
+
+<body
+    class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+    <!-- begin:: Page -->
+
+    <!-- begin:: Header Mobile -->
+    <div th:replace="~{admin/fragments/header :: header_mobile}"></div>
+    <!-- end:: Header Mobile -->
+
+    <div class="kt-grid kt-grid--hor kt-grid--root">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+            <!-- begin:: Aside -->
+            <div th:replace="~{admin/fragments/sidebar}"></div>
+            <!-- end:: Aside -->
+
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+
+                <!-- begin:: Header -->
+                <div th:replace="~{admin/fragments/header :: header}"></div>
+                <!-- end:: Header -->
+
+                <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin/"> Dashboard</a></li>
+                                <li class="breadcrumb-item active"> Sản phẩm </li>
+                                
+                            </ol>
+                            <div class="row">
+                                <div class="col-md-6 col-12 mx-auto">
+                                    <h1>Thêm mới sản phẩm</h1>
+                                    <hr>
+                                    <form th:action="/admin/product/create" role="form" th:method="post"
+                                     th:object="${newProduct}" class="row" enctype="multipart/form-data">
+                                        
+                                        <div class="mb-3 col-12 col-md-6" >
+                                            <label for="name" class="form-label">Tên sản phẩm</label>
+                                            <input type="text" class="form-control " th:field="*{name}" />
+                                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6" >
+                                            <label for="price" class="form-label">Giá sản phẩm</label>
+                                            <input type="number" class="form-control " th:field="*{price}"
+                                            id="price" name="price" />
+                                            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12" >
+                                            <label for="detailDesc" class="form-label">Mô tả chi tiết:</label>
+                                            <textarea type="text" class="form-control"  th:field="*{description}" >
+
+                                            </textarea>
+                                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6" >
+                                            <label class="form-label">Hãng của sản phẩm: </label>
+                                            <select class="form-select" >
+                                                <option value="">Apple (MacBook)</option>
+                                                <option value="">Asus</option>
+                                                <option value="">Lenovo</option>
+                                                <option value="">Dell</option>
+                                                <option value="">LG</option>
+                                                <option value="">Acer<option>
+                                            </select>
+                                            <p th:if="${#fields.hasErrors('brandName')}" th:errors="*{description}" class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6" >
+                                            <label class="form-label">Trạng thái: </label>
+                                            <select class="form-select" >
+                                                <option value="">Đang bán</option>
+                                                <option value="">Ngừng bán</option>
+                                            </select>
+                                            <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6" >
+                                            <label for="image" class="form-label">Ảnh sản phẩm: </label>
+                                            <input type="file" class="form-control"  name="imageFile"
+                                            id="imageFile" accept=".png, .jpg, .jpeg"/>
+                                        </div>
+                                        <div class="mb-3 col-12" >
+                                            <img style="max-height: 250px; display: none;" alt="avatar preview" id="avatarPreview">
+                                        </div>
+                                        <div class="mb-5 col-12" >
+                                            <button type="submit" class="btn btn-primary">Thêm</button>
+                                            <button type="button" class="btn btn-warning">Đóng</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </main>
+                    <!-- begin:: Footer -->
+                    <div th:replace="~{admin/fragments/footer}"></div>
+                    <!-- end:: Footer -->
+                </div>
+            </div>
+        </div>
+
+        <!-- end:: Page -->
+
+        <!-- begin::Quick Panel -->
+        <div th:replace="~{admin/fragments/header :: quick_panel}"></div>
+        <!-- end::Quick Panel -->
+
+        <!-- begin::Scrolltop -->
+        <div id="kt_scrolltop" class="kt-scrolltop">
+            <i class="fa fa-arrow-up"></i>
+        </div>
+
+        <!-- end::Scrolltop -->
+
+        <th:block th:insert="~{admin/fragments/common :: global_script}" type="text/javascript"></th:block>
+        <!--begin :: Page Script (used by this page) -->
+
+    </div>
+</body>
+
+</html>

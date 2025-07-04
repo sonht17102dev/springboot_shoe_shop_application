@@ -2,36 +2,58 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.RegistrationDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
+import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
-@Controller
-public class AuthenCustomerController {
+import jakarta.validation.Valid;
 
-    @GetMapping("/user/login")
-    public String userLogin() {
+// @Controller
+// public class AuthenCustomerController {
 
-        return "shopper/login";
-    }
+//     private UserService userService;
+    
+    
+//     public AuthenCustomerController(UserService userService) {
+//         this.userService = userService;
+//     }
 
-    @GetMapping("/user/my-account")
-    public String myAccount() {
-        return "shopper/account";
-    }
+//     @GetMapping("/user/login")
+//     public String userLogin() {
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("user", new User());
+//         return "shopper/login";
+//     }
 
-        return "shopper/register";
-    }
+//     @GetMapping("/user/my-account")
+//     public String myAccount() {
+//         return "shopper/account";
+//     }
 
-    @PostMapping("/register-user")
-    public String registerUser(@ModelAttribute("user") User user) {
-        System.out.println(user);
-        return "shopper/register";
-    }
-}
+//     @GetMapping("/register")
+//     public String register(Model model) {
+//         // this object RegistrationDto  holds form data
+//         model.addAttribute("user", new RegistrationDto());
+//         return "shopper/register";
+//     }
+
+//     // handler method to handle user registration form submit request
+//     @PostMapping("/register-user")
+//     public String registerUser(@Valid @ModelAttribute("user") RegistrationDto user, BindingResult bindingResult, Model model) {
+//         User userExists = userService.findByEmail(user.getEmail());
+//         if(userExists != null && userExists.getEmail()!= null && !userExists.getEmail().isEmpty()) {
+//             bindingResult.rejectValue("email", null, "Email này đã được sử dụng!");
+//         }
+
+//         if(bindingResult.hasErrors()) {
+//             model.addAttribute("user", user);
+//             return "shopper/register";
+//         }
+//         userService.saveUser(user);
+//         return "redirect:/register?success";
+//     }
+// }
