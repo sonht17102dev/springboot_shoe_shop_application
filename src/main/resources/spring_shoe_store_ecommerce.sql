@@ -1,12 +1,9 @@
 CREATE DATABASE  IF NOT EXISTS `spring_shoe_store_ecommerce`;
 USE `spring_shoe_store_ecommerce`;
-SET foreign_key_checks = 0;
-DROP TABLE IF EXISTS `user`;
-DROP TABLE IF EXISTS `role`;
-DROP TABLE IF EXISTS `brand`;
-DROP TABLE IF EXISTS `category`;
-DROP TABLE IF EXISTS `product`;
-SET foreign_key_checks = 1;
+SET FOREIGN_KEY_CHECKS=0; -- to disable them
+ALTER DATABASE spring_shoe_store_ecommerce CHARACTER SET 'utf8mb4';
+
+
 
 
 DROP TABLE IF EXISTS `user`;
@@ -28,8 +25,7 @@ CREATE TABLE `user` (
   `updated_at` datetime(6),
    constraint UKob8kqyqqgmefl0aco34akdtpe unique (email),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `user` (`email`, `password`, `enabled`, `address`, `created_at`, `date_of_birth`, `gender`, `image_data`, `image_path`, `is_delete`, `name`, `phone`, `updated_at`)  
 VALUES   
@@ -43,7 +39,7 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 
 INSERT INTO `role` (name)
@@ -70,25 +66,12 @@ CREATE TABLE `users_roles` (
   CONSTRAINT `FK_ROLE` FOREIGN KEY (`role_id`) 
   REFERENCES `role` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-SET FOREIGN_KEY_CHECKS = 1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE brand (  
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
-    created_at DATETIME(6),  
-    updated_at DATETIME(6),  
-    name VARCHAR(50)  
-);  
 
-CREATE TABLE category (  
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
-    created_at DATETIME(6),  
-    updated_at DATETIME(6),  
-    name VARCHAR(50)  
-);  
 
+DROP TABLE IF EXISTS `product`;
 CREATE TABLE product (  
     id BIGINT NOT NULL AUTO_INCREMENT,  
     created_at DATETIME(6),  
@@ -100,44 +83,34 @@ CREATE TABLE product (
     status VARCHAR(50),  
     version_name VARCHAR(50),  
     brand_id BIGINT,  
-    category_id BIGINT,
+    product_image_id bigint,
 	PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS `products_categories`;
-CREATE TABLE `products_categories` (
-  `product_id` BIGINT NOT NULL,
-  `category_id` BIGINT NOT NULL,
-  
-  PRIMARY KEY (`product_id`,`category_id`),
-  KEY `FK_category_idx` (`category_id`),
-  CONSTRAINT `FK_PRODUCT_01` FOREIGN KEY (`product_id`) 
-  REFERENCES `product` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  CONSTRAINT `FK_CATEGORY` FOREIGN KEY (`category_id`) 
-  REFERENCES `category` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `product_image`;
+-- Bảng product_image
+CREATE TABLE product_image (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    is_primary BIT(1),
+    image_url VARCHAR(500),
+    product_id BIGINT,     -- Khóa ngoại đến bảng 'product'
+    FOREIGN KEY (product_id) REFERENCES product(id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `products_brands`;
-CREATE TABLE `products_brands` (
-  `product_id` BIGINT NOT NULL,
-  `brand_id` BIGINT NOT NULL,
-  
-  PRIMARY KEY (`product_id`,`brand_id`),
-  KEY `FK_brand_idx` (`brand_id`),
-  CONSTRAINT `FK_PRODUCT_02` FOREIGN KEY (`product_id`) 
-  REFERENCES `product` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  CONSTRAINT `FK_BRAND` FOREIGN KEY (`brand_id`) 
-  REFERENCES `brand` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE brand (  
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
+    created_at DATETIME(6),  
+    updated_at DATETIME(6),  
+    product_id BIGINT,     -- Khóa ngoại đến bảng 'product'
+    name VARCHAR(50)  ,
+    FOREIGN KEY (product_id) REFERENCES product(id)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
-SET FOREIGN_KEY_CHECKS = 1;
+
+SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 INSERT INTO `users_roles` (user_id,role_id)
 VALUES 
 (1, 1),
@@ -149,26 +122,18 @@ VALUES
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
 (NOW(), NOW(), 'Brand A'),  
-(NOW(), NOW(), 'Brand B');  
+(NOW(), NOW(), 'Brand B'),
+(NOW(), NOW(), 'Brand C'),  
+(NOW(), NOW(), 'Brand D');  
 
--- Thêm dữ liệu mẫu cho bảng category  
-INSERT INTO category (created_at, updated_at, name) VALUES  
-(NOW(), NOW(), 'Category X'),  
-(NOW(), NOW(), 'Category Y');  
+
 
 -- Thêm dữ liệu mẫu cho bảng product  
-INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id, category_id) VALUES  
-(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 100000, 'Dang ban', 'v1.0', 1, 1),  
-(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Dang ban', 'v1.1', 2, 2),
-(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 100000, 'Dang ban', 'v1.0', 1, 1),  
-(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 100000, 'Dang ban', 'v1.0', 1, 1),  
-(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 200000, 'Dang ban', 'v1.1', 2, 2),
-(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 200000, 'Dang ban', 'v1.1', 2, 2);    
+INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id) VALUES  
+(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 100000, 'Dang ban', 'v1.0', 1),  
+(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngung ban', 'v1.1', 2),
+(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Dang ban', 'v1.0', 3),  
+(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Dang ban', 'v1.1', 3),
+(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Dang ban', 'v1.0', 4),  
+(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Dang ban', 'v1.1', 2);
 
-INSERT INTO `products_categories` (product_id, category_id)
-VALUES 
-(1, 1), (2, 2);
-
-INSERT INTO `products_brands` (product_id, brand_id)
-VALUES 
-(1, 1), (2, 2);

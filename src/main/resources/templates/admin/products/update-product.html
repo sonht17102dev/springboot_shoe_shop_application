@@ -46,11 +46,11 @@
                             </ol>
                             <div class="row">
                                 <div class="col-md-6 col-12 mx-auto">
-                                    <h1>Thêm mới sản phẩm</h1>
+                                    <h1>Cập nhật thông tin sản phẩm</h1>
                                     <hr>
-                                    <form th:action="@{/admin/products/create}" role="form" th:method="post"
-                                        th:object="${newProduct}" class="row" enctype="multipart/form-data">
-
+                                    <form th:action="@{/admin/products/update}" role="form" th:method="post"
+                                        th:object="${currentProduct}" class="row" enctype="multipart/form-data">
+                                        <input type="hidden" th:field="*{id}" />
                                         <div class="mb-3 col-12 col-md-6">
                                             <label for="name" class="form-label">Tên sản phẩm</label>
                                             <input type="text" class="form-control " th:field="*{name}" />
@@ -96,26 +96,32 @@
                                             <label class="form-label">Trạng thái: </label>
                                             <select class="form-select" th:field="*{status}">
                                                 <option value="" disabled selected>-- Chọn danh mục --</option>
-                                                <option th:each="stt : ${statuses}" th:value="${stt}"
-                                                    th:text="${stt}">
+                                                <option th:each="stt : ${statuses}" th:value="${stt}" th:text="${stt}">
                                                 </option>
                                             </select>
                                             <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}"
                                                 class="text-danger"></p>
 
                                         </div>
-                                        
+
                                         <div class="mb-3 col-12 col-md-6">
                                             <label for="image" class="form-label">Ảnh sản phẩm: </label>
                                             <input type="file" class="form-control" name="imageFile" id="imageFile"
                                                 accept=".png, .jpg, .jpeg" />
+                                            <p th:if="${imageError != null}" class="text-danger">
+                                                <span th:text="${imageError}"></span>
+                                            </p>
                                         </div>
                                         <div class="mb-3 col-12">
-                                            <img style="max-height: 250px; display: none;" alt="avatar preview"
-                                                id="avatarPreview">
+                                            <img th:if="${imageError == null}" style="max-height: 250px;"
+                                                alt="avatar preview" id="avatarPreview"
+                                                th:src="@{'/assets/images/' + ${urlImage != null ? urlImage : 'no image.png'}}" />
+                                            <img th:if="${imageError != null}" style="max-height: 250px;"
+                                                src="assets/media/error/no image.png" />
+
                                         </div>
                                         <div class="mb-5 col-12">
-                                            <button type="submit" class="btn btn-primary">Thêm</button>
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
                                             <button type="button" class="btn btn-warning">Đóng</button>
                                         </div>
                                     </form>

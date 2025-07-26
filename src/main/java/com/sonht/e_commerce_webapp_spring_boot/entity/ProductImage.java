@@ -1,12 +1,15 @@
 package com.sonht.e_commerce_webapp_spring_boot.entity;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,27 +17,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "category")
-public class Category {
-
+@Table(name = "product_image")
+public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "image_url")
+    private String imageUrl;
 
+    @Column(name = "is_primary")
+    private boolean isPrimary;
 
-    @Column(name = "created_at", columnDefinition = "datetime(6)")  
-    private Date createdAt;
+    
+    @OneToMany(mappedBy = "productImage", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 
-    @Column(name = "updated_at", columnDefinition = "datetime(6)")  
-    private Date updatedAt;
 
 }

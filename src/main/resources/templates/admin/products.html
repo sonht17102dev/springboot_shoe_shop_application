@@ -6,6 +6,7 @@
 <head>
 	<title>Admin | TopShoe</title>
 	<th:block th:insert="~{admin/fragments/common :: global_css}"></th:block>
+
 </head>
 
 <!-- end::Head -->
@@ -38,6 +39,71 @@
 
 					<!-- begin :: Content -->
 					<th:block th:fragment="content">
+						<!-- begin::Model update status-->
+						<!-- Modal -->
+						<div th:each="product : ${products}" class="modal fade" th:id="'updateStatus'+${product.id}"
+							tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel" th:text="${product.name}">Thay
+											đổi trạng thái sản phẩm</h5>
+										<p></p>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Lưu ý: Việc thay đổi trạng thái sản phẩm sẽ ảnh hưởng đến việc hiển thị sản phẩm
+										trên trang web. <br>
+										Vui lòng chọn trạng thái phù hợp.<br>
+										Chọn nút "Đang bán" nếu sản phẩm đang được bán, hoặc "Ngưng bán" nếu sản phẩm
+										không còn được bán nữa.
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bỏ
+											qua</button>
+										<button th:id="'sale-status'+${product.id}" type="button"
+											class="btn btn-primary">Đang bán</button>
+										<button th:id="'stop-sale-status'+${product.id}" type="button"
+											class="btn btn-danger">Ngừng
+											bán</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end::Model update status-->
+
+						<!-- begin:Modal delete-->
+						<div th:each="product : ${products}" class="modal fade" th:id="'deleteModal'+${product.id}"
+							tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title" id="exampleModalLabel"
+											th:text="'Bạn có chắc chắn muốn xoá '+${product.name}+ ' ?'"> </h1>
+
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body text-center">
+										<!-- Đưa user name admin vào đây-->
+									</div>
+									<div class="modal-footer">
+										<!-- <form th:action="@{/admin/products/{id}(id=${product.id})}" method="post"> -->
+
+
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bỏ
+											qua</button>
+										<button th:id="'delete'+${product.id}" type="submit"
+											class="btn btn-danger">Xoá</button>
+										<!-- </form> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end::Model delete-->
+
 						<div class="kt-portlet kt-portlet--mobile">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
@@ -56,8 +122,8 @@
 										</a>
 										&nbsp;
 										<div class="dropdown dropdown-inline">
-											<button type="button" class="btn btn-brand btn-icon-sm" 
-											onclick="redirectToAddProduct()">
+											<button type="button" class="btn btn-brand btn-icon-sm"
+												onclick="redirectToAddProduct()">
 												<i class="flaticon2-plus"></i> Thêm Mới
 											</button>
 										</div>
@@ -169,124 +235,200 @@
 			function redirectToAddProduct() {
 				window.location.href = '/admin/products/create';
 			}
+			function redirectToUpdateProduct(id) {
+				window.location.href = '/admin/products/update/' + id;
+			}
+			var idProductStatus = 0;
+			var idProductDelete = 0;
+			var idProductUpdate = 0; // Biến toàn cục để lưu ID sản phẩm cần cập nhật
 
-			$(document).ready(function () {
-				var productData = [[${ products }]] // Lấy dữ liệu users từ model của Spring Boot
-				
-				$('#html_table').KTDatatable({
-					data: {
-						type: 'local', // Dữ liệu được load từ local (client-side)
-						source: productData, // Truyền dữ liệu vào đây
-						pageSize: 10, // Số lượng record trên mỗi trang
-						saveState: { // Lưu trạng thái datatable vào localStorage
-							cookie: true,
-							webstorage: true,
+			var productData = [[${ products }]] // Lấy dữ liệu users từ model của Spring Boot
+
+			var datatable = $('#html_table').KTDatatable({
+				data: {
+					type: 'local', // Dữ liệu được load từ local (client-side)
+					source: productData, // Truyền dữ liệu vào đây
+					pageSize: 10, // Số lượng record trên mỗi trang
+					saveState: { // Lưu trạng thái datatable vào localStorage
+						cookie: true,
+						webstorage: true,
+					},
+				},
+				// layout definition
+				layout: {
+					scroll: false,
+					footer: false,
+				},
+
+				// column sorting
+				sortable: true,
+
+				pagination: true,
+
+				search: {
+					input: $('#generalSearch'),
+					delay: 500,
+				},
+
+				// columns definition
+				columns: [
+					{
+						field: 'id',
+						title: '#',
+						sortable: 'asc',
+						width: 40,
+						type: 'number',
+						selector: false,
+						textAlign: 'center',
+					},
+					{
+						field: 'name',
+						title: 'Tên sản phẩm',
+					},
+					{
+						field: 'versionName',
+						title: 'Phiên bản',
+					},
+					{
+						field: 'price',
+						title: 'Giá bán',
+					},
+
+					{
+						field: 'status',
+						title: 'Trạng thái',
+						// callback function support for column rendering
+						template: function (row) {
+							var status = {
+								'Dang ban': { 'title': 'Đang bán', 'state': 'success' },
+								'Ngung ban': { 'title': 'Ngừng bán', 'state': 'danger' },
+							};
+							return '<span class="kt-badge kt-badge--' + status[row.status].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + status[row.status].state + '">' +
+								status[row.status].title + '</span>';
 						},
 					},
-					// layout definition
-					layout: {
-						scroll: false,
-						footer: false,
-					},
-
-					// column sorting
-					sortable: true,
-
-					pagination: true,
-
-					search: {
-						input: $('#generalSearch'),
-						delay: 500,
-					},
-
-					// columns definition
-					columns: [
-						{
-							field: 'id',
-							title: '#',
-							sortable: 'asc',
-							width: 40,
-							type: 'number',
-							selector: false,
-							textAlign: 'center',
-						},
-						{
-							field: 'name',
-							title: 'Tên sản phẩm',
-						},
-						{
-							field: 'versionName',
-							title: 'Phiên bản',
-						},
-						{
-							field: 'price',
-							title: 'Giá bán',
-						},
-						// {
-						// 	field: 'updatedAt',
-						// 	title: 'updated_at',
-						// 	type: 'date',
-						// 	format: 'MM/DD/YYYY',
-						// },
-						// {
-						// 	field: 'isDelete',
-						// 	title: 'Status',
-						// 	// callback function support for column rendering
-						// 	template: function (row) {
-						// 		var status = {
-						// 			false: { 'title': 'Active', 'class': 'kt-badge--success' },
-						// 			true: { 'title': 'Inactive', 'class': ' kt-badge--danger' },
-						// 		};
-						// 		return '<span class="kt-badge ' + status[row.isDelete].class + ' kt-badge--inline kt-badge--pill">' + status[row.isDelete].title + '</span>';
-						// 	},
-						// },
-						{
-							field: 'status',
-							title: 'Trạng thái',
-							// callback function support for column rendering
-							template: function (row) {
-								console.log(row);
-								var status = {
-									'Hết hàng': { 'title': 'Hết hàng', 'state': 'danger' },
-									'Dang ban': { 'title': 'Đang bán', 'state': 'success' },
-									'Sắp có': { 'title': 'Sắp có', 'state': 'accent' },
-									'Ẩn trên webshop': { 'Ẩn trên webshop': 'Direct', 'state': 'primary' },
-									'Ngừng kinh doanh': { 'Ngừng kinh doanh': 'Direct', 'state': 'accent' },
-								};
-								return '<span class="kt-badge kt-badge--' + status[row.status].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + status[row.status].state + '">' +
-									status[row.status].title + '</span>';
-							},
-						},
-						{
-							field: 'Actions',
-							title: 'Hành động',
-							sortable: false,
-							width: 130,
-							// overflow: 'visible',
-							textAlign: 'center',
-							template: function (row, index, datatable) {
-								var dropup = (datatable.getPageSize() - index) <= 4 ? 'dropup' : '';
-								return '<div class="dropdown ' + dropup + ' ">\
+					{
+						field: 'Actions',
+						title: 'Hành động',
+						sortable: false,
+						width: 130,
+						// overflow: 'visible',
+						textAlign: 'center',
+						template: function (row, index, datatableElement) {
+							// console.log(datatableElement.dataSet[index]);
+							var idData = datatableElement.dataSet[index].id;
+							var dropup = (datatableElement.getPageSize() - index) <= 4 ? 'dropup' : '';
+							return '<div class="dropdown ' + dropup + ' ">\
 		                        <a href="#" class="btn btn-clean btn-icon btn-pill " data-toggle="dropdown">\
 		                            <i class="la la-ellipsis-h"></i>\
 		                        </a>\
 		                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown">\
-		                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-		                            <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-		                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
+		                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Cập nhật chi tiết</a>\
+		                            <button id="update-status" type="button" data-bs-toggle="modal" data-bs-target="#updateStatus' + idData + '" class="dropdown-item" ><i class="la la-leaf"></i> Cập nhật trạng thái</button>\
+		                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Xuất hoá đơn</a>\
 		                        </div>\
 		                    </div>\
-		                    <a href="#" class="btn btn-clean btn-icon btn-pill" title="Edit details">\
-		                        <i class="la la-edit"></i>\
-		                    </a>\
-		                    <a href="#" class="btn btn-clean btn-icon btn-pill" title="Delete">\
-		                        <i class="la la-trash"></i>\
-		                    </a>';
-							},
-						}
-					],
+		                    <button id="updateButton" type="button" class="btn btn-clean btn-icon btn-pill" title="Cập nhật">\
+		                        <i id="updateButtonIcon" class="la la-edit"></i>\
+		                    </button>\
+		                    <button id="deleteButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal' + idData + '"  class="btn btn-clean btn-icon btn-pill" title="Xoá">\
+		                        <i id="deleteButtonIcon" class="la la-trash"></i>\
+		                    </button>';
+						},
+					}
+				],
+			});
+			document.addEventListener("DOMContentLoaded", function () {
+				document.addEventListener('hide.bs.modal', function (event) {
+					if (document.activeElement) {
+						document.activeElement.blur();
+					}
 				});
 			});
+			// Xử lý sự kiện click cho các nút trong mỗi dòng
+			document.addEventListener('click', (e) => {
+				if (e.target && (e.target.id === 'update-status')) {
+					var row = $(e.target).closest('tr'); // Lấy dòng hiện tại
+					idProductStatus = row.find('td:first').text(); // Lấy ID sản phẩm từ cột đầu tiên
+					console.log(idProductStatus)
+				}
+			})
+			document.addEventListener('click', (e) => {
+				if (e.target && (e.target.id === 'deleteButton' || e.target.id === 'deleteButtonIcon')) {
+					var row = $(e.target).closest('tr'); // Lấy dòng hiện tại
+					idProductDelete = row.find('td:first').text(); // Lấy ID sản phẩm từ cột đầu tiên
+					console.log(idProductDelete)
+				}
+			})
+			document.addEventListener('click', (e) => {
+				if (e.target && (e.target.id === 'updateButton'|| e.target.id === 'updateButtonIcon')) {
+					var row = $(e.target).closest('tr'); // Lấy dòng hiện tại
+					idProductUpdate = row.find('td:first').text(); // Lấy ID sản phẩm từ cột đầu tiên
+					console.log(idProductUpdate)
+				}
+			})
+			// Thêm sự kiện click cho nút Cập nhật trong mỗi dòng
+			document.addEventListener('click', function (e) {
+				if (e.target && (e.target.id === 'updateButton' || e.target.id ==='updateButtonIcon')) {
+					// Thực hiện cập nhật trạng thái sản phẩm ở đây
+					console.log("Cập nhật sản phẩm có ID: " + idProductUpdate);
+					redirectToUpdateProduct(idProductUpdate); // Chuyển hướng đến trang cập nhật sản phẩm
+				}
+			});
+			// Thêm sự kiện click cho nút Xoá trong mỗi dòng
+			document.addEventListener('click', function (e) {
+				console.log(idProductDelete)
+				if (e.target && e.target.id === ('delete' + idProductDelete)) {
+					// Thực hiện cập nhật trạng thái sản phẩm ở đây
+					console.log("Xoá sản phẩm có ID: " + idProductDelete);
+					// sử dụng AJAX để gửi yêu cầu xoá sản phẩm đến server
+					$.ajax({
+						url: '/admin/products/' + idProductDelete, // URL cập nhật trạng thái
+						type: 'POST', // Phương thức POST
+						success: function (response) {
+							console.log(response);
+							$('#deleteModal' + idProductDelete).modal('hide'); // Đóng modal sau khi cập nhật thành công
+							// Xử lý phản hồi từ server 
+							// Cập nhật lại datatable
+							passDataToTable(response); // Gọi hàm passDataToTable để cập nhật lại datatable
+						},
+						error: function (error) {
+							console.error("Lỗi khi cập nhật trạng thái sản phẩm:", error);
+						}
+					});
+				}
+			});
+			// Thêm sự kiện click cho nút "Cập nhật trạng thái" trong mỗi dòng
+			document.addEventListener('click', function (e) {
+				if (e.target && e.target.id === ('stop-sale-status' + idProductStatus)) {
+					// Thực hiện cập nhật trạng thái sản phẩm ở đây
+					console.log("Cập nhật trạng thái cho sản phẩm có ID: " + idProductStatus);
+					// Có thể sử dụng AJAX để gửi yêu cầu cập nhật trạng thái đến server
+					$.ajax({
+						url: '/admin/products/stop-sale/' + idProductStatus, // URL cập nhật trạng thái
+						type: 'POST', // Phương thức POST
+						success: function (response) {
+							console.log(response);
+							$('#updateStatus' + idProductStatus).modal('hide'); // Đóng modal sau khi cập nhật thành công
+							// Xử lý phản hồi từ server 
+							// Cập nhật lại datatable
+							passDataToTable(response); // Gọi hàm passDataToTable để cập nhật lại datatable
+
+						},
+						error: function (error) {
+							console.error("Lỗi khi cập nhật trạng thái sản phẩm:", error);
+						}
+					});
+				}
+			});
+			// Cập nhật lại datatable
+			function passDataToTable(response) {
+				$('#html_table').KTDatatable("destroy"); // Hủy datatable hiện tại
+				var productData = response// Lấy dữ liệu sản phẩm mới từ model của Spring Boot
+				datatable.options.data.source = productData; // Cập nhật dữ liệu mới
+				datatable = $('#html_table').KTDatatable(datatable.options); // Khởi tạo lại datatable với dữ liệu 
+			}
+
 
 		</script>
 </body>

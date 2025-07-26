@@ -24,7 +24,7 @@ public class ProductDto {
     private String name;
     
     @NotNull
-    @NotEmpty(message = "Tên phiên bản không được để trống")
+    @NotEmpty(message = "Phiên bản sản phẩm không được để trống")
     private String versionName;
 
     @NotNull
@@ -32,13 +32,16 @@ public class ProductDto {
     private String description;
 
     @NotNull(message = "Giá không được để trống")
-    @DecimalMin(value = "0", inclusive = false, message = "Price must be greater than 0")
+    @DecimalMin(value = "0", inclusive = false, message = "Giá phải lớn hơn 0")
     private double price;
 
     private Boolean isDelete;
-    @NotNull(message = "Trạng thái không được để trống")
+    @NotNull(message = "Vui lòng chọn trạng thái")
     private String status; 
-    private Date updatedAt;
-    private Date createdAt;
+    
+    @NotNull(message = "Vui lòng chọn thương hiệu")
+    private String brandName;
+
+    private String imageUrl;
     
 }
