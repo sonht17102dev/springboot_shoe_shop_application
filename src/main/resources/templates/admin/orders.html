@@ -1,126 +1,342 @@
-<!-- begin :: Page CSS -->
-<th:block th:fragment="page_css"></th:block>
-<!-- end :: Page CSS -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!-- begin :: Content -->
-<th:block th:fragment="content">
-	<div class="kt-portlet kt-portlet--mobile">
-		<div class="kt-portlet__head kt-portlet__head--lg">
-			<div class="kt-portlet__head-label">
-				<span class="kt-portlet__head-icon">
-					<i class="kt-font-brand flaticon2-line-chart"></i>
-				</span>
-				<h3 class="kt-portlet__head-title">
-					Danh Sách Đơn Hàng
-				</h3>
-			</div>
-			<div class="kt-portlet__head-toolbar d-none">
-				<div class="kt-portlet__head-wrapper">
-					<a href="#" class="btn btn-clean btn-icon-sm">
-						<i class="la la-long-arrow-left"></i>
-						Quay lại
-					</a>
-					&nbsp;
-					<div class="dropdown dropdown-inline">
-						<button type="button" class="btn btn-brand btn-icon-sm">
-							<i class="flaticon2-plus"></i> Thêm Mới
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="kt-portlet__body">
+<!-- begin::Head -->
 
-			<!--begin: Search Form -->
-			<div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
-				<div class="row align-items-center">
-					<div class="col-xl-12 order-2 order-xl-1">
-						<div class="row align-items-center">
-							<div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-								<div class="kt-input-icon kt-input-icon--left">
-									<input type="text" class="form-control" placeholder="Tìm kiếm..." id="generalSearch" autocomplete="off">
-									<span class="kt-input-icon__icon kt-input-icon__icon--left">
-										<span><i class="la la-search"></i></span>
+<head>
+	<title>Admin | TopShoe</title>
+	<th:block th:insert="~{admin/fragments/common :: global_css}"></th:block>
+
+</head>
+
+<!-- end::Head -->
+
+<!-- begin::Body -->
+
+<body
+	class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+	<!-- begin:: Page -->
+
+	<!-- begin:: Header Mobile -->
+	<div th:replace="~{admin/fragments/header :: header_mobile}"></div>
+	<!-- end:: Header Mobile -->
+
+	<div class="kt-grid kt-grid--hor kt-grid--root">
+		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+			<!-- begin:: Aside -->
+			<div th:replace="~{admin/fragments/sidebar}"></div>
+			<!-- end:: Aside -->
+
+			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+
+				<!-- begin:: Header -->
+				<div th:replace="~{admin/fragments/header :: header}"></div>
+				<!-- end:: Header -->
+
+				<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+					<!-- begin :: Content -->
+					<th:block th:fragment="content">
+						<div class="kt-portlet kt-portlet--mobile">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<span class="kt-portlet__head-icon">
+										<i class="kt-font-brand flaticon2-line-chart"></i>
 									</span>
+									<h3 class="kt-portlet__head-title">
+										Danh Sách Đơn Hàng
+									</h3>
 								</div>
-							</div>
-							<div style="" class="col-md-2 kt-margin-b-20-tablet-and-mobile">
-								<div class="kt-form__group kt-form__group--inline">
-									<div class="kt-form__label">
-										<label>Phương thức:</label>
-									</div>
-									<div class="kt-form__control">
-										<select class="form-control bootstrap-select kt_form_method" id="kt_form_type">
-											<option value="">Tất cả</option>
-											<option value="ATM">ATM</option>
-											<option value="COD">COD</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div style="" class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-								<div class="kt-form__group kt-form__group--inline">
-									<div class="kt-form__label">
-										<label>Thanh toán:</label>
-									</div>
-									<div class="kt-form__control">
-										<select class="form-control bootstrap-select kt_form_payment" id="kt_form_status">
-											<option value="">Tất cả</option>
-											<option value="Chờ thanh toán ATM">Chờ thanh toán ATM</option>
-											<option value="Chưa thanh toán">Chưa thanh toán</option>
-											<option value="Đã thanh toán">Đã thanh toán</option>
-											<option value="Đã hoàn tiền">Đã hoàn tiền</option>
-											<option value="Đã hủy bỏ">Đã hủy bỏ</option>
-										</select>
+								<div class="kt-portlet__head-toolbar d-none">
+									<div class="kt-portlet__head-wrapper">
+										<a href="#" class="btn btn-clean btn-icon-sm">
+											<i class="la la-long-arrow-left"></i>
+											Quay lại
+										</a>
+										&nbsp;
+										<div class="dropdown dropdown-inline">
+											<button type="button" class="btn btn-brand btn-icon-sm">
+												<i class="flaticon2-plus"></i> Thêm Mới
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div style="" class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-								<div class="kt-form__group kt-form__group--inline">
-									<div class="kt-form__label">
-										<label>Vận chuyển:</label>
-									</div>
-									<div class="kt-form__control">
-										<select class="form-control bootstrap-select kt_form_delivery" id="kt_form_status">
-											<option value="">Tất cả</option>
-											<option value="Chưa xét duyệt">Chưa xét duyệt</option>
-											<option value="Chờ giao hàng">Chờ giao hàng</option>
-											<option value="Chờ giao hàng lần 2">Chờ giao hàng lần 2</option>
-											<option value="Đang giao hàng">Đang giao hàng</option>
-											<option value="Đang giao hàng lần 2">Đang giao hàng lần 2</option>
-											<option value="Giao hàng thành công">Giao hàng thành công</option>
-											<option value="Đã hủy">Đã hủy</option>
-										</select>
+							<div class="kt-portlet__body">
+
+								<!--begin: Search Form -->
+								<div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+									<div class="row align-items-center">
+										<div class="col-xl-12 order-2 order-xl-1">
+											<div class="row align-items-center">
+												<div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+													<div class="kt-input-icon kt-input-icon--left">
+														<input type="text" class="form-control"
+															placeholder="Tìm kiếm..." id="generalSearch"
+															autocomplete="off">
+														<span class="kt-input-icon__icon kt-input-icon__icon--left">
+															<span><i class="la la-search"></i></span>
+														</span>
+													</div>
+												</div>
+												<div style="" class="col-md-2 kt-margin-b-20-tablet-and-mobile">
+													<div class="kt-form__group kt-form__group--inline">
+														<div class="kt-form__label">
+															<label>Phương thức:</label>
+														</div>
+														<div class="kt-form__control">
+															<select class="form-control bootstrap-select kt_form_method"
+																id="kt_form_type">
+																<option value="">Tất cả</option>
+																<option value="ATM">ATM</option>
+																<option value="COD">COD</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div style="" class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+													<div class="kt-form__group kt-form__group--inline">
+														<div class="kt-form__label">
+															<label>Thanh toán:</label>
+														</div>
+														<div class="kt-form__control">
+															<select
+																class="form-control bootstrap-select kt_form_payment"
+																id="kt_form_status">
+																<option value="">Tất cả</option>
+																<option value="Chờ thanh toán ATM">Chờ thanh toán ATM
+																</option>
+																<option value="Chưa thanh toán">Chưa thanh toán</option>
+																<option value="Đã thanh toán">Đã thanh toán</option>
+																<option value="Đã hoàn tiền">Đã hoàn tiền</option>
+																<option value="Đã hủy bỏ">Đã hủy bỏ</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div style="" class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+													<div class="kt-form__group kt-form__group--inline">
+														<div class="kt-form__label">
+															<label>Vận chuyển:</label>
+														</div>
+														<div class="kt-form__control">
+															<select
+																class="form-control bootstrap-select kt_form_delivery"
+																id="kt_form_status">
+																<option value="">Tất cả</option>
+																<option value="Chưa xét duyệt">Chưa xét duyệt</option>
+																<option value="Chờ giao hàng">Chờ giao hàng</option>
+																<option value="Chờ giao hàng lần 2">Chờ giao hàng lần 2
+																</option>
+																<option value="Đang giao hàng">Đang giao hàng</option>
+																<option value="Đang giao hàng lần 2">Đang giao hàng lần
+																	2</option>
+																<option value="Giao hàng thành công">Giao hàng thành
+																	công</option>
+																<option value="Đã hủy">Đã hủy</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xl-4 order-1 order-xl-2 kt-align-right">
+											<a href="#" class="btn btn-default kt-hidden">
+												<i class="la la-cart-plus"></i> New Order
+											</a>
+											<div
+												class="kt-separator kt-separator--border-dashed kt-separator--space-lg d-xl-none">
+											</div>
+										</div>
 									</div>
 								</div>
+
+								<!--end: Search Form -->
+							</div>
+							<div class="kt-portlet__body kt-portlet__body--fit">
+
+								<!--begin: Datatable -->
+								<div class="kt-datatable" id="ajax_data"></div>
+
+								<!--end: Datatable -->
 							</div>
 						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 kt-align-right">
-						<a href="#" class="btn btn-default kt-hidden">
-							<i class="la la-cart-plus"></i> New Order
-						</a>
-						<div class="kt-separator kt-separator--border-dashed kt-separator--space-lg d-xl-none"></div>
-					</div>
+
+						<!-- end :: Content -->
+						<!-- begin:: Footer -->
+						<div th:replace="~{admin/fragments/footer}"></div>
+						<!-- end:: Footer -->
+
+					</th:block>
+					<!-- end :: Content -->
 				</div>
 			</div>
-
-			<!--end: Search Form -->
 		</div>
-		<div class="kt-portlet__body kt-portlet__body--fit">
 
-			<!--begin: Datatable -->
-			<div class="kt-datatable" id="ajax_data"></div>
+		<!-- end:: Page -->
 
-			<!--end: Datatable -->
+		<!-- begin::Quick Panel -->
+		<div th:replace="~{admin/fragments/header :: quick_panel}"></div>
+		<!-- end::Quick Panel -->
+
+		<!-- begin::Scrolltop -->
+		<div id="kt_scrolltop" class="kt-scrolltop">
+			<i class="fa fa-arrow-up"></i>
 		</div>
+
+		<!-- end::Scrolltop -->
+
+		<th:block th:insert="~{admin/fragments/common :: global_script}" type="text/javascript"></th:block>
+		<!-- <script src="assets/js/template/layout.js" type="text/javascript"></script> -->
+		<!--begin :: Page Script (used by this page) -->
+		<th:block th:fragment="page_script">
+			<!-- <script src="assets/js/template/products.js" type="text/javascript"></script> -->
+			<!-- <script src="assets/js/pages/crud/metronic-datatable/base/data-ajax.js" type="text/javascript"></script> -->
+		</th:block>
+		<!--end :: Page Script -->
+		<script th:inline="javascript">
+
+			var ordersData = [[${ orders }]] // Lấy dữ liệu users từ model của Spring Boot
+			var datatable = $('.kt-datatable').KTDatatable({
+				// datasource definition
+				data: {
+					type: 'local', // Dữ liệu được load từ local (client-side)
+					source: ordersData, // Truyền dữ liệu vào đây
+					pageSize: 10, // Số lượng record trên mỗi trang
+					saveState: { // Lưu trạng thái datatable vào localStorage
+						cookie: true,
+						webstorage: true,
+					},
+				},
+
+				// layout definition
+				layout: {
+					scroll: false,
+					footer: false,
+				},
+
+				// column sorting
+				sortable: true,
+
+				pagination: true,
+
+				search: {
+					input: $('#generalSearch'),
+					delay: 500,
+				},
+
+				// columns definition
+				columns: [
+					{
+						field: 'id',
+						title: '#',
+						sortable: 'desc',
+						width: 40,
+						type: 'number',
+						selector: false,
+						textAlign: 'center',
+					},
+					{
+						field: 'consignee',
+						title: 'Người nhận hàng',
+					},
+					{
+						field: 'paymentMethod',
+						title: 'Phương thức thanh toán',
+						template: function (row) {
+							var status = {
+								'ATM': { 'title': 'ATM', 'class': 'kt-badge--success' },
+								'COD': { 'title': 'COD', 'class': ' kt-badge--primary' },
+							};
+							return '<span class="kt-badge ' + status[row.paymentMethod].class + ' kt-badge--inline kt-badge--pill">' + status[row.paymentMethod].title + '</span>';
+						},
+					},
+					{
+						field: 'paymentStatus',
+						title: 'Trạng thái thanh toán',
+						// callback function support for column rendering
+						template: function (row) {
+							var status = {
+								'Chờ thanh toán ATM': { 'title': 'Chờ thanh toán ATM', 'state': 'primary' },
+								'Chưa thanh toán': { 'title': 'Chưa thanh toán', 'state': 'danger' },
+								'Đã thanh toán': { 'title': 'Đã thanh toán', 'state': 'success' },
+								'Đã hoàn tiền': { 'title': 'Đã hoàn tiền', 'state': 'primary' },
+								'Đã hủy bỏ': { 'title': 'Đã hủy bỏ', 'state': 'danger' },
+							};
+							if (status[row.paymentStatus]) {
+								return '<span class="kt-badge kt-badge--' + status[row.paymentStatus].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + status[row.paymentStatus].state + '">' +
+									status[row.paymentStatus].title + '</span>';
+							} else return '';
+
+						},
+					},
+					//		{
+					//			field: 'paymentStatus',
+					//			title: 'Trạng thái thanh toán',
+					//		},
+					{
+						field: 'deliveryStatus',
+						title: 'Trạng thái vận chuyển',
+					},
+					{
+						field: 'formatTotalAmount',
+						title: 'Tổng tiền',
+						template: function (row) {
+							return row.formatTotalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+						}
+					},
+					{
+						field: 'Actions',
+						title: '',
+						sortable: false,
+						width: 130,
+						overflow: 'visible',
+						textAlign: 'center',
+						template: function (row, index, datatable) {
+							var dropup = (datatable.getPageSize() - index) <= 4 ? 'dropup' : '';
+							return '<div class="dropdown ' + dropup + '">\
+		                        <a href="#" class="btn btn-clean btn-icon btn-pill" data-toggle="dropdown">\
+		                            <i class="la la-ellipsis-h"></i>\
+		                        </a>\
+		                        <div class="dropdown-menu dropdown-menu-right">\
+		                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
+		                            <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
+		                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
+		                        </div>\
+		                    </div>\
+		                    <a href="javascript:view_order_detail('+ row.id + ');" class="btn btn-clean btn-icon btn-pill view_order_detail" title="Chi tiết">\
+		                        <i class="la la-edit"></i>\
+		                    </a>\
+		                    <a style="display:none;" href="#" class="btn btn-clean btn-icon btn-pill" title="Delete">\
+		                        <i class="la la-trash"></i>\
+		                    </a>';
+						},
+					}],
+
+			});
+
+			$('.kt_form_method').on('change', function () {
+				datatable.search($(this).val().toLowerCase(), 'method');
+			});
+
+			$('.kt_form_payment').on('change', function () {
+				datatable.search($(this).val().toLowerCase(), 'payment');
+			});
+
+			$('.kt_form_delivery').on('change', function () {
+				datatable.search($(this).val().toLowerCase(), 'delivery');
+			}); 
+			function view_order_detail(id) {
+				window.location.href = '/admin/orders/detail/' + id;
+			}
+
+
+		</script>
 	</div>
-</th:block>
-<!-- end :: Content -->
+</body>
 
-<!--begin :: Page Script (used by this page) -->
-<th:block th:fragment="page_script">
-	<script src="assets/js/template/orders.js" type="text/javascript"></script>
-	<script src="assets/js/pages/crud/metronic-datatable/base/data-ajax.js" type="text/javascript"></script>
-</th:block>
-<!--end :: Page Script -->
+<!-- end::Body -->
+
+</html>

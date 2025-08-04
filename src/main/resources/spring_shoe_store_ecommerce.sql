@@ -1,7 +1,7 @@
-CREATE DATABASE  IF NOT EXISTS `spring_shoe_store_ecommerce`;
+CREATE DATABASE  IF NOT EXISTS `spring_shoe_store_ecommerce` ;
 USE `spring_shoe_store_ecommerce`;
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
-ALTER DATABASE spring_shoe_store_ecommerce CHARACTER SET 'utf8mb4';
+ALTER DATABASE spring_shoe_store_ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
@@ -110,6 +110,46 @@ CREATE TABLE brand (
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 
+DROP TABLE IF EXISTS `order_web`;
+CREATE TABLE order_web (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    consignee VARCHAR(100),
+    consignee_phone VARCHAR(20),
+    delivery_address VARCHAR(200),
+    delivery_status VARCHAR(50),
+    payment_method VARCHAR(50),
+    payment_status VARCHAR(50),
+    sent_mail BIT(1),
+    total_amount BIGINT,
+    customer_id BIGINT
+    
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+
+DROP TABLE IF EXISTS `user_wishlist`;
+-- CREATE TABLE user_wishlist (
+--     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+--     created_at DATETIME(6),
+--     updated_at DATETIME(6),
+--     product_id BIGINT,
+--     customer_id BIGINT
+-- )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+
+DROP TABLE IF EXISTS `order_web_detail`;
+CREATE TABLE order_web_detail (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    price BIGINT,
+    quantity INT,
+    total_amount BIGINT,
+    product_size_id BIGINT,
+    order_web_id BIGINT
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+
+
+
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 INSERT INTO `users_roles` (user_id,role_id)
 VALUES 
@@ -137,3 +177,28 @@ INSERT INTO product (created_at, updated_at, description, is_delete, name, price
 (NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Dang ban', 'v1.0', 4),  
 (NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Dang ban', 'v1.1', 2);
 
+
+
+INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
+VALUES 
+(NOW(), NOW(), 'Nguyen Van A', '0912345678', '123 Le Loi, HCMC', 'unprocessed', 'COD', 'Chờ thanh toán ATM', 0, 1500000, 1),
+(NOW(), NOW(), 'Tran Thi B', '0987654321', '456 Tran Hung Dao, HN', 'wait', 'ATM', 'Chưa thanh toán', 1, 2200000, 2),
+(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery', 'ATM', 'Đã thanh toán', 1, 1000000, 1),
+(NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'delivery2', 'COD', 'Đã hoàn tiền', 0, 500000, 3),
+(NOW(), NOW(), 'Do Van E', '0933221122', '147 Le Thanh Ton, HCMC', 'successful', 'ATM', 'Đã hủy bỏ', 0, 1750000, 2);
+
+-- INSERT INTO user_wishlist (created_at, updated_at, product_id, customer_id)
+-- VALUES 
+-- (NOW(), NOW(), 101, 1),
+-- (NOW(), NOW(), 102, 2),
+-- (NOW(), NOW(), 103, 1),
+-- (NOW(), NOW(), 104, 3),
+-- (NOW(), NOW(), 105, 2);
+
+INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, product_size_id, order_web_id)
+VALUES 
+(NOW(), NOW(), 300000, 2, 600000,  1001,1),
+(NOW(), NOW(), 500000, 1, 500000,  1002,2),
+(NOW(), NOW(), 700000, 1, 700000,  1003,3),
+(NOW(), NOW(), 250000, 2, 500000,  1004,2),
+(NOW(), NOW(), 350000, 3, 1050000,  1005,1);

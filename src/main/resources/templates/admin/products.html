@@ -206,6 +206,9 @@
 						<!-- begin:: Footer -->
 						<div th:replace="~{admin/fragments/footer}"></div>
 						<!-- end:: Footer -->
+
+					</th:block>
+					<!-- end :: Content -->
 				</div>
 			</div>
 		</div>
@@ -323,7 +326,7 @@
 		                            <i class="la la-ellipsis-h"></i>\
 		                        </a>\
 		                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown">\
-		                            <a class="dropdown-item" href="#"><i class="la la-edit"></i> Cập nhật chi tiết</a>\
+		                            <a class="dropdown-item" href="/admin/products/update/'+ idData + '"><i class="la la-edit"></i> Cập nhật chi tiết</a>\
 		                            <button id="update-status" type="button" data-bs-toggle="modal" data-bs-target="#updateStatus' + idData + '" class="dropdown-item" ><i class="la la-leaf"></i> Cập nhật trạng thái</button>\
 		                            <a class="dropdown-item" href="#"><i class="la la-print"></i> Xuất hoá đơn</a>\
 		                        </div>\
@@ -361,7 +364,7 @@
 				}
 			})
 			document.addEventListener('click', (e) => {
-				if (e.target && (e.target.id === 'updateButton'|| e.target.id === 'updateButtonIcon')) {
+				if (e.target && (e.target.id === 'updateButton' || e.target.id === 'updateButtonIcon')) {
 					var row = $(e.target).closest('tr'); // Lấy dòng hiện tại
 					idProductUpdate = row.find('td:first').text(); // Lấy ID sản phẩm từ cột đầu tiên
 					console.log(idProductUpdate)
@@ -369,7 +372,7 @@
 			})
 			// Thêm sự kiện click cho nút Cập nhật trong mỗi dòng
 			document.addEventListener('click', function (e) {
-				if (e.target && (e.target.id === 'updateButton' || e.target.id ==='updateButtonIcon')) {
+				if (e.target && (e.target.id === 'updateButton' || e.target.id === 'updateButtonIcon')) {
 					// Thực hiện cập nhật trạng thái sản phẩm ở đây
 					console.log("Cập nhật sản phẩm có ID: " + idProductUpdate);
 					redirectToUpdateProduct(idProductUpdate); // Chuyển hướng đến trang cập nhật sản phẩm
@@ -431,6 +434,7 @@
 
 
 		</script>
+	</div>
 </body>
 
 <!-- end::Body -->

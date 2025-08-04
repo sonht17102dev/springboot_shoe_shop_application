@@ -137,23 +137,7 @@ public class ProductController {
             model.addAttribute("imageError", "Vui lòng chọn ảnh sản phẩm");
             return "admin/products/add-product";
         }
-        // String image = uploadService.handleSaveUploadFile(file, "products");
-        // String fileName = null;
-        // try {
-        //     fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        //     File dir = new File(UPLOAD_DIR);
-        //     if (!dir.exists()) {
-        //         dir.mkdirs();
-        //     }
-
-        //     Path filePath = Paths.get(UPLOAD_DIR + fileName);
-        //     Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            
-        // } catch (IOException e) {
-        //     return "admin/products/add-product";
-        // }
+       
         Path staticPath = Paths.get("static");
         Path imagePath = Paths.get("uploaded/images");
         if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
