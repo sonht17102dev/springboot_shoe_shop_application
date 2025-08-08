@@ -43,12 +43,13 @@ public class OrderWebDetail {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "product_size_id")
-    private Long productSizeId;
-
     @ManyToOne
     @JoinColumn(name = "order_web_id", nullable = false)
     private OrderWeb orderWeb;
+
+    @ManyToOne
+    @JoinColumn(name = "product_size_id", nullable = false)
+    private ProductSize productSize;
 
 }
 

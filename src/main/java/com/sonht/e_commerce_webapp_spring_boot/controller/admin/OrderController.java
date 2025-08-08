@@ -74,10 +74,12 @@ public class OrderController {
                 ));
             };
             
+            return "admin/order-detail";
+        } else {
+            model.addAttribute("error", "Order not found");
+            return "admin/orders"; // Redirect to orders page if order not found
 
         }
-        // Logic to fetch order details can be added here
-        // For now, we can just return the order detail page
-        return "admin/order-detail";
+        
     }
 }

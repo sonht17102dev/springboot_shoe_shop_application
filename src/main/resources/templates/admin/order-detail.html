@@ -167,7 +167,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!-- <tr th:each="item : ${orderWeb.orderWebDetails}"
+										<tr th:each="item : ${orderWeb.orderWebDetails}"
 											th:with="product=${item.productSize.Product}">
 											<td><a th:href="${'/product/' + product.id}" th:text="${product.name}"></a>
 											</td>
@@ -176,7 +176,7 @@
 											<td th:text="${item.quantity}"></td>
 											<td align="right" th:text="${orderWeb.formatPrice(item.totalAmount)}"></td>
 											<td th:text="${product.versionName}"></td>
-										</tr> -->
+										</tr>
 									</tbody>
 									<tfoot>
 										<tr>
@@ -215,6 +215,7 @@
 
 		<!-- end:: Page -->
 	</div>
+	
 </body>
 
 <!-- end::Body -->

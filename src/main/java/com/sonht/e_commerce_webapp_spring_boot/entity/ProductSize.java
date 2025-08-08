@@ -1,6 +1,5 @@
 package com.sonht.e_commerce_webapp_spring_boot.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,38 +29,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "order_web")
-public class OrderWeb {
-
+@Table(name = "product_size")
+public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String consignee;
+    @Column(name = "size", nullable = false)
+    private Integer size;
 
-    @Column(name = "consignee_phone")
-    private String consigneePhone;
-
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
-
-    @Column(name = "delivery_status") //trạng thái vận chuyển
-    private String deliveryStatus;
-
-    @Column(name = "payment_method")
-    private String paymentMethod;
-
-    @Column(name = "payment_status") //trạng thái thanh toán
-    private String paymentStatus;
-
-    @Column(name = "sent_mail")
-    private Boolean sentMail;
-
-    @Column(name = "total_amount")
-    private Long totalAmount;
-
-    @Column(name = "customer_id")
-    private Long customerId;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -69,11 +47,10 @@ public class OrderWeb {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OrderWebDetail> orderWebDetails = new ArrayList<>();
+    @OneToMany(mappedBy = "productSize", cascade = CascadeType.ALL)
+    private List<OrderWebDetail> orderWebDetails = new ArrayList<>();;
 
-    public String formatPrice(BigDecimal price) {
-        return String.format("%,.0f đ", price);
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 }
-

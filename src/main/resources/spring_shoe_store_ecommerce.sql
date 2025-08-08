@@ -124,10 +124,10 @@ CREATE TABLE order_web (
     sent_mail BIT(1),
     total_amount BIGINT,
     customer_id BIGINT
-    
+
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
-DROP TABLE IF EXISTS `user_wishlist`;
+-- DROP TABLE IF EXISTS `user_wishlist`;
 -- CREATE TABLE user_wishlist (
 --     id BIGINT PRIMARY KEY AUTO_INCREMENT,
 --     created_at DATETIME(6),
@@ -135,6 +135,15 @@ DROP TABLE IF EXISTS `user_wishlist`;
 --     product_id BIGINT,
 --     customer_id BIGINT
 -- )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+
+DROP TABLE IF EXISTS `product_size`;
+CREATE TABLE product_size (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    size int NOT NULL,
+    quantity int NOT NULL,
+    product_id BIGINT NOT NULL,
+    CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES product(id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4; 
 
 DROP TABLE IF EXISTS `order_web_detail`;
 CREATE TABLE order_web_detail (
@@ -144,8 +153,9 @@ CREATE TABLE order_web_detail (
     price BIGINT,
     quantity INT,
     total_amount BIGINT,
-    product_size_id BIGINT,
-    order_web_id BIGINT
+    order_web_id BIGINT,
+    product_size_id BIGINT NOT NULL,
+	CONSTRAINT fk_product_size FOREIGN KEY (product_size_id) REFERENCES product_size(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 
@@ -194,11 +204,17 @@ VALUES
 -- (NOW(), NOW(), 103, 1),
 -- (NOW(), NOW(), 104, 3),
 -- (NOW(), NOW(), 105, 2);
+INSERT INTO product_size (created_at, updated_at, quantity, size, product_id) VALUES
+(NOW(6), NOW(6), 50, 38, 1),
+(NOW(6), NOW(6), 40, 39, 1),
+(NOW(6), NOW(6), 30, 40, 1),
+(NOW(6), NOW(6), 20, 41, 2),
+(NOW(6), NOW(6), 10, 42, 2);
 
-INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, product_size_id, order_web_id)
+INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, order_web_id, product_size_id)
 VALUES 
-(NOW(), NOW(), 300000, 2, 600000,  1001,1),
-(NOW(), NOW(), 500000, 1, 500000,  1002,2),
-(NOW(), NOW(), 700000, 1, 700000,  1003,3),
-(NOW(), NOW(), 250000, 2, 500000,  1004,2),
-(NOW(), NOW(), 350000, 3, 1050000,  1005,1);
+(NOW(), NOW(), 300000, 2, 600000, 1,1),
+(NOW(), NOW(), 500000, 1, 500000, 2,2),
+(NOW(), NOW(), 700000, 1, 700000, 3,3),
+(NOW(), NOW(), 250000, 2, 500000, 2,2),
+(NOW(), NOW(), 350000, 3, 1050000, 1,1);
