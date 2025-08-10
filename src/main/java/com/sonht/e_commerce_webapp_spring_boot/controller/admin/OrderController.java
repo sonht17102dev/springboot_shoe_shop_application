@@ -112,7 +112,6 @@ public class OrderController {
 
         OrderWeb order = orderService.getOrderById(orderId);
 
-        DataOrderDetailResponse dataResponse = new DataOrderDetailResponse();
         if (order != null) {
             // change status of delivery
             orderService.updateDeliveryStatus(orderId, status);
@@ -122,5 +121,21 @@ public class OrderController {
 
         return "Order not found or status update failed";
     }
+
+    @PostMapping("/orders/cancel/{orderId}")
+    @ResponseBody
+    public String handleCancleOrder(@PathVariable("orderId") Long orderId) {
+        OrderWeb order = orderService.getOrderById(orderId);
+
+        if (order != null) {
+            // change status of delivery
+            orderService.cancleOrder(orderId);
+            // send data to client to rerender
+            return "Successfully cancelled order";
+        }
+
+        return "Order not found or cancellation failed";
+    }
+    
 
 }
