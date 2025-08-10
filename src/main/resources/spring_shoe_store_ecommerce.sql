@@ -139,6 +139,8 @@ CREATE TABLE order_web (
 DROP TABLE IF EXISTS `product_size`;
 CREATE TABLE product_size (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	created_at DATETIME(6),
+    updated_at DATETIME(6),
     size int NOT NULL,
     quantity int NOT NULL,
     product_id BIGINT NOT NULL,
@@ -191,11 +193,13 @@ INSERT INTO product (created_at, updated_at, description, is_delete, name, price
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 
-(NOW(), NOW(), 'Nguyen Van A', '0912345678', '123 Le Loi, HCMC', 'unprocessed', 'COD', 'Chờ thanh toán ATM', 0, 1500000, 1),
-(NOW(), NOW(), 'Tran Thi B', '0987654321', '456 Tran Hung Dao, HN', 'wait', 'ATM', 'Chưa thanh toán', 1, 2200000, 2),
-(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery', 'ATM', 'Đã thanh toán', 1, 1000000, 1),
-(NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'delivery2', 'COD', 'Đã hoàn tiền', 0, 500000, 3),
-(NOW(), NOW(), 'Do Van E', '0933221122', '147 Le Thanh Ton, HCMC', 'successful', 'ATM', 'Đã hủy bỏ', 0, 1750000, 2);
+(NOW(), NOW(), 'Nguyen Van A', '0912345678', '123 Le Loi, HCMC', 'successful', 'COD', 'Đã thanh toán', 0, 1500000, 1),
+(NOW(), NOW(), 'Tran Thi B', '0987654321', '456 Tran Hung Dao, HN', 'successful', 'ATM', 'Đã thanh toán', 1, 2200000, 2),
+(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery2', 'ATM', 'Đã thanh toán', 1, 1000000, 1),
+(NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'cancle', 'COD', 'Đã hoàn tiền', 0, 500000, 3),
+(NOW(), NOW(), 'Do Van E', '0933221122', '147 Le Thanh Ton, HCMC', 'wait', 'COD', 'Chưa thanh toán', 0, 1750000, 2),
+(NOW(), NOW(), 'Truong Van F', '0933221444', '79 Au Co, HCMC', 'unprocessed', 'ATM', 'Chưa thanh toán', 0, 1750000, 4);
+
 
 -- INSERT INTO user_wishlist (created_at, updated_at, product_id, customer_id)
 -- VALUES 
@@ -205,11 +209,11 @@ VALUES
 -- (NOW(), NOW(), 104, 3),
 -- (NOW(), NOW(), 105, 2);
 INSERT INTO product_size (created_at, updated_at, quantity, size, product_id) VALUES
-(NOW(6), NOW(6), 50, 38, 1),
-(NOW(6), NOW(6), 40, 39, 1),
-(NOW(6), NOW(6), 30, 40, 1),
-(NOW(6), NOW(6), 20, 41, 2),
-(NOW(6), NOW(6), 10, 42, 2);
+(NOW(), NOW(), 50, 38, 1),
+(NOW(), NOW(), 40, 39, 1),
+(NOW(), NOW(), 30, 40, 1),
+(NOW(), NOW(), 20, 41, 2),
+(NOW(), NOW(), 10, 42, 2);
 
 INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, order_web_id, product_size_id)
 VALUES 
@@ -217,4 +221,5 @@ VALUES
 (NOW(), NOW(), 500000, 1, 500000, 2,2),
 (NOW(), NOW(), 700000, 1, 700000, 3,3),
 (NOW(), NOW(), 250000, 2, 500000, 2,2),
-(NOW(), NOW(), 350000, 3, 1050000, 1,1);
+(NOW(), NOW(), 350000, 3, 1050000, 1,1),
+(NOW(), NOW(), 350000, 1, 350000, 6,4);

@@ -34,6 +34,7 @@ $('.btn_change_status').click(function(event) {
 
 function change_status_order(status) {
 	let id = $('#order_id').text();
+	console.log(id, status)
 	$.ajax({
 		url: '/admin/orders/change-status?id='+id+'&status='+status,
 		type: 'POST',
@@ -43,13 +44,23 @@ function change_status_order(status) {
 		]
 	})
 	.done(function(res) {
-		// console.log(res);
+		console.log(res);
 		swal.fire(
 	      'Thay đổi trạng thái thành công!',
 	      '',
 	      'success'
 	    );
-	    view_order_detail(id);
+		// render lại trang chi tiết đơn hàng
+		// $('.kt-datatable').KTDatatable({
+		// 	data: {
+		// 		saveState: { cookie: false },
+		// 		pageSize: 10,
+		// 	},
+		// 	search: {
+		// 		input: $('#kt_datatable_search_query'),
+		// 	},
+		// 	columns: [] // Không cần định nghĩa lại nếu dùng HTML table
+		// });
 	})
 	.fail(function() {
 		console.log("error");

@@ -27,5 +27,12 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
     }
+
+    @Override
+    public void updateDeliveryStatus(Long orderId, String deliveryStatus) {
+        OrderWeb order = getOrderById(orderId);
+        order.setDeliveryStatus(deliveryStatus);
+        orderRepository.save(order);
+    }
     
 }

@@ -279,6 +279,19 @@
 					{
 						field: 'deliveryStatus',
 						title: 'Trạng thái vận chuyển',
+						template: function(row) {
+							var status = {
+								'unprocessed': { 'title': 'Chưa xét duyệt', 'state': 'warning' },
+								'wait': { 'title': 'Chờ giao hàng', 'state': 'primary' },
+								'delivery': { 'title': 'Đang giao hàng', 'state': 'info' },
+								'delivery2': { 'title': 'Đang giao hàng lần 2', 'state': 'info' },
+								'successful': { 'title': 'Giao hàng thành công', 'state': 'success' },
+								'cancle': { 'title': 'Đã hủy', 'state': 'danger' },
+							};
+							if (status[row.deliveryStatus]) {
+								return  status[row.deliveryStatus].title;
+							} else return '';
+						},
 					},
 					{
 						field: 'formatTotalAmount',
