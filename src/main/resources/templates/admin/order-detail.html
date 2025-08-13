@@ -294,6 +294,7 @@
 						$('.undo_action').click(function (event) {
 							event.preventDefault();
 							let undoStatus = $(this).attr('status');
+							console.log(undoStatus);
 							swal.fire({
 								title: 'Xác nhận quay lại trạng thái trước?',
 								text: "Trạng thái thay đổi thành: " + undoStatus,
