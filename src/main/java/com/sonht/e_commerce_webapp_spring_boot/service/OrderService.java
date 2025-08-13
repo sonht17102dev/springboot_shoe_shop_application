@@ -14,4 +14,6 @@ public interface OrderService {
     OrderWeb getOrderById(Long orderId);
 
     void updateDeliveryStatus(Long orderId, String deliveryStatus);
+
+    void cancelOrder(Long orderId);
 } 

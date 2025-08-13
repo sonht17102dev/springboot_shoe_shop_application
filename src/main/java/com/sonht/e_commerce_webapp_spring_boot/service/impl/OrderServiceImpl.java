@@ -34,5 +34,12 @@ public class OrderServiceImpl implements OrderService {
         order.setDeliveryStatus(deliveryStatus);
         orderRepository.save(order);
     }
+
+    @Override
+    public void cancelOrder(Long orderId) {
+        OrderWeb order = getOrderById(orderId);
+        order.setDeliveryStatus("cancel");
+        orderRepository.save(order);
+    }
     
 }

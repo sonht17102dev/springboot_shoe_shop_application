@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.Action;
-import com.sonht.e_commerce_webapp_spring_boot.dto.DataOrderDetailResponse;
 import com.sonht.e_commerce_webapp_spring_boot.dto.OrderDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
@@ -90,6 +89,7 @@ public class OrderController {
                 }
                 case "cancel" -> {
                     // model.addAttribute("hasCancelled", false);
+                    model.addAttribute("actions", null);
                     model.addAttribute("undoAction", "not_undo");
                     model.addAttribute("hasCancelled", null);
                 }
@@ -112,7 +112,6 @@ public class OrderController {
 
         OrderWeb order = orderService.getOrderById(orderId);
 
-        DataOrderDetailResponse dataResponse = new DataOrderDetailResponse();
         if (order != null) {
             // change status of delivery
             orderService.updateDeliveryStatus(orderId, status);
@@ -122,5 +121,16 @@ public class OrderController {
 
         return "Order not found or status update failed";
     }
-
+    @PostMapping("/orders/cancel/{orderId}")
+    @ResponseBody
+    public String handleCancelOrder(@PathVariable("orderId") Long orderId) {
+        System.out.println(orderId);
+        OrderWeb order = orderService.getOrderById(orderId);
+        
+        if (order != null) {
+            orderService.cancelOrder(orderId);
+            return "Successfully cancelled order";
+        }
+        return "Order not found or cancellation failed";
+    }
 }

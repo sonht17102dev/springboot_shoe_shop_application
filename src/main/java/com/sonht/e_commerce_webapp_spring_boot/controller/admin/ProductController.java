@@ -10,6 +10,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,9 +28,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sonht.e_commerce_webapp_spring_boot.dto.ProductDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Brand;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
+import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.repository.BrandRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
+import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
+import com.sonht.e_commerce_webapp_spring_boot.service.impl.CustomUserDetails;
 import com.sonht.e_commerce_webapp_spring_boot.service.impl.UploadService;
 
 import jakarta.validation.Valid;
@@ -40,7 +45,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ProductController {
 
 
-    private final BrandRepository brandRepository;
+    private final UserService userService;
 
     private final ProductService productService;
     private final BrandService brandService;
@@ -48,12 +53,11 @@ public class ProductController {
     private final List<String> statuses = List.of("Dang ban", "Ngung ban");
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
-    public ProductController(ProductService productService, BrandService brandService, UploadService uploadService,
-             BrandRepository brandRepository) {
+    public ProductController(ProductService productService, BrandService brandService, UploadService uploadService, UserService userService) {
+        this.userService = userService;
         this.productService = productService;
         this.brandService = brandService;
         this.uploadService = uploadService;
-        this.brandRepository = brandRepository;
     }
 
     /*
@@ -69,7 +73,12 @@ public class ProductController {
                 .toList();
 
         model.addAttribute("products", products);
-        // System.out.println(products);
+        // get user from spring security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        // get user from security context
+        User user = userService.findByEmail(username);
+        model.addAttribute("username", username);
 
         return "admin/products";
     }

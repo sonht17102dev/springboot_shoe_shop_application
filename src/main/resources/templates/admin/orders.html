@@ -90,8 +90,8 @@
 															<select class="form-control bootstrap-select kt_form_method"
 																id="kt_form_type">
 																<option value="">Tất cả</option>
-																<option value="ATM">ATM</option>
-																<option value="COD">COD</option>
+																<option value="atm">ATM</option>
+																<option value="cod">COD</option>
 															</select>
 														</div>
 													</div>
@@ -126,16 +126,14 @@
 																class="form-control bootstrap-select kt_form_delivery"
 																id="kt_form_status">
 																<option value="">Tất cả</option>
-																<option value="Chưa xét duyệt">Chưa xét duyệt</option>
-																<option value="Chờ giao hàng">Chờ giao hàng</option>
-																<option value="Chờ giao hàng lần 2">Chờ giao hàng lần 2
-																</option>
+																<option value="unprocessed">Chưa xét duyệt</option>
+																<option value="wait">Chờ giao hàng</option>
 																<option value="Đang giao hàng">Đang giao hàng</option>
-																<option value="Đang giao hàng lần 2">Đang giao hàng lần
+																<option value="delivery2">Đang giao hàng lần
 																	2</option>
-																<option value="Giao hàng thành công">Giao hàng thành
+																<option value="successful">Giao hàng thành
 																	công</option>
-																<option value="Đã hủy">Đã hủy</option>
+																<option value="cancel">Đã hủy</option>
 															</select>
 														</div>
 													</div>
@@ -272,10 +270,6 @@
 
 						},
 					},
-					//		{
-					//			field: 'paymentStatus',
-					//			title: 'Trạng thái thanh toán',
-					//		},
 					{
 						field: 'deliveryStatus',
 						title: 'Trạng thái vận chuyển',
@@ -286,7 +280,7 @@
 								'delivery': { 'title': 'Đang giao hàng', 'state': 'info' },
 								'delivery2': { 'title': 'Đang giao hàng lần 2', 'state': 'info' },
 								'successful': { 'title': 'Giao hàng thành công', 'state': 'success' },
-								'cancle': { 'title': 'Đã hủy', 'state': 'danger' },
+								'cancel': { 'title': 'Đã hủy', 'state': 'danger' },
 							};
 							if (status[row.deliveryStatus]) {
 								return  status[row.deliveryStatus].title;
@@ -331,15 +325,16 @@
 			});
 
 			$('.kt_form_method').on('change', function () {
-				datatable.search($(this).val().toLowerCase(), 'method');
+				datatable.search($(this).val().toLowerCase(), 'paymentMethod');
 			});
 
 			$('.kt_form_payment').on('change', function () {
-				datatable.search($(this).val().toLowerCase(), 'payment');
+				datatable.search($(this).val().toLowerCase(), 'paymentStatus');
 			});
 
 			$('.kt_form_delivery').on('change', function () {
-				datatable.search($(this).val().toLowerCase(), 'delivery');
+				console.log($(this).val().toLowerCase());
+				datatable.search($(this).val().toLowerCase(), 'deliveryStatus');
 			}); 
 			function view_order_detail(id) {
 				window.location.href = '/admin/orders/detail/' + id;

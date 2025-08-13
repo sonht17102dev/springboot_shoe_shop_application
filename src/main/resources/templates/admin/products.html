@@ -86,7 +86,7 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal"
 											aria-label="Close"></button>
 									</div>
-									<div class="modal-body text-center">
+									<div class="modal-body text-center" th:text="'Người dùng : '+${username}">
 										<!-- Đưa user name admin vào đây-->
 									</div>
 									<div class="modal-footer">
@@ -155,8 +155,8 @@
 															<select class="form-control bootstrap-select"
 																id="kt_form_status">
 																<option value="">Tất cả</option>
-																<option value="1">Đang bán</option>
-																<option value="2">Ngưng bán</option>
+																<option value="Dang ban">Đang bán</option>
+																<option value="Ngung ban">Ngưng bán</option>
 															</select>
 														</div>
 													</div>
@@ -295,6 +295,9 @@
 					{
 						field: 'price',
 						title: 'Giá bán',
+						template: function (row) {
+							return row.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+						}
 					},
 
 					{
@@ -303,6 +306,7 @@
 						// callback function support for column rendering
 						template: function (row) {
 							var status = {
+								'Tat ca': { 'title': 'Tất cả', 'state': 'primary' },
 								'Dang ban': { 'title': 'Đang bán', 'state': 'success' },
 								'Ngung ban': { 'title': 'Ngừng bán', 'state': 'danger' },
 							};
@@ -380,7 +384,7 @@
 			});
 			// Thêm sự kiện click cho nút Xoá trong mỗi dòng
 			document.addEventListener('click', function (e) {
-				console.log(idProductDelete)
+				// console.log(idProductDelete)
 				if (e.target && e.target.id === ('delete' + idProductDelete)) {
 					// Thực hiện cập nhật trạng thái sản phẩm ở đây
 					console.log("Xoá sản phẩm có ID: " + idProductDelete);
@@ -431,6 +435,14 @@
 				datatable.options.data.source = productData; // Cập nhật dữ liệu mới
 				datatable = $('#html_table').KTDatatable(datatable.options); // Khởi tạo lại datatable với dữ liệu 
 			}
+
+			$('#kt_form_status').on('change', function () {
+				datatable.search($(this).val().toLowerCase(), 'status');
+			});
+
+			$('#kt_form_type').on('change', function () {
+				datatable.search($(this).val().toLowerCase(), 'Type');
+			});
 
 
 		</script>

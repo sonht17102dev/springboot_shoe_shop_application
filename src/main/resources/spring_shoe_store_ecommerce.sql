@@ -4,7 +4,21 @@ SET FOREIGN_KEY_CHECKS=0; -- to disable them
 ALTER DATABASE spring_shoe_store_ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
-
+DROP TABLE IF EXISTS `order_web`;
+CREATE TABLE order_web (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    consignee VARCHAR(100),
+    consignee_phone VARCHAR(20),
+    delivery_address VARCHAR(200),
+    delivery_status VARCHAR(50),
+    payment_method VARCHAR(50),
+    payment_status VARCHAR(50),
+    sent_mail BIT(1),
+    total_amount BIGINT,
+    customer_id BIGINT
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 DROP TABLE IF EXISTS `user`;
 
@@ -27,11 +41,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `user` (`email`, `password`, `enabled`, `address`, `created_at`, `date_of_birth`, `gender`, `image_data`, `image_path`, `is_delete`, `name`, `phone`, `updated_at`)  
-VALUES   
-('user1@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '123 Main St', NOW(), '1990-01-01', b'0', NULL, NULL, b'0', 'User One', '1234567890', NOW()),  
-('user2@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '456 Elm St', NOW(), '1992-02-02', b'1', NULL, NULL, b'0', 'User Two', '0987654321', NOW()),  
-('user3@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '789 Oak St', NOW(), '1988-03-03', b'0', NULL, NULL, b'0', 'User Three', '5555555555', NOW());
+
 
 DROP TABLE IF EXISTS `role`;
 
@@ -110,22 +120,7 @@ CREATE TABLE brand (
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 
-DROP TABLE IF EXISTS `order_web`;
-CREATE TABLE order_web (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    created_at DATETIME(6),
-    updated_at DATETIME(6),
-    consignee VARCHAR(100),
-    consignee_phone VARCHAR(20),
-    delivery_address VARCHAR(200),
-    delivery_status VARCHAR(50),
-    payment_method VARCHAR(50),
-    payment_status VARCHAR(50),
-    sent_mail BIT(1),
-    total_amount BIGINT,
-    customer_id BIGINT
 
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 -- DROP TABLE IF EXISTS `user_wishlist`;
 -- CREATE TABLE user_wishlist (
@@ -162,14 +157,6 @@ CREATE TABLE order_web_detail (
 
 
 
-SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
-INSERT INTO `users_roles` (user_id,role_id)
-VALUES 
-(1, 1),
-(2, 1),
-(3, 2);
-
-
 
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
@@ -182,7 +169,7 @@ INSERT INTO brand (created_at, updated_at, name) VALUES
 
 -- Thêm dữ liệu mẫu cho bảng product  
 INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id) VALUES  
-(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 100000, 'Dang ban', 'v1.0', 1),  
+(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Dang ban', 'v1.0', 1),  
 (NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngung ban', 'v1.1', 2),
 (NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Dang ban', 'v1.0', 3),  
 (NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Dang ban', 'v1.1', 3),
@@ -195,10 +182,23 @@ INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, deliv
 VALUES 
 (NOW(), NOW(), 'Nguyen Van A', '0912345678', '123 Le Loi, HCMC', 'successful', 'COD', 'Đã thanh toán', 0, 1500000, 1),
 (NOW(), NOW(), 'Tran Thi B', '0987654321', '456 Tran Hung Dao, HN', 'successful', 'ATM', 'Đã thanh toán', 1, 2200000, 2),
-(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery2', 'ATM', 'Đã thanh toán', 1, 1000000, 1),
-(NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'cancle', 'COD', 'Đã hoàn tiền', 0, 500000, 3),
+(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery2', 'ATM', 'Chưa thanh toán', 1, 1000000, 1),
+(NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'cancel', 'COD', 'Đã hủy bỏ', 0, 500000, 3),
 (NOW(), NOW(), 'Do Van E', '0933221122', '147 Le Thanh Ton, HCMC', 'wait', 'COD', 'Chưa thanh toán', 0, 1750000, 2),
-(NOW(), NOW(), 'Truong Van F', '0933221444', '79 Au Co, HCMC', 'unprocessed', 'ATM', 'Chưa thanh toán', 0, 1750000, 4);
+(NOW(), NOW(), 'Truong Van F', '0933221444', '79 Au Co, HCMC', 'unprocessed', 'ATM', 'Chưa thanh toán', 0, 1750000, 1);
+
+INSERT INTO `user` (`email`, `password`, `enabled`, `address`, `created_at`, `date_of_birth`, `gender`, `image_data`, `image_path`, `is_delete`, `name`, `phone`, `updated_at`)  
+VALUES   
+('user1@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '123 Main St', NOW(), '1990-01-01', b'0', NULL, NULL, b'0', 'User One', '1234567890', NOW()),  
+('user2@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '456 Elm St', NOW(), '1992-02-02', b'1', NULL, NULL, b'0', 'User Two', '0987654321', NOW()),  
+('user3@example.com', '$2a$10$eeYhEmsvdvT5QrDvBGQA..lBz8309hSBrziv.hCM0m7zSWQ/y3Zpy', 1, '789 Oak St', NOW(), '1988-03-03', b'0', NULL, NULL, b'0', 'User Three', '5555555555', NOW());
+
+SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
+INSERT INTO `users_roles` (user_id,role_id)
+VALUES 
+(1, 1),
+(2, 1),
+(3, 2);
 
 
 -- INSERT INTO user_wishlist (created_at, updated_at, product_id, customer_id)

@@ -60,9 +60,6 @@ public class OrderWeb {
     @Column(name = "total_amount")
     private Long totalAmount;
 
-    @Column(name = "customer_id")
-    private Long customerId;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -71,6 +68,10 @@ public class OrderWeb {
 
     @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderWebDetail> orderWebDetails = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private User user;
 
     public String formatPrice(BigDecimal price) {
         return String.format("%,.0f đ", price);
