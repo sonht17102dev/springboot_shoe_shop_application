@@ -125,13 +125,13 @@
 					<div class="tt-product thumbprod-center">
 						<div class="tt-image-box">
 <!-- 							<a href="#" class="tt-btn-qui	ckview" data-toggle="modal" data-target="#ModalquickView"	data-tooltip="Xem Trước" data-tposition="left"></a> -->
-							<a href="#" class="tt-btn-wishlist" data-tooltip="Yêu Thích" th:if="${isSignedIn}" th:classappend="${product.isWishList} ? 'active' : ''" data-tposition="left"></a>
+							<!-- <a href="#" class="tt-btn-wishlist" data-tooltip="Yêu Thích" th:if="${isSignedIn}" th:classappend="${product.isWishList} ? 'active' : ''" data-tposition="left"></a> -->
 							<input class="productBoxId" type="hidden" th:value="${product.id}">
 							<a th:href="@{/product/} + ${product.id}">
 								<span class="tt-img"><img src="images/loader.svg" th:data-src="${product.primaryImage()}" alt=""></span>
-								<span class="tt-img-roll-over" th:each="image,iter : ${product.otherImages()}">
+								<!-- <span class="tt-img-roll-over" th:each="image,iter : ${product.otherImages()}">
 									<img th:if="${iter.index==0}" src="images/loader.svg" th:data-src="${image}" alt="">
-								</span>
+								</span> -->
 								<span class="tt-label-location">
 									<span class="tt-label-new d-none" th:text="${product.status}">Mới</span>
 								</span>
@@ -146,9 +146,9 @@
 							<h2 class="tt-title">
 								<a th:href="@{/product/} + ${product.id}" th:text="${product.brand.name + ' ' + product.name + ' - ' + product.versionName}">Name</a>
 							</h2>
-							<div class="tt-price" th:text="${product.formatPrice()}">
+							<!-- <div class="tt-price" th:text="${product.formatPrice()}">
 								price
-							</div>
+							</div> -->
 							<div class="tt-product-inside-hover">
 
 								<div class="tt-row-btn">

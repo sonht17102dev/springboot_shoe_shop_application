@@ -7,12 +7,14 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,15 +58,21 @@ public class Product {
         @Column(name = "isDelete")
         private Boolean isDelete; // Sử dụng Boolean để ánh xạ kiểu bit
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "product_image_id")
-        private ProductImage productImage;
+        @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        private List<ProductImage> productImages;
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "brand_id")
+        @OneToOne
+        @JoinColumn(name = "brand_id", unique = true) // FK tới Brand
         private Brand brand;
 
         @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<ProductSize> sizes = new ArrayList<>();
+
+        public String primaryImage() {
+                if (productImages != null && !productImages.isEmpty()) {
+                        return productImages.get(0).getImageUrl();
+                }
+                return "https://via.placeholder.com/150"; // Default image if no images are available
+        }
 
 }

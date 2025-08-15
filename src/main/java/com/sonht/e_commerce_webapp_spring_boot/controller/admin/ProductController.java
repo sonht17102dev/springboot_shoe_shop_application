@@ -33,7 +33,6 @@ import com.sonht.e_commerce_webapp_spring_boot.repository.BrandRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
-import com.sonht.e_commerce_webapp_spring_boot.service.impl.CustomUserDetails;
 import com.sonht.e_commerce_webapp_spring_boot.service.impl.UploadService;
 
 import jakarta.validation.Valid;

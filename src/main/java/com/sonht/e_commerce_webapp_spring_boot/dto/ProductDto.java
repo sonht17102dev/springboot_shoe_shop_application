@@ -43,5 +43,9 @@ public class ProductDto {
     private String brandName;
 
     private String imageUrl;
+
+    public String primaryImage() {
+        return imageUrl != null && !imageUrl.isEmpty() ? imageUrl : "https://via.placeholder.com/150";
+    }
     
 }
