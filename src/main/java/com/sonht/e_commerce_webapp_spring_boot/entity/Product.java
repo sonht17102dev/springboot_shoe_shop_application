@@ -30,49 +30,53 @@ import lombok.ToString;
 @Entity
 @Table(name = "product")
 public class Product {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Column(name = "name")
-        private String name;
+    @Column(name = "name")
+    private String name;
 
-        @Column(name = "description")
-        private String description;
+    @Column(name = "description")
+    private String description;
 
-        @Column(name = "price")
-        private double price;
+    @Column(name = "price")
+    private double price;
 
-        @Column(name = "status")
-        private String status;
+    @Column(name = "status")
+    private String status;
 
-        @Column(name = "versionName")
-        private String versionName;
+    @Column(name = "versionName")
+    private String versionName;
 
-        @Column(name = "created_at", columnDefinition = "datetime(6)")
-        private Date createdAt;
+    @Column(name = "created_at", columnDefinition = "datetime(6)")
+    private Date createdAt;
 
-        @Column(name = "updated_at", columnDefinition = "datetime(6)")
-        private Date updatedAt;
+    @Column(name = "updated_at", columnDefinition = "datetime(6)")
+    private Date updatedAt;
 
-        @Column(name = "isDelete")
-        private Boolean isDelete; // Sử dụng Boolean để ánh xạ kiểu bit
+    @Column(name = "isDelete")
+    private Boolean isDelete; // Sử dụng Boolean để ánh xạ kiểu bit
 
-        @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        private List<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductImage> productImages;
 
-        @OneToOne
-        @JoinColumn(name = "brand_id", unique = true) // FK tới Brand
-        private Brand brand;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "brand_id") // FK tới Brand
+    private Brand brand;
 
-        @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<ProductSize> sizes = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductSize> sizes = new ArrayList<>();
 
-        public String primaryImage() {
-                if (productImages != null && !productImages.isEmpty()) {
-                        return productImages.get(0).getImageUrl();
+    public String primaryImage() {
+        if (productImages != null && !productImages.isEmpty()) {
+            for (ProductImage image : productImages) {
+                if (image.isPrimary()) {
+                    return image.getImageUrl();
                 }
-                return "https://via.placeholder.com/150"; // Default image if no images are available
+            }
         }
+        return null; // Hoặc có thể trả về một URL mặc định nếu không có ảnh chính
+    }
 
 }

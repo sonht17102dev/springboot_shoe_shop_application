@@ -170,21 +170,21 @@ INSERT INTO brand (created_at, updated_at, name) VALUES
 
 
 -- Thêm dữ liệu mẫu cho bảng product  
-INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id) VALUES  
-(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Dang ban', 'v1.0', 1),  
-(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngung ban', 'v1.1', 2),
-(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Dang ban', 'v1.0', 3),  
-(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Dang ban', 'v1.1', 4),
-(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Dang ban', 'v1.0', 5),  
-(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Dang ban', 'v1.1', 6);
+INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id, product_image_id) VALUES  
+(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Dang ban', 'v1.0', 1,1),  
+(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngung ban', 'v1.1', 2, 2),
+(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Dang ban', 'v1.0', 3, 3),  
+(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Dang ban', 'v1.1', 4, 4),
+(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Dang ban', 'v1.0', 5, 5),  
+(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Dang ban', 'v1.1', 6, 6);
 
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/bg.jpg', 1),
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/THANKWATCHING.jpg', 2),
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/bg.jpg', 3),
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/bg.jpg', 4),
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/bg.jpg', 5),
-(NOW(6), NOW(6), b'1', '/static/uploaded/images/bg.jpg', 6);
+(NOW(6), NOW(6), b'1', 'bg.jpg', 1),
+(NOW(6), NOW(6), b'1', 'THANKWATCHING.jpg', 2),
+(NOW(6), NOW(6), b'1', 'bg.jpg', 3),
+(NOW(6), NOW(6), b'1', 'bg.jpg', 4),
+(NOW(6), NOW(6), b'1', 'bg.jpg', 5),
+(NOW(6), NOW(6), b'1', 'bg.jpg', 6);
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 

@@ -43,6 +43,4 @@ public class Brand {
     @Column(name = "updated_at", columnDefinition = "datetime(6)")
     private Date updatedAt;
 
-    @OneToOne(mappedBy = "brand")
-    private Product product;
 }

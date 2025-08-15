@@ -110,9 +110,9 @@ public class ProductController {
                 false,
                 product.getStatus(),
                 product.getBrand() != null ? product.getBrand().getName() : null,
-                product.getProductImage() != null ? product.getProductImage().getImageUrl() : null);
+                product.primaryImage() != null ? product.primaryImage() : null);
         model.addAttribute("currentProduct", productDto);
-        String urlImage = product.getProductImage() != null ? product.getProductImage().getImageUrl() : null;
+        String urlImage = product.primaryImage() != null ? product.primaryImage() : null;
         model.addAttribute("urlImage", urlImage);
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("statuses", statuses);

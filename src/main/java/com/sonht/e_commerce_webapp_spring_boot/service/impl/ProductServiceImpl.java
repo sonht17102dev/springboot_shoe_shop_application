@@ -41,11 +41,14 @@ public class ProductServiceImpl implements ProductService {
             brandRepository.findByName(brandName).stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("Brand not found: " + brandName))
         );
+
         ProductImage newProductImage = new ProductImage();
         newProductImage.setImageUrl(newProduct.getImageUrl());
         newProductImage.setPrimary(true);
-        newProductImage.setProducts(List.of(newProductEntity));
-        newProductEntity.setProductImage(newProductImage);
+        newProductImage.setProduct(newProductEntity);
+        newProductEntity.setProductImages(List.of(newProductImage));
+        newProductEntity.setCreatedAt(new java.util.Date());
+        newProductEntity.setUpdatedAt(new java.util.Date());
         productRepository.save(newProductEntity);
     }
 
@@ -90,30 +93,32 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(ProductDto currentProduct) {
+        // 1. Lấy product từ DB
         Product product = findById(currentProduct.getId());
+
+        // 2. Cập nhật các trường cần thiết
         product.setName(currentProduct.getName());
         product.setVersionName(currentProduct.getVersionName());
         product.setDescription(currentProduct.getDescription());
         product.setPrice(currentProduct.getPrice());
         product.setStatus(currentProduct.getStatus());
         
-        String brandName = currentProduct.getBrandName();
         product.setBrand(
-            brandRepository.findByName(brandName).stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("Brand not found: " + brandName))
+            brandRepository.findByName(currentProduct.getBrandName()).stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Brand not found: " + currentProduct.getBrandName()))
         );
         
-        
-        ProductImage productImage = product.getProductImage();
-        if (productImage != null) {
-            productImage.setImageUrl(currentProduct.getImageUrl());
-        } else {
-            productImage = new ProductImage();
-            productImage.setImageUrl(currentProduct.getImageUrl());
-            productImage.setPrimary(true);
-            productImage.setProducts(List.of(product));
-            product.setProductImage(productImage);
-        }
+        //  Set tất cả ảnh hiện có về isPrimary = false
+        product.getProductImages().forEach(image -> image.setPrimary(false));
+        //  Tạo ảnh mới và set isPrimary = true
+        ProductImage newProductImage = new ProductImage();
+        newProductImage.setImageUrl(currentProduct.getImageUrl());
+        newProductImage.setPrimary(true);
+
+        newProductImage.setProduct(product);
+
+        product.getProductImages().add(newProductImage);
+
         productRepository.save(product);
     }
 
