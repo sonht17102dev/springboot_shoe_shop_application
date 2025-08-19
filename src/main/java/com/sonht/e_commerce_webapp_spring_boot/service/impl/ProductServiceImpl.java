@@ -1,5 +1,6 @@
 package com.sonht.e_commerce_webapp_spring_boot.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import com.sonht.e_commerce_webapp_spring_boot.dto.ProductDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.entity.ProductImage;
 import com.sonht.e_commerce_webapp_spring_boot.repository.BrandRepository;
+import com.sonht.e_commerce_webapp_spring_boot.repository.CategoryRepository;
 import com.sonht.e_commerce_webapp_spring_boot.repository.ProductRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 
@@ -18,10 +20,12 @@ import jakarta.transaction.Transactional;
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private BrandRepository brandRepository;
+    private CategoryRepository categoryRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
     }
 
    
@@ -41,14 +45,21 @@ public class ProductServiceImpl implements ProductService {
             brandRepository.findByName(brandName).stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("Brand not found: " + brandName))
         );
+        newProductEntity.setCategory(
+            categoryRepository.findByName(newProduct.getCategory()).stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Category not found: "))
+        );
 
         ProductImage newProductImage = new ProductImage();
         newProductImage.setImageUrl(newProduct.getImageUrl());
         newProductImage.setPrimary(true);
         newProductImage.setProduct(newProductEntity);
-        newProductEntity.setProductImages(List.of(newProductImage));
+        List<ProductImage> listProductImages = new ArrayList<>();
+        listProductImages.add(newProductImage);
+        newProductEntity.setProductImages(listProductImages);
         newProductEntity.setCreatedAt(new java.util.Date());
         newProductEntity.setUpdatedAt(new java.util.Date());
+
         productRepository.save(newProductEntity);
     }
 
@@ -120,6 +131,30 @@ public class ProductServiceImpl implements ProductService {
         product.getProductImages().add(newProductImage);
 
         productRepository.save(product);
+    }
+
+
+/*
+ * Tìm kiếm sản phẩm theo từ khoá
+ */
+    @Override
+    public List<Product> searchProducts(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return productRepository.findAllByIsDelete(false);
+        }
+        return productRepository.findByNameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<Product> findAllByStatus(String status) {
+        return productRepository.findAllByStatus(status);
+    }
+
+
+
+    @Override
+    public List<Product> searchProducts(Long categoryId, Long brandId, Long priceMax, Integer size, Long colorId) {
+        return productRepository.searchProducts(categoryId, brandId, priceMax, size, colorId);
     }
 
   

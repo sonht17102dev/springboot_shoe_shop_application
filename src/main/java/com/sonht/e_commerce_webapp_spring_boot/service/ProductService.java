@@ -19,4 +19,10 @@ public interface ProductService {
     Product findById(Long productId);
 
     void updateProduct(ProductDto currentProduct);
+
+    List<Product> searchProducts(String keyword);
+
+    List<Product> findAllByStatus(String status);
+
+    List<Product> searchProducts(Long categoryId, Long brandId, Long priceMax, Integer size, Long colorId);
 }

@@ -93,7 +93,7 @@ CREATE TABLE product (
     status VARCHAR(50),  
     version_name VARCHAR(50),  
     brand_id BIGINT,  
-    product_image_id bigint,
+    category_id bigint,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
@@ -114,13 +114,40 @@ CREATE TABLE brand (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,  
     created_at DATETIME(6),  
     updated_at DATETIME(6),  
+   -- product_id BIGINT,     -- Khóa ngoại đến bảng 'product'
+    name VARCHAR(50)  
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE category (  
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
+    created_at DATETIME(6),  
+    updated_at DATETIME(6),  
     product_id BIGINT,     -- Khóa ngoại đến bảng 'product'
     name VARCHAR(50)  ,
     FOREIGN KEY (product_id) REFERENCES product(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
+DROP TABLE IF EXISTS `color`;
+CREATE TABLE color (  
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
+    created_at DATETIME(6),  
+    updated_at DATETIME(6),  
+    code VARCHAR(50),
+    name VARCHAR(50)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
-
+DROP TABLE IF EXISTS `product_color`;
+CREATE TABLE product_color (  
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,  
+    created_at DATETIME(6),  
+    updated_at DATETIME(6),  
+    color_id BIGINT,
+    product_id BIGINT,
+    CONSTRAINT fk_product_color_color FOREIGN KEY (color_id) REFERENCES color(id),
+    CONSTRAINT fk_product_color_product FOREIGN KEY (product_id) REFERENCES product(id)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 -- DROP TABLE IF EXISTS `user_wishlist`;
 -- CREATE TABLE user_wishlist (
@@ -167,24 +194,32 @@ INSERT INTO brand (created_at, updated_at, name) VALUES
 (NOW(), NOW(), 'Brand E'),  
 (NOW(), NOW(), 'Brand F');  
 
+-- Thêm dữ liệu mẫu cho bảng category  
+INSERT INTO category (created_at, updated_at, name, product_id) VALUES  
+(NOW(), NOW(), 'Cổ thấp / low top', 1),  
+(NOW(), NOW(), 'Cổ trung / mid top', 1),
+(NOW(), NOW(), 'Cổ cao / High top', 2),  
+(NOW(), NOW(), 'Slide', 3),
+(NOW(), NOW(), 'Phụ kiện', 4);  
 
 
 -- Thêm dữ liệu mẫu cho bảng product  
-INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id, product_image_id) VALUES  
-(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Dang ban', 'v1.0', 1,1),  
-(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngung ban', 'v1.1', 2, 2),
-(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Dang ban', 'v1.0', 3, 3),  
-(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Dang ban', 'v1.1', 4, 4),
-(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Dang ban', 'v1.0', 5, 5),  
-(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Dang ban', 'v1.1', 6, 6);
+INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id,  category_id) VALUES  
+(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Đang bán', 'v1.0', 1, 1),  
+(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngừng bán', 'v1.1', 2,  1),
+(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Đang bán', 'v1.0', 3,  2),  
+(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Đang bán', 'v1.1', 4,  3),
+(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Đang bán', 'v1.0', 5,  4),  
+(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Đang bán', 'v1.1', 6,  5);
 
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
 (NOW(6), NOW(6), b'1', 'bg.jpg', 1),
+(NOW(6), NOW(6), b'1', 'thethao.png', 1),
 (NOW(6), NOW(6), b'1', 'THANKWATCHING.jpg', 2),
-(NOW(6), NOW(6), b'1', 'bg.jpg', 3),
-(NOW(6), NOW(6), b'1', 'bg.jpg', 4),
-(NOW(6), NOW(6), b'1', 'bg.jpg', 5),
-(NOW(6), NOW(6), b'1', 'bg.jpg', 6);
+(NOW(6), NOW(6), b'1', 'filetype.png', 3),
+(NOW(6), NOW(6), b'1', 'thoitiet.png', 4),
+(NOW(6), NOW(6), b'1', 'thongtinnhanh.png', 5),
+(NOW(6), NOW(6), b'1', 'tudien.png', 6);
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 
@@ -231,3 +266,32 @@ VALUES
 (NOW(), NOW(), 250000, 2, 500000, 2,2),
 (NOW(), NOW(), 350000, 3, 1050000, 1,1),
 (NOW(), NOW(), 350000, 1, 350000, 6,4);
+
+-- Thêm dữ liệu mẫu
+INSERT INTO color (created_at, updated_at, code, name) VALUES
+(NOW(), NOW(), 'red', 'Đỏ'),
+(NOW(), NOW(), 'blue', 'Xanh dương'),
+(NOW(), NOW(), 'green', 'Xanh lá'),
+(NOW(), NOW(), 'black', 'Đen'),
+(NOW(), NOW(), 'white', 'Trắng'),
+(NOW(), NOW(), 'yellow', 'Vàng'),
+(NOW(), NOW(), 'orange', 'Cam'),
+(NOW(), NOW(), 'purple', 'Tím'),
+(NOW(), NOW(), 'pink', 'Hồng'),
+(NOW(), NOW(), 'brown', 'Nâu');
+
+-- Thêm dữ liệu mẫu
+-- Giả sử đã có dữ liệu trong bảng color (id từ 1-5)
+-- Giả sử đã có dữ liệu trong bảng product (id từ 1-5)
+
+INSERT INTO product_color (created_at, updated_at, color_id, product_id) VALUES
+(NOW(), NOW(), 1, 1), -- Sản phẩm 1 có màu Đỏ
+(NOW(), NOW(), 2, 1), -- Sản phẩm 1 có màu Xanh dương
+(NOW(), NOW(), 3, 2), -- Sản phẩm 2 có màu Xanh lá
+(NOW(), NOW(), 4, 3), -- Sản phẩm 3 có màu Đen
+(NOW(), NOW(), 5, 3), -- Sản phẩm 3 có màu Trắng
+(NOW(), NOW(), 1, 4), -- Sản phẩm 4 có màu Đỏ
+(NOW(), NOW(), 2, 5), -- Sản phẩm 5 có màu Xanh dương
+(NOW(), NOW(), 3, 5), -- Sản phẩm 5 có màu Xanh lá
+(NOW(), NOW(), 6, 2), -- Sản phẩm 2 có màu Vàng
+(NOW(), NOW(), 7, 4); -- Sản phẩm 4 có màu Cam

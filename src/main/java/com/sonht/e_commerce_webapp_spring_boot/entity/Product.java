@@ -58,15 +58,22 @@ public class Product {
     @Column(name = "isDelete")
     private Boolean isDelete; // Sử dụng Boolean để ánh xạ kiểu bit
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id") // FK tới Brand
     private Brand brand;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductSize> sizes = new ArrayList<>();
+    private List<ProductSize> productSizes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductColor> productColors = new ArrayList<>();
 
     public String primaryImage() {
         if (productImages != null && !productImages.isEmpty()) {
@@ -79,4 +86,18 @@ public class Product {
         return null; // Hoặc có thể trả về một URL mặc định nếu không có ảnh chính
     }
 
+    public List<ProductImage> otherImages() {
+        List<ProductImage> otherImages = new ArrayList<>();
+        if (productImages != null && !productImages.isEmpty()) {
+            for (ProductImage image : productImages) {
+                if (!image.isPrimary()) {
+                    otherImages.add(image);
+                }
+            }
+        }
+        return otherImages; // Trả về danh sách các ảnh không phải là chính
+    }
+    public String formatPrice() {
+        return String.format("%,.0f", price) + " đ"; // Định dạng giá với dấu phẩy và thêm đơn vị tiền tệ
+    }
 }

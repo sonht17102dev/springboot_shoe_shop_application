@@ -42,6 +42,9 @@ public class ProductDto {
     @NotNull(message = "Vui lòng chọn thương hiệu")
     private String brandName;
 
+    @NotNull(message = "Vui lòng chọn danh mục")
+    private String category;
+
     private String imageUrl;
 
     public String primaryImage() {

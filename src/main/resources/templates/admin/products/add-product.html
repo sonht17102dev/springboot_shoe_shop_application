@@ -93,6 +93,18 @@
 
                                         </div>
                                         <div class="mb-3 col-12">
+                                            <label class="form-label">Danh mục của sản phẩm: </label>
+                                            <select class="form-select" th:field="*{category}">
+                                                <option value="" disabled selected>-- Chọn danh mục --</option>
+                                                <option th:each="ct : ${categories}" th:value="${ct.name}"
+                                                    th:text="${ct.name}">
+                                                </option>
+                                            </select>
+                                            <p th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}"
+                                                class="text-danger"></p>
+
+                                        </div>
+                                        <div class="mb-3 col-12">
                                             <label class="form-label">Trạng thái: </label>
                                             <select class="form-select" th:field="*{status}">
                                                 <option value="" disabled selected>-- Chọn danh mục --</option>
