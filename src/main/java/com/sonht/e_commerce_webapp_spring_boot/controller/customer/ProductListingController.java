@@ -44,9 +44,8 @@ public class ProductListingController {
         model.addAttribute("sizes", productSizeService.findAll());
         model.addAttribute("colors", colorService.findAll());
         List<Product> products = productService.searchProducts(categoryId, brandId, priceMax, size, colorId);
-        for (Product product : products) {
-            System.out.println(product.getName() + " - " + product.getPrice() + " - " + product.getStatus());
-        }
+        System.out.println(brandId );
+        model.addAttribute("products", products);
         return "shopper/product-listing";
     }
 

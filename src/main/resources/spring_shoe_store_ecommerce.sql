@@ -187,17 +187,17 @@ CREATE TABLE order_web_detail (
 
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
-(NOW(), NOW(), 'Brand A'),  
-(NOW(), NOW(), 'Brand B'),
-(NOW(), NOW(), 'Brand C'),  
-(NOW(), NOW(), 'Brand D'),
-(NOW(), NOW(), 'Brand E'),  
-(NOW(), NOW(), 'Brand F');  
+(NOW(), NOW(), 'nike'),  
+(NOW(), NOW(), 'adidas'),
+(NOW(), NOW(), 'puma'),  
+(NOW(), NOW(), 'vans'),
+(NOW(), NOW(), 'converse'),  
+(NOW(), NOW(), 'new balance');  
 
 -- Thêm dữ liệu mẫu cho bảng category  
 INSERT INTO category (created_at, updated_at, name, product_id) VALUES  
 (NOW(), NOW(), 'Cổ thấp / low top', 1),  
-(NOW(), NOW(), 'Cổ trung / mid top', 1),
+(NOW(), NOW(), 'Cổ trung / mid top',2),
 (NOW(), NOW(), 'Cổ cao / High top', 2),  
 (NOW(), NOW(), 'Slide', 3),
 (NOW(), NOW(), 'Phụ kiện', 4);  
@@ -205,21 +205,21 @@ INSERT INTO category (created_at, updated_at, name, product_id) VALUES
 
 -- Thêm dữ liệu mẫu cho bảng product  
 INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id,  category_id) VALUES  
-(NOW(), NOW(), 'Product 1 Description', 0, 'Product 1', 700000, 'Đang bán', 'v1.0', 1, 1),  
-(NOW(), NOW(), 'Product 2 Description', 0, 'Product 2', 200000, 'Ngừng bán', 'v1.1', 2,  1),
-(NOW(), NOW(), 'Product 3 Description', 0, 'Product 3', 300000, 'Đang bán', 'v1.0', 3,  2),  
-(NOW(), NOW(), 'Product 4 Description', 0, 'Product 4', 400000, 'Đang bán', 'v1.1', 4,  3),
-(NOW(), NOW(), 'Product 5 Description', 0, 'Product 5', 500000, 'Đang bán', 'v1.0', 5,  4),  
-(NOW(), NOW(), 'Product 6 Description', 0, 'Product 6', 600000, 'Đang bán', 'v1.1', 6,  5);
+(NOW(), NOW(), 'Nike Zoom REP Description', 0, 'Nike Zoom', 500000, 'Đang bán', 'A182 REP', 1, 1),  
+(NOW(), NOW(), 'Nike Jordan 1 Description', 0, 'Nike Jordan 1', 500000, 'Ngừng bán', 'v1.1', 1,  3),
+(NOW(), NOW(), 'Adidas Alphabounce Instinct M Description', 0, 'Alphabounce Instinct', 700000, 'Đang bán', 'M', 2,  2),  
+(NOW(), NOW(), 'Adidas A170 Tím REP Description', 0, 'Adidas A170', 500000, 'Đang bán', 'REP', 2,  2),
+(NOW(), NOW(), 'Giày Puma Nitro Trắng Đen REP 1:1 Description', 0, 'Puma Nitro', 500000, 'Đang bán', 'REP 1:1', 3,  2),  
+(NOW(), NOW(), 'Vans Classic Đen Trắng REP 1:1 Description', 0, 'Classic Đen Trắng', 300000, 'Đang bán', 'REP 1:1', 4,  1);
 
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
-(NOW(6), NOW(6), b'1', 'bg.jpg', 1),
-(NOW(6), NOW(6), b'1', 'thethao.png', 1),
-(NOW(6), NOW(6), b'1', 'THANKWATCHING.jpg', 2),
-(NOW(6), NOW(6), b'1', 'filetype.png', 3),
-(NOW(6), NOW(6), b'1', 'thoitiet.png', 4),
-(NOW(6), NOW(6), b'1', 'thongtinnhanh.png', 5),
-(NOW(6), NOW(6), b'1', 'tudien.png', 6);
+(NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 4),
+(NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct M.jpg', 3),
+(NOW(6), NOW(6), b'1', 'Giày Puma Nitro Trắng Đen REP.jpg', 5),
+(NOW(6), NOW(6), b'1', 'Nike Jordan 1.jpg', 2),
+(NOW(6), NOW(6), b'1', 'Nike Zoom A182.jpg', 1),
+(NOW(6), NOW(6), b'1', 'Vans Classic Đen Trắng REP.jpg', 6),
+(NOW(6), NOW(6), b'1', 'Nike Zoom A182 Xanh Rêu REP.jpg', 1);
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 
@@ -269,11 +269,11 @@ VALUES
 
 -- Thêm dữ liệu mẫu
 INSERT INTO color (created_at, updated_at, code, name) VALUES
+(NOW(), NOW(), 'black', 'Đen'),
+(NOW(), NOW(), 'white', 'Trắng'),
 (NOW(), NOW(), 'red', 'Đỏ'),
 (NOW(), NOW(), 'blue', 'Xanh dương'),
 (NOW(), NOW(), 'green', 'Xanh lá'),
-(NOW(), NOW(), 'black', 'Đen'),
-(NOW(), NOW(), 'white', 'Trắng'),
 (NOW(), NOW(), 'yellow', 'Vàng'),
 (NOW(), NOW(), 'orange', 'Cam'),
 (NOW(), NOW(), 'purple', 'Tím'),

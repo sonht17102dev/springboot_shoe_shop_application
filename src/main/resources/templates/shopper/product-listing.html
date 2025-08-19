@@ -171,7 +171,7 @@
 									<a href="#" class="tt-col-six" data-value="tt-col-six"></a>
 								</div>
 							</div>
-							<!-- <div class="tt-product-listing row">
+							<div class="tt-product-listing row">
 								<h5 th:if="${#lists.isEmpty(products)}">Hiện không có sản phẩm</h5>
 								<div th:fragment="product-listing-item" class="col-6 col-md-4 tt-col-item"
 									th:each="product : ${products}">
@@ -187,11 +187,11 @@
 											<input class="productBoxId" type="hidden" th:value="${product.id}">
 
 											<a th:href="@{/product/} + ${product.id}">
-												<span class="tt-img"><img th:src="${product.primaryImage()}"
+												<span class="tt-img"><img th:src="'/assets/images/'+${product.primaryImage()}"
 														alt=""></span>
 												<span class="tt-img-roll-over"
 													th:each="image,iter : ${product.otherImages()}">
-													<img th:if="${iter.index==0}" th:src="${image}" alt="">
+													<img th:if="${iter.index==0}" th:src="'/assets/images/'+${image}" alt="">
 												</span>
 											</a>
 										</div>
@@ -231,14 +231,14 @@
 										</div>
 									</div>
 								</div>
-							</div> -->
-							<!-- <div class="text-center" style="margin-top: 30px;">
+							</div>
+							<div class="text-center" style="margin-top: 30px;">
 								<a id="show_more" href="load-more" class="btn btn-border"
 									th:if="${#lists.size(products)!=0}">XEM THÊM</a>
 								<div id="last_page" class="tt_item_all d-none">
 									<a href="end" class="btn btn-border01">CUỐI TRANG</a>
 								</div>
-							</div> -->
+							</div>
 						</div>
 					</div>
 				</div>
