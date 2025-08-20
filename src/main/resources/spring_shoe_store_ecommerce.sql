@@ -187,12 +187,12 @@ CREATE TABLE order_web_detail (
 
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
-(NOW(), NOW(), 'nike'),  
-(NOW(), NOW(), 'adidas'),
-(NOW(), NOW(), 'puma'),  
-(NOW(), NOW(), 'vans'),
-(NOW(), NOW(), 'converse'),  
-(NOW(), NOW(), 'new balance');  
+(NOW(), NOW(), 'NIKE'),  
+(NOW(), NOW(), 'ADIDAS'),
+(NOW(), NOW(), 'PUMA'),  
+(NOW(), NOW(), 'VANS'),
+(NOW(), NOW(), 'CONVERSE'),  
+(NOW(), NOW(), 'NEW BALANCE');  
 
 -- Thêm dữ liệu mẫu cho bảng category  
 INSERT INTO category (created_at, updated_at, name, product_id) VALUES  
@@ -205,12 +205,12 @@ INSERT INTO category (created_at, updated_at, name, product_id) VALUES
 
 -- Thêm dữ liệu mẫu cho bảng product  
 INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id,  category_id) VALUES  
-(NOW(), NOW(), 'Nike Zoom REP Description', 0, 'Nike Zoom', 500000, 'Đang bán', 'A182 REP', 1, 1),  
-(NOW(), NOW(), 'Nike Jordan 1 Description', 0, 'Nike Jordan 1', 500000, 'Ngừng bán', 'v1.1', 1,  3),
+(NOW(), NOW(), 'Nike Zoom REP Description', 0, 'Zoom', 500000, 'Đang bán', 'A182 REP', 1, 1),  
+(NOW(), NOW(), 'Nike Jordan 1 Description', 0, 'Nike Jordan 1', 2000000, 'Ngừng bán', 'v1.1', 1,  3),
 (NOW(), NOW(), 'Adidas Alphabounce Instinct M Description', 0, 'Alphabounce Instinct', 700000, 'Đang bán', 'M', 2,  2),  
 (NOW(), NOW(), 'Adidas A170 Tím REP Description', 0, 'Adidas A170', 500000, 'Đang bán', 'REP', 2,  2),
 (NOW(), NOW(), 'Giày Puma Nitro Trắng Đen REP 1:1 Description', 0, 'Puma Nitro', 500000, 'Đang bán', 'REP 1:1', 3,  2),  
-(NOW(), NOW(), 'Vans Classic Đen Trắng REP 1:1 Description', 0, 'Classic Đen Trắng', 300000, 'Đang bán', 'REP 1:1', 4,  1);
+(NOW(), NOW(), 'Vans Classic Đen Trắng REP 1:1 Description', 0, 'Classic Đen Trắng', 1200000, 'Đang bán', 'REP 1:1', 4,  1);
 
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
 (NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 4),

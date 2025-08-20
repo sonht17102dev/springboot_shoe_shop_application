@@ -16,14 +16,14 @@ import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductSizeService;
 
 @Controller
-public class ProductListingController {
+public class ProductClientController {
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final ProductSizeService productSizeService;
     private final ColorService colorService;
     private final ProductService productService;
 
-    public ProductListingController(CategoryService categoryService, BrandService brandService,
+    public ProductClientController(CategoryService categoryService, BrandService brandService,
             ProductSizeService productSizeService, ColorService colorService, ProductService productService) {
         this.categoryService = categoryService;
         this.brandService = brandService;
@@ -36,6 +36,7 @@ public class ProductListingController {
     public String getProductListingPage(Model model,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) Long priceMin,
             @RequestParam(required = false) Long priceMax,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Long colorId) {
@@ -43,10 +44,46 @@ public class ProductListingController {
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("sizes", productSizeService.findAll());
         model.addAttribute("colors", colorService.findAll());
-        List<Product> products = productService.searchProducts(categoryId, brandId, priceMax, size, colorId);
-        System.out.println(brandId );
+        List<Product> products = null;
+        if(categoryId == null && brandId == null && priceMin == null && priceMax == null && size == null && colorId == null) {
+            products = productService.findAllByStatus("Đang bán");
+        } 
+        if(categoryId != null) {
+            products = productService.filterProducts(categoryId, null, null, null, null, null);
+        }
+        if(brandId != null) {
+            products = brandService.findProductsByBrandId(brandId);
+        }
+        if(priceMax != null ) {
+            products = productService.filterProducts(null, null, null, priceMax, null, null);
+        }
+        if(priceMax != null && priceMin != null) {
+            products = productService.filterProducts(null, null, priceMin, priceMax, null, null);
+        }
+        if(size != null) {
+            products = productService.filterProducts(null, null, null, null, size, null);
+        }
+
+        if(colorId != null) {
+             products = productService.filterProducts(null, null, null,null, null, colorId);
+        }
+        
+
         model.addAttribute("products", products);
+        
+        
         return "shopper/product-listing";
     }
 
+    @GetMapping("/product/{id}")
+    public String getProductDetailPage(@PathVariable Long id, Model model) {
+        Product product = productService.findById(id);
+        
+        model.addAttribute("product", product);
+        // model.addAttribute("categories", categoryService.findAll());
+        // model.addAttribute("brands", brandService.findAll());
+        // model.addAttribute("sizes", productSizeService.findAll());
+        // model.addAttribute("colors", colorService.findAll());
+        return "shopper/product";
+    }
 }

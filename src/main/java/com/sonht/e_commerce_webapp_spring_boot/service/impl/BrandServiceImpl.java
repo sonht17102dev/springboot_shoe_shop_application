@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.sonht.e_commerce_webapp_spring_boot.entity.Brand;
+import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.repository.BrandRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 
@@ -25,6 +26,14 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public List<Brand> findByName(String brandName) {
         return brandRepository.findByName(brandName);
+    }
+
+    @Override
+    public List<Product> findProductsByBrandId(Long brandId) {
+        return brandRepository.findById(brandId)
+                .map(Brand::getProducts)
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + brandId));
+                
     }
 
     

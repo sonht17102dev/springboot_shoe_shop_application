@@ -19,19 +19,21 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findByNameContainingIgnoreCase(String keyword);
     List<Product> findAllByStatus(String status);
 
-     @Query("SELECT DISTINCT p FROM Product p " +
+     @Query("SELECT p FROM Product p " +
            "JOIN p.category c " +
            "JOIN p.brand b " +
            "JOIN p.productColors pc " +
            "JOIN p.productSizes ps " +
            "WHERE (:categoryId IS NULL OR c.id = :categoryId) " +
            "AND (:brandId IS NULL OR b.id = :brandId) " +
+           "AND (:priceMin IS NULL OR p.price >= :priceMin) " +
            "AND (:priceMax IS NULL OR p.price <= :priceMax) " +
            "AND (:size IS NULL OR ps.size = :size) " +
            "AND (:colorId IS NULL OR pc.color.id = :colorId)")
-    List<Product> searchProducts(
+    List<Product> filterProducts(
             @Param("categoryId") Long categoryId,
             @Param("brandId") Long brandId,
+            @Param("priceMin") Long priceMin,
             @Param("priceMax") Long priceMax,
             @Param("size") Integer size,
             @Param("colorId") Long colorId

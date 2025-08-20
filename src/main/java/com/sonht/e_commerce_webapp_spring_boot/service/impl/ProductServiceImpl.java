@@ -66,10 +66,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateStatusProduct(Long productId) {
         productRepository.findById(productId).ifPresent(product -> {
-            if (product.getStatus().equals("Ngung ban")) {
-                product.setStatus("Dang ban");
-            } else if (product.getStatus().equals("Dang ban")) {
-                product.setStatus("Ngung ban");
+            if (product.getStatus().equals("Ngừng bán")) {
+                product.setStatus("Đang bán");
+            } else if (product.getStatus().equals("Đang bán")) {
+                product.setStatus("Ngừng bán");
             }
             productRepository.save(product);
         });
@@ -153,8 +153,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> searchProducts(Long categoryId, Long brandId, Long priceMax, Integer size, Long colorId) {
-        return productRepository.searchProducts(categoryId, brandId, priceMax, size, colorId);
+    public List<Product> filterProducts(Long categoryId, Long brandId, Long priceMin, Long priceMax, Integer size, Long colorId) {
+        System.out.println("Filtering products with parameters: " +
+                "categoryId=" + categoryId +
+                ", brandId=" + brandId +
+                ", priceMin=" + priceMin +
+                ", priceMax=" + priceMax +
+                ", size=" + size +
+                ", colorId=" + colorId);
+        return productRepository.filterProducts(categoryId, brandId, priceMin, priceMax, size, colorId);
     }
 
   

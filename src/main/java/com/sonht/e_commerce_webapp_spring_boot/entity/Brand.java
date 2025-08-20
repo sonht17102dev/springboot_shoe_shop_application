@@ -43,4 +43,6 @@ public class Brand {
     @Column(name = "updated_at", columnDefinition = "datetime(6)")
     private Date updatedAt;
 
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 }

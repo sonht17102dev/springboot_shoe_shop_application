@@ -24,5 +24,5 @@ public interface ProductService {
 
     List<Product> findAllByStatus(String status);
 
-    List<Product> searchProducts(Long categoryId, Long brandId, Long priceMax, Integer size, Long colorId);
+    List<Product> filterProducts(Long categoryId, Long brandId, Long priceMin, Long priceMax, Integer size, Long colorId);
 }
