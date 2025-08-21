@@ -206,20 +206,44 @@ INSERT INTO category (created_at, updated_at, name, product_id) VALUES
 -- Thêm dữ liệu mẫu cho bảng product  
 INSERT INTO product (created_at, updated_at, description, is_delete, name, price, status, version_name, brand_id,  category_id) VALUES  
 (NOW(), NOW(), 'Nike Zoom REP Description', 0, 'Zoom', 500000, 'Đang bán', 'A182 REP', 1, 1),  
-(NOW(), NOW(), 'Nike Jordan 1 Description', 0, 'Nike Jordan 1', 2000000, 'Ngừng bán', 'v1.1', 1,  3),
+(NOW(), NOW(), 'Nike Zoom REP Description', 0, 'Zoom', 500000, 'Đang bán', 'A182 REP', 1, 1), 
+(NOW(), NOW(), 'Nike Jordan 1 Description', 0, 'Nike Jordan 1', 2000000, 'Đang bán', 'v1.1', 1,  3),
+(NOW(), NOW(), 'Adidas Alphabounce Instinct M Description', 0, 'Alphabounce Instinct', 700000, 'Đang bán', 'M', 2,  2),
 (NOW(), NOW(), 'Adidas Alphabounce Instinct M Description', 0, 'Alphabounce Instinct', 700000, 'Đang bán', 'M', 2,  2),  
 (NOW(), NOW(), 'Adidas A170 Tím REP Description', 0, 'Adidas A170', 500000, 'Đang bán', 'REP', 2,  2),
 (NOW(), NOW(), 'Giày Puma Nitro Trắng Đen REP 1:1 Description', 0, 'Puma Nitro', 500000, 'Đang bán', 'REP 1:1', 3,  2),  
 (NOW(), NOW(), 'Vans Classic Đen Trắng REP 1:1 Description', 0, 'Classic Đen Trắng', 1200000, 'Đang bán', 'REP 1:1', 4,  1);
 
+-- Thêm dữ liệu mẫu
+INSERT INTO color (created_at, updated_at, code, name) VALUES
+(NOW(), NOW(), 'black', 'Đen'),
+(NOW(), NOW(), 'green', 'Xanh lá'),
+(NOW(), NOW(), 'dark gray', 'Đen Trắng'),
+(NOW(), NOW(), 'dark cyan', 'Xám xanh ngọc'),
+(NOW(), NOW(), 'white', 'Trắng'),
+(NOW(), NOW(), 'yellow', 'Vàng'),
+(NOW(), NOW(), 'orange', 'Cam'),
+(NOW(), NOW(), 'purple', 'Tím'),
+(NOW(), NOW(), 'pink', 'Hồng'),
+(NOW(), NOW(), 'brown', 'Nâu');
+
+-- Thêm dữ liệu mẫu
+
+INSERT INTO product_color (created_at, updated_at, color_id, product_id) VALUES
+(NOW(), NOW(), 1, 1), 
+(NOW(), NOW(), 2, 2), 
+(NOW(), NOW(), 3, 3),
+(NOW(), NOW(), 4, 4),
+(NOW(), NOW(), 1, 5);
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
-(NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 4),
-(NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct M.jpg', 3),
-(NOW(6), NOW(6), b'1', 'Giày Puma Nitro Trắng Đen REP.jpg', 5),
-(NOW(6), NOW(6), b'1', 'Nike Jordan 1.jpg', 2),
 (NOW(6), NOW(6), b'1', 'Nike Zoom A182.jpg', 1),
-(NOW(6), NOW(6), b'1', 'Vans Classic Đen Trắng REP.jpg', 6),
-(NOW(6), NOW(6), b'1', 'Nike Zoom A182 Xanh Rêu REP.jpg', 1);
+(NOW(6), NOW(6), b'1', 'Nike Zoom A182 Xanh Rêu REP.jpg', 2),
+(NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct M.jpg', 4),
+(NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct Xám Xanh Ngọc M.jpg', 5),
+(NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 4),
+(NOW(6), NOW(6), b'1', 'Giày Puma Nitro Trắng Đen REP.jpg', 5),
+(NOW(6), NOW(6), b'1', 'Nike Jordan 1.jpg', 3),
+(NOW(6), NOW(6), b'1', 'Vans Classic Đen Trắng REP.jpg', 6);
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 
@@ -252,11 +276,15 @@ VALUES
 -- (NOW(), NOW(), 104, 3),
 -- (NOW(), NOW(), 105, 2);
 INSERT INTO product_size (created_at, updated_at, quantity, size, product_id) VALUES
-(NOW(), NOW(), 50, 38, 1),
-(NOW(), NOW(), 40, 39, 1),
-(NOW(), NOW(), 30, 40, 1),
+(NOW(), NOW(), 43, 41, 1),
+(NOW(), NOW(), 42, 42, 1),
+(NOW(), NOW(), 44, 43, 1),
 (NOW(), NOW(), 20, 41, 2),
-(NOW(), NOW(), 10, 42, 2);
+(NOW(), NOW(), 10, 42, 2),
+(NOW(), NOW(), 20, 41, 3),
+(NOW(), NOW(), 10, 42, 4),
+(NOW(), NOW(), 20, 41, 5),
+(NOW(), NOW(), 10, 42, 6);
 
 INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, order_web_id, product_size_id)
 VALUES 
@@ -267,31 +295,4 @@ VALUES
 (NOW(), NOW(), 350000, 3, 1050000, 1,1),
 (NOW(), NOW(), 350000, 1, 350000, 6,4);
 
--- Thêm dữ liệu mẫu
-INSERT INTO color (created_at, updated_at, code, name) VALUES
-(NOW(), NOW(), 'black', 'Đen'),
-(NOW(), NOW(), 'white', 'Trắng'),
-(NOW(), NOW(), 'red', 'Đỏ'),
-(NOW(), NOW(), 'blue', 'Xanh dương'),
-(NOW(), NOW(), 'green', 'Xanh lá'),
-(NOW(), NOW(), 'yellow', 'Vàng'),
-(NOW(), NOW(), 'orange', 'Cam'),
-(NOW(), NOW(), 'purple', 'Tím'),
-(NOW(), NOW(), 'pink', 'Hồng'),
-(NOW(), NOW(), 'brown', 'Nâu');
-
--- Thêm dữ liệu mẫu
--- Giả sử đã có dữ liệu trong bảng color (id từ 1-5)
--- Giả sử đã có dữ liệu trong bảng product (id từ 1-5)
-
-INSERT INTO product_color (created_at, updated_at, color_id, product_id) VALUES
-(NOW(), NOW(), 1, 1), -- Sản phẩm 1 có màu Đỏ
-(NOW(), NOW(), 2, 1), -- Sản phẩm 1 có màu Xanh dương
-(NOW(), NOW(), 3, 2), -- Sản phẩm 2 có màu Xanh lá
-(NOW(), NOW(), 4, 3), -- Sản phẩm 3 có màu Đen
-(NOW(), NOW(), 5, 3), -- Sản phẩm 3 có màu Trắng
-(NOW(), NOW(), 1, 4), -- Sản phẩm 4 có màu Đỏ
-(NOW(), NOW(), 2, 5), -- Sản phẩm 5 có màu Xanh dương
-(NOW(), NOW(), 3, 5), -- Sản phẩm 5 có màu Xanh lá
-(NOW(), NOW(), 6, 2), -- Sản phẩm 2 có màu Vàng
-(NOW(), NOW(), 7, 4); -- Sản phẩm 4 có màu Cam
+ 

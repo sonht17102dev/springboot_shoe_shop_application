@@ -46,9 +46,9 @@
 							<ul data-scrollzoom="false">
 								<li><img class="zoom-product" th:src="'/assets/images/'+${product.primaryImage()}"
 										th:data-zoom-image="${product.primaryImage()}" alt=""></li>
-								<li th:each="image : ${product.otherImages()}"><img class="zoom-product"
+								<!-- <li th:each="image : ${product.otherImages()}"><img class="zoom-product"
 										th:src="'/assets/images/'+${image}"
-										th:data-zoom-image="'/assets/images/'+${image}" alt=""></li>
+										th:data-zoom-image="'/assets/images/'+${image}" alt=""></li> -->
 								<!-- <li>
 								<div class="embed-responsive embed-responsive-16by9">
 									<iframe class="embed-responsive-item" src="http://www.youtube.com/embed/GhyKqj_P2E4" allowfullscreen></iframe>
@@ -315,7 +315,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container-indent wrapper-social-icon">
+		<!-- <div class="container-indent wrapper-social-icon">
 			<div class="container">
 				<ul class="tt-social-icon justify-content-center">
 					<li><a class="icon-g-64" href="http://www.facebook.com/"></a></li>
@@ -325,13 +325,13 @@
 					<li><a class="icon-g-70" href="https://instagram.com/"></a></li>
 				</ul>
 			</div>
-		</div>
-		<div class="container-indent">
+		</div> -->
+		<!-- <div class="container-indent">
 			<div class="container container-fluid-custom-mobile-padding">
 				<div class="tt-block-title text-left">
 					<h3 class="tt-title-small">Thương hiệu <span th:text="${product.brand.name}"></span></h3>
 				</div>
-				<!-- <div
+				<div
 					class="tt-carousel-products row arrow-location-right-top tt-alignment-img tt-layout-product-item slick-animated-show-js">
 					<div class="col-2 col-md-4 col-lg-3" th:each="product : ${relatedProducts}">
 						<div class="tt-product thumbprod-center">
@@ -361,11 +361,11 @@
 								<div class="tt-price" th:text="${product.formatPrice()}">
 									price
 								</div>
-								<div class="tt-product-inside-hover"> -->
-				<!-- <div class="tt-row-btn"> -->
-				<!-- 									<a href="#" class="tt-btn-addtocart thumbprod-button-bg" data-toggle="modal" data-target="#modalAddToCartProduct">ADD TO CART</a> -->
-				<!-- 								</div> -->
-				<!-- <div class="tt-row-btn">
+								<div class="tt-product-inside-hover">
+				<div class="tt-row-btn">
+													<a href="#" class="tt-btn-addtocart thumbprod-button-bg" data-toggle="modal" data-target="#modalAddToCartProduct">ADD TO CART</a>
+												</div>
+				<div class="tt-row-btn">
 										<a href="#" class="tt-btn-quickview" data-toggle="modal"
 											data-target="#ModalquickView"></a>
 										<a href="#" class="tt-btn-wishlist"></a>
@@ -376,9 +376,9 @@
 						</div>
 					</div>
 
-				</div> -->
+				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 	<!-- footer -->
