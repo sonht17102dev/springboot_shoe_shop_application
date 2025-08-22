@@ -100,4 +100,8 @@ public class Product {
     public String formatPrice() {
         return String.format("%,.0f", price) + " đ"; // Định dạng giá với dấu phẩy và thêm đơn vị tiền tệ
     }
+
+    public String name2() {
+        return this.name;
+    }
 }

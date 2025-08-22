@@ -216,10 +216,10 @@ INSERT INTO product (created_at, updated_at, description, is_delete, name, price
 
 -- Thêm dữ liệu mẫu
 INSERT INTO color (created_at, updated_at, code, name) VALUES
-(NOW(), NOW(), 'black', 'Đen'),
-(NOW(), NOW(), 'green', 'Xanh lá'),
-(NOW(), NOW(), 'dark gray', 'Đen Trắng'),
-(NOW(), NOW(), 'dark cyan', 'Xám xanh ngọc'),
+(NOW(), NOW(), '#000000', 'Đen'),
+(NOW(), NOW(), '#008000', 'Xanh rêu'),
+(NOW(), NOW(), '#808080', 'Đen Trắng'),
+(NOW(), NOW(), '#00FFFF', 'Xám xanh ngọc'),
 (NOW(), NOW(), 'white', 'Trắng'),
 (NOW(), NOW(), 'yellow', 'Vàng'),
 (NOW(), NOW(), 'orange', 'Cam'),
@@ -232,18 +232,21 @@ INSERT INTO color (created_at, updated_at, code, name) VALUES
 INSERT INTO product_color (created_at, updated_at, color_id, product_id) VALUES
 (NOW(), NOW(), 1, 1), 
 (NOW(), NOW(), 2, 2), 
-(NOW(), NOW(), 3, 3),
-(NOW(), NOW(), 4, 4),
-(NOW(), NOW(), 1, 5);
+(NOW(), NOW(), 1, 3),
+(NOW(), NOW(), 1, 4),
+(NOW(), NOW(), 4, 5),
+(NOW(), NOW(), 9, 6),
+(NOW(), NOW(), 5, 7),
+(NOW(), NOW(), 1, 8);
 INSERT INTO product_image (created_at, updated_at, is_primary, image_url, product_id) VALUES
 (NOW(6), NOW(6), b'1', 'Nike Zoom A182.jpg', 1),
 (NOW(6), NOW(6), b'1', 'Nike Zoom A182 Xanh Rêu REP.jpg', 2),
 (NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct M.jpg', 4),
 (NOW(6), NOW(6), b'1', 'Adidas Alphabounce Instinct Xám Xanh Ngọc M.jpg', 5),
-(NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 4),
-(NOW(6), NOW(6), b'1', 'Giày Puma Nitro Trắng Đen REP.jpg', 5),
+(NOW(6), NOW(6), b'1', 'Adidas A170 Tím REP.jpg', 6),
+(NOW(6), NOW(6), b'1', 'Giày Puma Nitro Trắng Đen REP.jpg', 7),
 (NOW(6), NOW(6), b'1', 'Nike Jordan 1.jpg', 3),
-(NOW(6), NOW(6), b'1', 'Vans Classic Đen Trắng REP.jpg', 6);
+(NOW(6), NOW(6), b'1', 'Vans Classic Đen Trắng REP.jpg', 8);
 
 INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, delivery_address, delivery_status, payment_method, payment_status, sent_mail, total_amount, customer_id)
 VALUES 
@@ -281,10 +284,15 @@ INSERT INTO product_size (created_at, updated_at, quantity, size, product_id) VA
 (NOW(), NOW(), 44, 43, 1),
 (NOW(), NOW(), 20, 41, 2),
 (NOW(), NOW(), 10, 42, 2),
+(NOW(), NOW(), 10, 43, 2),
 (NOW(), NOW(), 20, 41, 3),
+(NOW(), NOW(), 20, 42, 3),
+(NOW(), NOW(), 20, 43, 3),
 (NOW(), NOW(), 10, 42, 4),
 (NOW(), NOW(), 20, 41, 5),
-(NOW(), NOW(), 10, 42, 6);
+(NOW(), NOW(), 10, 42, 6),
+(NOW(), NOW(), 20, 41, 7),
+(NOW(), NOW(), 20, 41, 8);
 
 INSERT INTO order_web_detail (created_at, updated_at, price, quantity, total_amount, order_web_id, product_size_id)
 VALUES 

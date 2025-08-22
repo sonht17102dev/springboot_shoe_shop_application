@@ -86,4 +86,6 @@ public class ProductClientController {
         // model.addAttribute("colors", colorService.findAll());
         return "shopper/product";
     }
+
+    
 }

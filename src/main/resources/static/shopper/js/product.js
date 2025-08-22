@@ -5,19 +5,19 @@ if ($('.productSizeId').length > 0) {
 	$('#addToCart').attr('href', '/add-to-cart-header/' + sizeId);
 
 } else {
-	
+
 }
 
-$('.size_number').click(function (e) { 
-    e.preventDefault();
-    let sizeId = $(this).children('.productSizeId').val();
-    $('#addToCart').attr('href', '/add-to-cart-header/' + sizeId);
+$('.size_number').click(function (e) {
+	e.preventDefault();
+	let sizeId = $(this).children('.productSizeId').val();
+	$('#addToCart').attr('href', '/add-to-cart-header/' + sizeId);
 });
 
-$('#addToCart').click(function(e) {
-    e.preventDefault();
+$('#addToCart').click(function (e) {
+	e.preventDefault();
 	let url = $(this).attr('href');
-    $.ajax({
+	$.ajax({
 		url: '/signed-in',
 		type: 'POST',
 		dataType: 'html',
@@ -25,22 +25,23 @@ $('#addToCart').click(function(e) {
 			{ topshoe: 'topshoe' }
 		]
 	})
-	.done(function(res) {
-		if (res != '') {
-			addToCart(url);
-		} else {
-			window.location.replace("/customer/login");
-		}
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		preventSharp();
-	});
+		.done(function (res) {
+			if (res != '') {
+				addToCart(url);
+			} else {
+				window.location.replace("/customer/login");
+			}
+		})
+		.fail(function () {
+			console.log("error");
+		})
+		.always(function () {
+			preventSharp();
+		});
 });
 
-function addToCart (url) {
+function addToCart(url) {
+	console.log(url)
 	fixPositionTopRightToast();
 	$.ajax({
 		url: url,
@@ -50,21 +51,22 @@ function addToCart (url) {
 			{ topshoe: 'topshoe' }
 		]
 	})
-	.done(function (res) {
-		if (!res) {
-			getCartHeaederContent();
-			toastr.success("Thêm vào giỏ hàng thành công!");
-		} else {
-			toastr.warning(res);
-		}
-	})
-	.fail(function () {
-		console.error("Error add to cart");
-		toastr.error("Lỗi thêm giỏ hàng!");
-	})
-	.always(function () {
+		.done(function (res) {
+			// console.log(res)
+			if (!res) {
+				getCartHeaderContent();
+				toastr.success("Thêm vào giỏ hàng thành công!");
+			} else {
+				toastr.warning(res);
+			}
+		})
+		.fail(function () {
+			console.error("Error add to cart");
+			toastr.error("Lỗi thêm giỏ hàng!");
+		})
+		.always(function () {
 
-	});
+		});
 }
 
 function fixPositionTopRightToast() {
@@ -85,19 +87,19 @@ setTimeout(function () {
 			{ topshoe: 'topshoe' }
 		]
 	})
-	.done(function() {
+		.done(function () {
 
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
+		})
+		.fail(function () {
+			console.log("error");
+		})
+		.always(function () {
 
-	});
-	
+		});
+
 }, 3000)
 
-$('#toogle-wishlist').click(function(event) {
+$('#toogle-wishlist').click(function (event) {
 	event.preventDefault();
 
 	let wishlistIcon = $(this).children('i');
@@ -105,7 +107,7 @@ $('#toogle-wishlist').click(function(event) {
 	if (wishlistIcon.attr('class') == 'icon-n-072') {
 		wishlistIcon.attr('class', 'icon-h-13');
 		wishlistText.text('Đã thích');
-	} else if (wishlistIcon.attr('class') == 'icon-h-13'){
+	} else if (wishlistIcon.attr('class') == 'icon-h-13') {
 		wishlistIcon.attr('class', 'icon-n-072');
 		wishlistText.text('Yêu thích');
 	}

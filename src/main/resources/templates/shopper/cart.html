@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="utf-8">
 	<title>Giỏ hàng của tôi</title>
@@ -11,30 +12,33 @@
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/theme.css">
 	<link rel="stylesheet" href="css/custom.css">
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+	<link
+		href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900'
+		rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/toastr.min.css">
 </head>
+
 <body>
 
-<!-- header -->
-<header th:replace="shopper/fragments/header"></header>
+	<!-- header -->
+	<header th:replace="~{shopper/fragments/header}"></header>
 
-<div class="tt-breadcrumb">
-	<div class="container">
-		<ul>
-			<li><a href="/index">Trang Chủ</a></li>
-			<li>Giỏ Hàng</li>
-		</ul>
+	<div class="tt-breadcrumb">
+		<div class="container">
+			<ul>
+				<li><a href="/index">Trang Chủ</a></li>
+				<li>Giỏ Hàng</li>
+			</ul>
+		</div>
 	</div>
-</div>
-<div id="tt-pageContent">
-	<div class="container-indent">
-		<div class="container" >
-			<h1 class="tt-title-subpages noborder">GIỎ HÀNG</h1>
-			<div class="tt-shopcart-table-02">
-				<table>
-					<tbody>
-						<tr th:each="cartItem : ${cartItems}" th:with="product = ${cartItem.productSize.product}">
+	<div id="tt-pageContent">
+		<div class="container-indent">
+			<div class="container">
+				<h1 class="tt-title-subpages noborder">GIỎ HÀNG</h1>
+				<div class="tt-shopcart-table-02">
+					<table>
+						<tbody>
+							<!-- <tr th:each="cartItem : ${cartItems}" th:with="product = ${cartItem.productSize.product}">
 							<td>
 								<div class="tt-product-img">
 									<img src="images/loader.svg" th:data-src="${product.primaryImage()}" alt="">
@@ -88,28 +92,28 @@
 							<td>
 								<a th:href="@{/remove-cart/} + ${cartItem.id}" class="tt-btn-close"></a>
 							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="tt-shopcart-btn">
-					<div class="col-left">
-						<a class="btn-link" href="/index"><i class="icon-e-19"></i>Tiếp tục mua sắm</a>
-					</div>
-					<div class="col-right">
-						<a class="btn-link" href="#"><i class="icon-h-02"></i>Xóa hết</a>
-<!-- 						<a class="btn-link" href="#"><i class="icon-h-48"></i>UPDATE CART</a> -->
+						</tr> -->
+						</tbody>
+					</table>
+					<div class="tt-shopcart-btn">
+						<div class="col-left">
+							<a class="btn-link" href="/index"><i class="icon-e-19"></i>Tiếp tục mua sắm</a>
+						</div>
+						<div class="col-right">
+							<a class="btn-link" href="#"><i class="icon-h-02"></i>Xóa hết</a>
+							<!-- 						<a class="btn-link" href="#"><i class="icon-h-48"></i>UPDATE CART</a> -->
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="tt-shopcart-col">
-				<div class="row">
-					<div class="col-md-6 col-lg-4">
-						<div class="tt-shopcart-box">
-							<h4 class="tt-title">
-								Thông tin giao hàng
-							</h4>
-<!-- 							<p>Enter your destination to get a shipping estimate.</p> -->
-							<form id="checkout_info" method="post" action="/checkout" class="form-default">
+				<div class="tt-shopcart-col">
+					<div class="row">
+						<div class="col-md-6 col-lg-4">
+							<div class="tt-shopcart-box">
+								<h4 class="tt-title">
+									Thông tin giao hàng
+								</h4>
+								<!-- 							<p>Enter your destination to get a shipping estimate.</p> -->
+								<!-- <form id="checkout_info" method="post" action="/checkout" class="form-default">
 								<div class="form-group">
 									<label for="name">Người nhận hàng <sup>*</sup></label>
 									<input minlength="2" type="text" th:value="${customer.name}" id="name" name="name" placeholder="Nhập họ tên" class="form-control" required>
@@ -127,93 +131,94 @@
 								</div>
 								<div>
 									<input type="hidden" id="paymentMethod" name="paymentMethod">
-								</div>
+								</div> -->
 
-<!-- 								<a href="#" class="btn btn-border">CALCULATE SHIPPING</a> -->
-<!-- 								<p> -->
-<!-- 									There is one shipping rate available for Alabama, Tanzania, United Republic Of. -->
-<!-- 								</p> -->
-								<ul class="tt-list-dot list-dot-large">
+								<!-- 								<a href="#" class="btn btn-border">CALCULATE SHIPPING</a> -->
+								<!-- 								<p> -->
+								<!-- 									There is one shipping rate available for Alabama, Tanzania, United Republic Of. -->
+								<!-- 								</p> -->
+								<!-- <ul class="tt-list-dot list-dot-large">
 									<li><span class="check_info">Kiểm tra lại thông tin của bạn trước khi đặt mua</span></li>
 								</ul>
-							</form>
-						</div>
-					</div>
-					<div class="col-md-6 col-lg-4">
-						<div class="tt-shopcart-box">
-							<h4 class="tt-title">
-								Phương thức thanh toán
-							</h4>
-							<br>
-<!-- 							<p>Add special instructions for your order...</p> -->
-							<div class="radio checkbox-group">
-								<input type="checkbox" id="checkATM" name="checkbox">
-								<label for="checkATM">
-									<span class="check"></span>
-									<span class="box"></span>
-									Thẻ ATM nội địa/Internet Banking
-								</label>
-							</div>
-							<br>
-							<div class="radio checkbox-group">
-								<input type="checkbox" id="checkCOD" name="checkbox">
-								<label for="checkCOD">
-									<span class="check"></span>
-									<span class="box"></span>
-									Thanh toán tiền mặt khi nhận hàng
-								</label>
+							</form> -->
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6 col-lg-4">
-						<div class="tt-shopcart-box tt-boredr-large">
-							<table class="tt-shopcart-table01">
-								<tbody>
-<!-- 									<tr> -->
-<!-- 										<th>SUBTOTAL</th> -->
-<!-- 										<td>$324</td> -->
-<!-- 									</tr> -->
-								</tbody>
-								<tfoot>
-									<tr>
-										<th>THÀNH TIỀN</th>
-										<td id="totalAmount" th:text="${totalAmount}">total</td>
-									</tr>
-								</tfoot>
-							</table>
-							<button id="submitCheckout" class="btn btn-lg">
-								<span class="icon icon-check_circle"></span>
-								ĐẶT MUA
-							</button>
+						<div class="col-md-6 col-lg-4">
+							<div class="tt-shopcart-box">
+								<h4 class="tt-title">
+									Phương thức thanh toán
+								</h4>
+								<br>
+								<!-- 							<p>Add special instructions for your order...</p> -->
+								<div class="radio checkbox-group">
+									<input type="checkbox" id="checkATM" name="checkbox">
+									<label for="checkATM">
+										<span class="check"></span>
+										<span class="box"></span>
+										Thẻ ATM nội địa/Internet Banking
+									</label>
+								</div>
+								<br>
+								<div class="radio checkbox-group">
+									<input type="checkbox" id="checkCOD" name="checkbox">
+									<label for="checkCOD">
+										<span class="check"></span>
+										<span class="box"></span>
+										Thanh toán tiền mặt khi nhận hàng
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-4">
+							<div class="tt-shopcart-box tt-boredr-large">
+								<table class="tt-shopcart-table01">
+									<tbody>
+										<!-- 									<tr> -->
+										<!-- 										<th>SUBTOTAL</th> -->
+										<!-- 										<td>$324</td> -->
+										<!-- 									</tr> -->
+									</tbody>
+									<tfoot>
+										<tr>
+											<th>THÀNH TIỀN</th>
+											<!-- <td id="totalAmount" th:text="${totalAmount}">total</td> -->
+										</tr>
+									</tfoot>
+								</table>
+								<button id="submitCheckout" class="btn btn-lg">
+									<span class="icon icon-check_circle"></span>
+									ĐẶT MUA
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<!-- footer -->
-<footer th:replace="shopper/fragments/footer"></footer>
+	<!-- footer -->
+	<footer th:replace="~{shopper/fragments/footer}"></footer>
 
-<!-- modal -->
-<div th:replace="shopper/fragments/modal :: addToCart"></div>
-<div th:replace="shopper/fragments/modal :: quickView"></div>
-<div th:replace="shopper/fragments/modal :: subsribeGood"></div>
+	<!-- modal -->
+	<div th:replace="~{shopper/fragments/modal :: addToCart}"></div>
+	<div th:replace="~{shopper/fragments/modal :: quickView}"></div>
+	<div th:replace="~{shopper/fragments/modal :: subsribeGood}"></div>
 
-<script src="external/jquery/jquery.min.js"></script>
-<script src="external/bootstrap/js/bootstrap.min.js"></script>
-<script src="external/slick/slick.min.js"></script>
-<script src="external/panelmenu/panelmenu.js"></script>
-<script src="external/lazyLoad/lazyload.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/cart.js"></script>
-<!-- form validation and sending to mail -->
-<script src="external/form/jquery.form.js"></script>
-<script src="external/form/jquery.validate.min.js"></script>
-<script src="external/form/jquery.form-init.js"></script>
-<!-- custom -->
-<script src="js/toastr.min.js" type="text/javascript"></script>
-<script src="js/header.js" type="text/javascript"></script>
+	<script src="external/jquery/jquery.min.js"></script>
+	<script src="external/bootstrap/js/bootstrap.min.js"></script>
+	<script src="external/slick/slick.min.js"></script>
+	<script src="external/panelmenu/panelmenu.js"></script>
+	<script src="external/lazyLoad/lazyload.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/cart.js"></script>
+	<!-- form validation and sending to mail -->
+	<script src="external/form/jquery.form.js"></script>
+	<script src="external/form/jquery.validate.min.js"></script>
+	<script src="external/form/jquery.form-init.js"></script>
+	<!-- custom -->
+	<script src="js/toastr.min.js" type="text/javascript"></script>
+	<script src="js/header.js" type="text/javascript"></script>
 </body>
+
 </html>
