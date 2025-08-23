@@ -17,8 +17,14 @@ import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    @Autowired
-    private UserDetailsService userDetailsService;
+    
+    private final UserDetailsService userDetailsService;
+    private final CustomAuthenticationSuccessHandler successHandler;
+
+    public SecurityConfiguration(UserDetailsService userDetailsService, CustomAuthenticationSuccessHandler successHandler) {
+        this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
+    }
 
     //bcrypt bean definition
     @Bean
@@ -84,6 +90,7 @@ public class SecurityConfiguration {
                         configurer
                                 .requestMatchers("/assets/**").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers("/add-to-cart/**").authenticated()
                                 .requestMatchers("/user/**").hasRole("CUSTOMER")
                                 .anyRequest().authenticated()
                 )
@@ -91,7 +98,9 @@ public class SecurityConfiguration {
                         form
                                 .loginPage("/user/login")
                                 .loginProcessingUrl("/user/login")
-                                .defaultSuccessUrl("/user/my-account")
+                                // .defaultSuccessUrl("/user/my-account")
+                                .successHandler(successHandler)   // sử dụng custom handler
+
                                 .permitAll()
                 )
                 .logout(logout -> logout.logoutUrl("/user/logout").permitAll().logoutSuccessUrl("/index")

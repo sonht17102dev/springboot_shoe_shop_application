@@ -71,5 +71,9 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<OrderWeb> orderWebs = new ArrayList<>();;
+    private List<OrderWeb> orderWebs = new ArrayList<>();
+
+    // Một Customer có nhiều CartItem
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 }

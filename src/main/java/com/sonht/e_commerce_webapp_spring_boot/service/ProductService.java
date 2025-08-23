@@ -5,8 +5,6 @@ import java.util.List;
 import com.sonht.e_commerce_webapp_spring_boot.dto.ProductDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 
-import jakarta.validation.Valid;
-
 
 public interface ProductService {
 
@@ -15,7 +13,9 @@ public interface ProductService {
     void createProduct(ProductDto newProduct);
 
     void updateStatusProduct(Long productId);
+
     void deleteProductById(Long productId);
+    
     Product findById(Long productId);
 
     void updateProduct(ProductDto currentProduct);

@@ -38,10 +38,10 @@
 				<div class="tt-shopcart-table-02">
 					<table>
 						<tbody>
-							<!-- <tr th:each="cartItem : ${cartItems}" th:with="product = ${cartItem.productSize.product}">
+							<tr th:each="cartItem : ${cartItems}" th:with="product = ${cartItem.productSize.product}">
 							<td>
 								<div class="tt-product-img">
-									<img src="images/loader.svg" th:data-src="${product.primaryImage()}" alt="">
+									<img  th:data-src="'/assets/images/'+${product.primaryImage()}" alt="">
 								</div>
 							</td>
 							<td>
@@ -62,9 +62,9 @@
 										<div class="detach-quantity-mobile"></div>
 									</li>
 									<li>
-										<div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}">
+										<!-- <div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}">
 											sub total mobile
-										</div>
+										</div> -->
 									</li>
 								</ul>
 							</td>
@@ -77,22 +77,22 @@
 								<div class="detach-quantity-desctope">
 									<div class="tt-input-counter style-01" style="user-select: none;">
 										
-										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=minus'"><span class="minus-btn"></span></a>
+										<!-- <a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=minus'"><span class="minus-btn"></span></a>
 										<input type="text" th:value="${cartItem.quantity}" size="5" style="cursor: default;" readonly>
-										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=plus'"><span class="plus-btn"></span></a>
+										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=plus'"><span class="plus-btn"></span></a> -->
 										
 									</div>
 								</div>
 							</td>
 							<td>
-								<div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}" >
+								<!-- <div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}" >
 									sub total
-								</div>
+								</div> -->
 							</td>
 							<td>
 								<a th:href="@{/remove-cart/} + ${cartItem.id}" class="tt-btn-close"></a>
 							</td>
-						</tr> -->
+						</tr>
 						</tbody>
 					</table>
 					<div class="tt-shopcart-btn">

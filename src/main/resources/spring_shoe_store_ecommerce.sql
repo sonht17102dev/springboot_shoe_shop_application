@@ -169,6 +169,17 @@ CREATE TABLE product_size (
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES product(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4; 
 
+DROP TABLE IF EXISTS `cart_item`;
+CREATE TABLE cart_item (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    quantity INT,
+    product_size_id BIGINT,
+    user_id BIGINT,
+    CONSTRAINT fk_cartitem_productsize FOREIGN KEY (product_size_id)
+        REFERENCES product_size(id)
+);
 DROP TABLE IF EXISTS `order_web_detail`;
 CREATE TABLE order_web_detail (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,

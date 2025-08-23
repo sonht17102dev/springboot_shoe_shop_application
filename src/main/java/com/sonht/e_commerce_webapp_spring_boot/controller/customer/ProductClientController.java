@@ -15,6 +15,8 @@ import com.sonht.e_commerce_webapp_spring_boot.service.ColorService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductSizeService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class ProductClientController {
     private final CategoryService categoryService;
@@ -76,9 +78,10 @@ public class ProductClientController {
     }
 
     @GetMapping("/product/{id}")
-    public String getProductDetailPage(@PathVariable Long id, Model model) {
+    public String getProductDetailPage(@PathVariable Long id, Model model, HttpServletRequest request) {
         Product product = productService.findById(id);
         
+        request.getSession().setAttribute("PRODUCT_ID_BEFORE_LOGIN", id);
         model.addAttribute("product", product);
         // model.addAttribute("categories", categoryService.findAll());
         // model.addAttribute("brands", brandService.findAll());

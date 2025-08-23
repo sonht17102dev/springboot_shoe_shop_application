@@ -51,4 +51,9 @@ public class ProductSize {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+
+    // Quan hệ ngược: Một ProductSize có thể nằm trong nhiều CartItem
+    @OneToMany(mappedBy = "productSize")
+    private List<CartItem> cartItems = new ArrayList<>();
 }

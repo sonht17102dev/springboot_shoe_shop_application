@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.entity.ProductSize;
 import com.sonht.e_commerce_webapp_spring_boot.repository.ProductSizeRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductSizeService;
@@ -21,5 +22,13 @@ public class ProductSizeServiceImpl implements ProductSizeService {
     public List<ProductSize> findAll() {
         return productSizeRepository.findAll();
     }
+
+    @Override
+    public ProductSize findProductSizeByProductAndSize(Product product, Integer size) {
+        
+        return productSizeRepository.findByProductAndSize(product, size)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy ProductSize"));
+    }
+
     
 }
