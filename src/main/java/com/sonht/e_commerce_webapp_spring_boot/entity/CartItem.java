@@ -42,7 +42,7 @@ public class CartItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // public String formatPrice() {
-    //     return String.format("%,.0f", productSize.getProduct().getPrice()) + " đ"; // Định dạng giá với dấu phẩy và thêm đơn vị tiền tệ
-    // }
+    public String formatPrice(double price) {
+        return String.format("%,.0f", price) + " đ"; // Định dạng giá với dấu phẩy và thêm đơn vị tiền tệ
+    }
 }

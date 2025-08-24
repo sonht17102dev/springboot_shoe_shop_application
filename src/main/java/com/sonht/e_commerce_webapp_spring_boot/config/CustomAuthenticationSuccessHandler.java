@@ -37,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                   session.removeAttribute("PRODUCT_ID_BEFORE_LOGIN");
   
                   // Redirect sang /cart kèm productId
-                  redirectUrl = "/user/add-to-cart/" + productId;
+                  redirectUrl = "/user/cart";
               }
           }
   

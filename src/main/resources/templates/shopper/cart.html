@@ -8,7 +8,7 @@
 	<meta name="description" content="TopShoe - Cart">
 	<meta name="author" content="TopShoe">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<base th:replace="shopper/fragments/common :: base">
+	<base th:replace="~{shopper/fragments/common :: base}">
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/theme.css">
 	<link rel="stylesheet" href="css/custom.css">
@@ -62,9 +62,9 @@
 										<div class="detach-quantity-mobile"></div>
 									</li>
 									<li>
-										<!-- <div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}">
+										<div class="tt-price subtotal" th:text="${cartItem.formatPrice(product.price * cartItem.quantity)}">
 											sub total mobile
-										</div> -->
+										</div>
 									</li>
 								</ul>
 							</td>
@@ -77,9 +77,9 @@
 								<div class="detach-quantity-desctope">
 									<div class="tt-input-counter style-01" style="user-select: none;">
 										
-										<!-- <a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=minus'"><span class="minus-btn"></span></a>
+										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=minus'"><span class="minus-btn"></span></a>
 										<input type="text" th:value="${cartItem.quantity}" size="5" style="cursor: default;" readonly>
-										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=plus'"><span class="plus-btn"></span></a> -->
+										<a th:href="@{/change-quantity?id=} + ${cartItem.id} + '&change=plus'"><span class="plus-btn"></span></a>
 										
 									</div>
 								</div>

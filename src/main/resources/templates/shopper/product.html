@@ -92,36 +92,43 @@
 								</div>
 								<!-- <div class="tt-wrapper" th:text="${product.description}">
 								</div> -->
-								<div class="tt-wrapper">
-									<div class="tt-title-options">SIZE:</div>
-									<ul class="tt-options-swatch options-large size_list">
-										<li class="size_number" th:each="size : ${product.productSizes}">
-											<a th:href="${'chooseSize/' + size.size}" th:text="${size.size}">6</a>
-											<input class="productSizeId" type="hidden" th:value="${size.id}">
-										</li>
-									</ul>
-								</div>
-								<div class="tt-wrapper product-information-buttons d-none">
-									<a data-toggle="modal" data-target="#modalProductInfo" href="#">Size Guide</a>
-									<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Shipping</a>
-								</div>
-								<div class="tt-wrapper">
-									<div class="tt-row-custom-01">
-										<!-- 									<div class="col-item d-none"> -->
-										<!-- 										<div class="tt-input-counter style-01" style="user-select: none;"> -->
-										<!-- 											<span class="minus-btn"></span> -->
-										<!-- 											<input type="text" value="1" size="5"> -->
-										<!-- 											<span class="plus-btn"></span> -->
-										<!-- 										</div> -->
-										<!-- 									</div> -->
-										<div class="col-item">
-											<a id="addToCart" th:href="@{/user/add-to-cart/{id}(id=${product.id})}"
-												class="btn btn-lg">
-												<i class="icon-f-39"></i>CHỌN MUA
-											</a>
+								<form th:action="@{/user/add-to-cart}" th:method="post" id="addToCartForm">
+									<div class="tt-wrapper">
+										<div class="tt-title-options">SIZE:</div>
+										<ul class="tt-options-swatch options-large size_list">
+											<li class="size_number" th:each="size : ${product.productSizes}">
+												<a th:href="${'chooseSize/' + size.size}" th:text="${size.size}">6</a>
+												<input class="productSizeId" type="hidden" name="size" th:value="${size.id}">
+											</li>
+										</ul>
+									</div>
+									<div class="tt-wrapper product-information-buttons d-none">
+										<a data-toggle="modal" data-target="#modalProductInfo" href="#">Size Guide</a>
+										<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Shipping</a>
+									</div>
+									<div class="tt-wrapper">
+										<div class="tt-row-custom-01">
+
+											<input type="hidden" name="productId" th:value="${product.id}">
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+											<div class="col-item ">
+												<div class="tt-input-counter style-01" style="user-select: none;">
+													<span class="minus-btn"></span>
+													<input type="text" value="1" size="5" name="quantity"
+														style="cursor: default;" readonly>
+													<span class="plus-btn"></span>
+												</div>
+											</div>
+											<div class="col-item">
+												<button id="addToCart" class=" btn btn-lg" type="submit">
+													<i class="icon-f-39"></i>CHỌN MUA
+												</button>
+											</div>
+
 										</div>
 									</div>
-								</div>
+								</form>
 								<!-- <div class="tt-wrapper">
 								<ul class="tt-list-btn">
 									<li th:if="${isSignedIn}"><a class="btn-link" id="toogle-wishlist" href="#"><i th:class="${product.isWishList} ? 'icon-h-13' : 'icon-n-072'"></i><span th:text="${product.isWishList} ? 'Đã thích' : 'Yêu thích'"></span></a></li>
