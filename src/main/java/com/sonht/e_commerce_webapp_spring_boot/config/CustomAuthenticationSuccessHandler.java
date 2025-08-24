@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.ProductToCartDto;
+
 import java.io.IOException;
 
 @Component
@@ -31,11 +33,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
           String redirectUrl = "/home"; // default
           if (session != null) {
               // Kiểm tra xem có productId được lưu trước khi login không
-              Object productId = session.getAttribute("PRODUCT_ID_BEFORE_LOGIN");
+              ProductToCartDto productId = (ProductToCartDto) session.getAttribute("DATA_BEFORE_LOGIN");
               if (productId != null) {
-                  // Xoá khỏi session cho sạch
-                  session.removeAttribute("PRODUCT_ID_BEFORE_LOGIN");
-  
                   // Redirect sang /cart kèm productId
                   redirectUrl = "/user/cart";
               }
