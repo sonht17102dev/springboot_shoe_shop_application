@@ -5,6 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.CartService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
@@ -12,8 +14,12 @@ import com.sonht.e_commerce_webapp_spring_boot.service.ProductSizeService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CartController {
@@ -30,18 +36,19 @@ public class CartController {
         this.userService = userService;
     }
 
-    @PostMapping("/user/add-to-cart")
-    public String addToCart(
-            @RequestParam("productId") Long productId,
-            @RequestParam("size") Integer size,
-            @RequestParam("quantity") Integer quantity,
-            HttpServletRequest request, Model model) {
-        // Get the current user's authentication details
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        cartService.handleAddProductToCart(productId, size, quantity, username);
+    @PostMapping("/saveItem")
+    @ResponseBody
+    public String saveItemToSession(HttpServletRequest request, @RequestBody CartItemRequest cartItemRequest) {
+        HttpSession session = request.getSession();
 
-        return "redirect:/user/cart"; // Redirect to the cart page
+        session.setAttribute("cartItemRequest", cartItemRequest);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            String username = authentication.getName();
+            return username;
+        }
+        
+        return ""; // Redirect to the cart page
     }
 
     @GetMapping("/user/cart")
@@ -49,6 +56,11 @@ public class CartController {
         // Get the current user's authentication details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        System.out.println(username + "in user/cart" );
+        HttpSession session = request.getSession();
+        CartItemRequest cartItemRequest=  (CartItemRequest) session.getAttribute("cartItemRequest");
+        // System.out.println(cartItemRequest);
+        cartService.handleAddProductToCart(cartItemRequest, username);
 
         // Fetch the user and their cart items
         User user = userService.findByEmail(username);

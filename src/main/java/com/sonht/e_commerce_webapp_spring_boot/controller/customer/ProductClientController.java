@@ -2,6 +2,9 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 
 import java.util.List;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,15 +81,11 @@ public class ProductClientController {
     }
 
     @GetMapping("/product/{id}")
-    public String getProductDetailPage(@PathVariable Long id, Model model, HttpServletRequest request) {
+    public String getProductDetailPage(@PathVariable Long id, Model model) {
         Product product = productService.findById(id);
-        
-        request.getSession().setAttribute("PRODUCT_ID_BEFORE_LOGIN", id);
+
         model.addAttribute("product", product);
-        // model.addAttribute("categories", categoryService.findAll());
-        // model.addAttribute("brands", brandService.findAll());
-        // model.addAttribute("sizes", productSizeService.findAll());
-        // model.addAttribute("colors", colorService.findAll());
+
         return "shopper/product";
     }
 

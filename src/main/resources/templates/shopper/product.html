@@ -12,6 +12,8 @@
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/theme.css">
 	<link rel="stylesheet" href="css/toastr.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body class="tt-page-product-single">
@@ -92,43 +94,42 @@
 								</div>
 								<!-- <div class="tt-wrapper" th:text="${product.description}">
 								</div> -->
-								<form th:action="@{/user/add-to-cart}" th:method="post" id="addToCartForm">
-									<div class="tt-wrapper">
-										<div class="tt-title-options">SIZE:</div>
-										<ul class="tt-options-swatch options-large size_list">
-											<li class="size_number" th:each="size : ${product.productSizes}">
-												<a th:href="${'chooseSize/' + size.size}" th:text="${size.size}">6</a>
-												<input class="productSizeId" type="hidden" name="size" th:value="${size.id}">
-											</li>
-										</ul>
-									</div>
-									<div class="tt-wrapper product-information-buttons d-none">
-										<a data-toggle="modal" data-target="#modalProductInfo" href="#">Size Guide</a>
-										<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Shipping</a>
-									</div>
-									<div class="tt-wrapper">
-										<div class="tt-row-custom-01">
 
-											<input type="hidden" name="productId" th:value="${product.id}">
-											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+								<div class="tt-wrapper">
+									<div class="tt-title-options">SIZE:</div>
+									<ul class="tt-options-swatch options-large size_list">
+										<li class="size_number" th:each="size : ${product.productSizes}">
+											<a th:href="${'chooseSize/' + size.size}" th:text="${size.size}">6</a>
+											<input class="productSizeId" type="hidden" name="size"
+												th:id="'sizeInput'+${size.id}" th:value="${size.id}">
+										</li>
+									</ul>
+								</div>
+								<div class="tt-wrapper product-information-buttons d-none">
+									<a data-toggle="modal" data-target="#modalProductInfo" href="#">Size Guide</a>
+									<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Shipping</a>
+								</div>
+								<div class="tt-wrapper">
+									<div class="tt-row-custom-01">
 
-											<div class="col-item ">
+
+										<!-- <div class="col-item ">
 												<div class="tt-input-counter style-01" style="user-select: none;">
 													<span class="minus-btn"></span>
 													<input type="text" value="1" size="5" name="quantity"
 														style="cursor: default;" readonly>
 													<span class="plus-btn"></span>
 												</div>
-											</div>
-											<div class="col-item">
-												<button id="addToCart" class=" btn btn-lg" type="submit">
-													<i class="icon-f-39"></i>CHỌN MUA
-												</button>
-											</div>
-
+											</div> -->
+										<div class="col-item">
+											<button id="addToCart" class=" btn btn-lg">
+												<i class="icon-f-39"></i>CHỌN MUA
+											</button>
 										</div>
+
 									</div>
-								</form>
+								</div>
+
 								<!-- <div class="tt-wrapper">
 								<ul class="tt-list-btn">
 									<li th:if="${isSignedIn}"><a class="btn-link" id="toogle-wishlist" href="#"><i th:class="${product.isWishList} ? 'icon-h-13' : 'icon-n-072'"></i><span th:text="${product.isWishList} ? 'Đã thích' : 'Yêu thích'"></span></a></li>
@@ -389,6 +390,61 @@
 	<!-- Modal -->
 	<div th:replace="~{shopper/fragments/modal :: size_guide}"></div>
 	<div th:replace="~{shopper/fragments/modal :: shipping}"></div>
+
+	<script th:inline="javascript">
+		let sizeValue = 0;
+		
+		$(document).ready(function () {
+			$(".size_number a").on("click", function (e) {
+				e.preventDefault(); // chặn chuyển trang
+				sizeValue = $(this).closest("li").find(".productSizeId").val();
+			});
+			$('#addToCart').on('click', function (event) {
+
+
+
+				event.preventDefault(); // Ngăn chặn hành vi mặc định của nút submit
+
+				// Lấy giá trị của productId và productSizeId
+				var productId = [[${ product.id }]]; // Thay '1' bằng giá trị thực tế nếu cần
+
+				if (!sizeValue) {
+					toastr.error('Vui lòng chọn kích thước sản phẩm.');
+					return;
+				}
+
+				var quantity = 1; // Mặc định số lượng là 1, bạn có thể thay đổi nếu cần
+
+				// Tạo đối tượng dữ liệu để gửi
+				var data = {
+					productId: productId,
+					size: sizeValue,
+					quantity: quantity,
+
+				};
+
+				// Gửi yêu cầu AJAX
+				$.ajax({
+					type: 'POST',
+					url: '/saveItem', // Đường dẫn đến endpoint xử lý thêm vào giỏ hàng
+					data: JSON.stringify(data),
+					contentType: 'application/json',
+					success: function (response) {
+						console.log(response);
+						// Xử lý phản hồi từ server (nếu cần)
+						toastr.success('Sản phẩm đã được thêm vào giỏ hàng!');
+						window.location.href = '/user/add-to-cart';
+					},
+					error: function (xhr, status, error) {
+						// Xử lý lỗi (nếu có)
+						toastr.error('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+					}
+				});
+
+			})
+
+		});
+	</script>
 
 	<script src="external/jquery/jquery.min.js"></script>
 	<script src="external/bootstrap/js/bootstrap.min.js"></script>

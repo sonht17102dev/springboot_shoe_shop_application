@@ -98,7 +98,7 @@ public class SecurityConfiguration {
                         form
                                 .loginPage("/user/login")
                                 .loginProcessingUrl("/user/login")
-                                // .defaultSuccessUrl("/user/my-account")
+                                .defaultSuccessUrl("/user/index")
                                 .successHandler(successHandler)   // sử dụng custom handler
 
                                 .permitAll()

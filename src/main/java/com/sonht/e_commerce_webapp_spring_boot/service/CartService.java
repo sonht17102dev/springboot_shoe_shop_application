@@ -1,6 +1,8 @@
 package com.sonht.e_commerce_webapp_spring_boot.service;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
+
 public interface CartService {
 
-    void handleAddProductToCart(Long productId, Integer size, Integer quantity, String username);
+    void handleAddProductToCart(CartItemRequest cartItemRequest,  String username);
 }

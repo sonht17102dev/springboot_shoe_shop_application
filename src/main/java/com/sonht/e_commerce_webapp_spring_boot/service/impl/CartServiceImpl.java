@@ -2,6 +2,7 @@ package com.sonht.e_commerce_webapp_spring_boot.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
 import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.entity.ProductSize;
@@ -25,10 +26,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void handleAddProductToCart(Long productId, Integer size, Integer quantity,  String email) {
-        System.out.println(productId + " " + size + " " + quantity + " " + email);
+    public void handleAddProductToCart(CartItemRequest cartItemRequest,  String email) {
+        
         User user = userService.findByEmail(email);
-        Product product = productService.findById(productId);
+        Product product = productService.findById(cartItemRequest.getProductId());
         if (user.getCartItems().isEmpty()) {
             CartItem cartItem = new CartItem();
             cartItem.setUser(user);
@@ -43,7 +44,7 @@ public class CartServiceImpl implements CartService {
         } else {
             boolean productExistsInCart = false;
             for (CartItem cartItem : user.getCartItems()) {
-                if (cartItem.getProductSize().getProduct().getId().equals(productId)) {
+                if (cartItem.getProductSize().getProduct().getId().equals(cartItemRequest.getProductId())) {
                     cartItem.setQuantity(cartItem.getQuantity() + 1);
                     cartItem.setUpdatedAt(java.time.LocalDateTime.now());
                     productExistsInCart = true;
