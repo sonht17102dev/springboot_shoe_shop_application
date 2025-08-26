@@ -1,6 +1,7 @@
 package com.sonht.e_commerce_webapp_spring_boot.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProductSizeServiceImpl implements ProductSizeService {
     }
 
     @Override
-    public ProductSize findProductSizeByProductAndSize(Product product, Integer size) {
+    public Optional<ProductSize> findProductSizeByProductAndSize(Product product, Integer size) {
         
         return productSizeRepository.findByProductAndSize(product, size);
     }

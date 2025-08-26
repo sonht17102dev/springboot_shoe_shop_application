@@ -101,7 +101,7 @@
 										<li class="size_number" th:each="size : ${product.productSizes}">
 											<a th:href="${'chooseSize/' + size.size}" th:text="${size.size}">6</a>
 											<input class="productSizeId" type="hidden" name="size"
-												th:id="'sizeInput'+${size.id}" th:value="${size.id}">
+												th:id="'sizeInput'+${size.id}" th:value="${size.size}">
 										</li>
 									</ul>
 								</div>

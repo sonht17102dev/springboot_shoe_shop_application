@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
 
@@ -16,11 +14,9 @@ import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    private final OrderService orderWebService;
 
-    public UserController(UserService userService, OrderService orderWebService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.orderWebService = orderWebService;
     }
 
     @GetMapping("my-account")

@@ -1,6 +1,8 @@
 package com.sonht.e_commerce_webapp_spring_boot.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -36,50 +38,58 @@ public class CartServiceImpl implements CartService {
 
         User user = userService.findByEmail(email);
         Product product = productService.findById(cartItemRequest.getProductId());
+        
         List<CartItem> cartItems = user.getCartItems();
         
         // Kiểm tra giỏ hàng của người dùng có trống không
         if (cartItems.isEmpty()) {
-            CartItem cartItem = new CartItem();
-            cartItem.setUser(user);
-
-            ProductSize productSize = productSizeService.findProductSizeByProductAndSize(product,
-                    cartItemRequest.getSize());
-            cartItem.setProductSize(productSize); // Giả sử kích thước đầu tiên được chọn
-            cartItem.setQuantity(1);
-            cartItem.setCreatedAt(java.time.LocalDateTime.now());
-            cartItem.setUpdatedAt(java.time.LocalDateTime.now());
-            cartItems.add(cartItem);
-            user.setCartItems(cartItems);
-            cartRepository.save(cartItem); // lưu cart item vào database
-
-        } else { // nếu không trống
+            saveCartItem(user, product, cartItemRequest, cartItems);
+        } else { // nếu cart không trống
             // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
             boolean productExistsInCart = false;
             for (CartItem cartItem : user.getCartItems()) {
                 if (cartItem.getProductSize().getProduct().getId().equals(cartItemRequest.getProductId())) {
-                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                    cartItem.setQuantity(cartItem.getQuantity() + 1); // Tăng số lượng sản phẩm lên 1
                     cartItem.setUpdatedAt(java.time.LocalDateTime.now());
                     productExistsInCart = true;
                     break;
                 }
             }
             if (!productExistsInCart) { // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
-                CartItem newCartItem = new CartItem();
-                newCartItem.setUser(user);
-                ProductSize productSize = productSizeService.findProductSizeByProductAndSize(product,
-                        cartItemRequest.getSize());
-                newCartItem.setProductSize(productSize); // Giả sử kích thước đầu tiên được chọn
-                newCartItem.setQuantity(1);
-                newCartItem.setCreatedAt(java.time.LocalDateTime.now());
-                newCartItem.setUpdatedAt(java.time.LocalDateTime.now());
-                cartItems.add(newCartItem);
-                user.setCartItems(cartItems);
-                cartRepository.save(newCartItem); // lưu cart item vào database
-            }
+                saveCartItem(user, product, cartItemRequest, cartItems);
+            } 
         }
 
     }
 
+
+    public void saveCartItem(User user, Product product, CartItemRequest cartItemRequest, List<CartItem> cartItems) {
+        
+            
+        CartItem cartItem = new CartItem();
+            cartItem.setUser(user);
+
+            Optional<ProductSize> productSizeOp = productSizeService.findProductSizeByProductAndSize(product,
+                    cartItemRequest.getSize());
+            if (productSizeOp.isPresent()) {
+                ProductSize productSize = productSizeOp.get();
+                System.out.println(productSize.getSize());
+                cartItem.setProductSize(productSize); 
+                List<CartItem> cartItemsNew = new ArrayList<>();
+
+                cartItem.setQuantity(1);
+                cartItem.setCreatedAt(java.time.LocalDateTime.now());
+                cartItem.setUpdatedAt(java.time.LocalDateTime.now());
+                cartItems.add(cartItem);
+                cartItemsNew.add(cartItem);
+                productSize.setCartItems(cartItemsNew);
+                productSize.setProduct(product);
+                user.setCartItems(cartItems);
+                cartRepository.save(cartItem); // lưu cart item vào database
+            } else {
+                throw new RuntimeException("Product size not found");
+            }
+
+    }
 
 }

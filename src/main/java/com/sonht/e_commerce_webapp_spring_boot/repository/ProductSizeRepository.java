@@ -10,5 +10,5 @@ import com.sonht.e_commerce_webapp_spring_boot.entity.ProductSize;
 
 public interface ProductSizeRepository extends JpaRepository<ProductSize, Long> {
 
-   ProductSize findByProductAndSize(Product product, Integer size);
+   Optional<ProductSize> findByProductAndSize(Product product, Integer size);
 }

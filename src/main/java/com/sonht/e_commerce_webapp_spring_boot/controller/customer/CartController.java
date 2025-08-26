@@ -1,7 +1,5 @@
 package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.CartService;
-import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
-import com.sonht.e_commerce_webapp_spring_boot.service.ProductSizeService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,21 +14,15 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CartController {
-    private final ProductService productService;
     private final CartService cartService;
-    private final ProductSizeService productSizeService;
     private final UserService userService;
 
-    public CartController(ProductService productService, CartService cartService,
-            ProductSizeService productSizeService, UserService userService) {
-        this.productService = productService;
+    public CartController(CartService cartService, UserService userService) {
         this.cartService = cartService;
-        this.productSizeService = productSizeService;
         this.userService = userService;
     }
 

@@ -1,6 +1,5 @@
 package com.sonht.e_commerce_webapp_spring_boot.dto;
 
-import java.util.Date;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;

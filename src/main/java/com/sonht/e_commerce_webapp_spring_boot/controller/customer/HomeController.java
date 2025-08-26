@@ -2,22 +2,16 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sonht.e_commerce_webapp_spring_boot.dto.ProductDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
-import com.sonht.e_commerce_webapp_spring_boot.entity.ProductImage;
-import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
