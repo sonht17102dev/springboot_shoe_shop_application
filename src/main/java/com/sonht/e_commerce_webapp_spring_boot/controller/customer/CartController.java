@@ -42,24 +42,20 @@ public class CartController {
         HttpSession session = request.getSession();
 
         session.setAttribute("cartItemRequest", cartItemRequest);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
-            String username = authentication.getName();
-            return username;
-        }
         
-        return ""; // Redirect to the cart page
+        return "Thêm sản phẩm thành công"; // Redirect to the cart page
     }
 
     @GetMapping("/user/cart")
     public String showCart(Model model, HttpServletRequest request) {
-        // Get the current user's authentication details
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        System.out.println(username + "in user/cart" );
+        // Get the current user's from session
         HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
         CartItemRequest cartItemRequest=  (CartItemRequest) session.getAttribute("cartItemRequest");
         // System.out.println(cartItemRequest);
+        if(username == null || cartItemRequest == null) {
+            return "redirect:/user/login"; // Redirect to login if not authenticated
+        }
         cartService.handleAddProductToCart(cartItemRequest, username);
 
         // Fetch the user and their cart items

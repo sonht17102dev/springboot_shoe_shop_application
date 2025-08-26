@@ -75,6 +75,7 @@
 										<input id="productId" type="hidden" th:value="${product.id}">
 									</ul>
 								</div>
+								
 								<h1 class="tt-title"
 									th:text="${product.brand.name + ' ' + product.name + ' - ' + product.versionName}">
 									Product name</h1>
@@ -414,14 +415,11 @@ function updateCart(sizeId) {
 				sizeValue = $(this).closest("li").find(".productSizeId").val();
 			});
 			$('#addToCart').on('click', function (event) {
-
-
-
 				event.preventDefault(); // Ngăn chặn hành vi mặc định của nút submit
 
 				// Lấy giá trị của productId và productSizeId
 				var productId = [[${ product.id }]]; // Thay '1' bằng giá trị thực tế nếu cần
-
+				var username = [[${ username }]]; 
 				if (!sizeValue) {
 					toastr.error('Vui lòng chọn kích thước sản phẩm.');
 					return;
@@ -444,10 +442,14 @@ function updateCart(sizeId) {
 					data: JSON.stringify(data),
 					contentType: 'application/json',
 					success: function (response) {
-						console.log(response);
+						if(!username) {
+							toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.');
+							window.location.href = '/user/add-to-cart';
+							return;
+						}
 						// Xử lý phản hồi từ server (nếu cần)
 						toastr.success('Sản phẩm đã được thêm vào giỏ hàng!');
-						window.location.href = '/user/add-to-cart';
+						window.location.href = '/user/cart';
 					},
 					error: function (xhr, status, error) {
 						// Xử lý lỗi (nếu có)

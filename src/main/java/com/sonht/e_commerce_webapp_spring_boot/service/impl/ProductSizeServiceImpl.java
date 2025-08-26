@@ -26,8 +26,7 @@ public class ProductSizeServiceImpl implements ProductSizeService {
     @Override
     public ProductSize findProductSizeByProductAndSize(Product product, Integer size) {
         
-        return productSizeRepository.findByProductAndSize(product, size)
-        .orElseThrow(() -> new RuntimeException("Không tìm thấy ProductSize"));
+        return productSizeRepository.findByProductAndSize(product, size);
     }
 
     

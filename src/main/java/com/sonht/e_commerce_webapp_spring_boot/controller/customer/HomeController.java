@@ -16,6 +16,9 @@ import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 
@@ -28,16 +31,11 @@ public class HomeController {
     }
 
     @GetMapping({ "/", "/index" })
-    public String getHomePage(Model model) {
+    public String getHomePage(Model model, HttpServletRequest request) {
         List<Product> products = productService.findAllByStatus("Đang bán");
         model.addAttribute("products", products);
         model.addAttribute("brands", brandService.findAll());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            String username = authentication.getName();
-            model.addAttribute("username", username);
-
-        }
+        
         return "shopper/index";
     }
 

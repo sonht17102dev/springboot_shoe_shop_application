@@ -29,6 +29,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
   
           // Lấy session hiện tại
           HttpSession session = request.getSession();
+          session.setAttribute("username", username);
   
           String redirectUrl = "/index"; // default
           if (session != null) {
