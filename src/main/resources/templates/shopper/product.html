@@ -94,7 +94,6 @@
 								</div>
 								<!-- <div class="tt-wrapper" th:text="${product.description}">
 								</div> -->
-
 								<div class="tt-wrapper">
 									<div class="tt-title-options">SIZE:</div>
 									<ul class="tt-options-swatch options-large size_list">
@@ -383,7 +382,22 @@
 			</div>
 		</div> -->
 	</div>
+<script th:inline="javascript">
+let cart = {};  // object lưu dữ liệu
 
+function updateCart(sizeId) {
+    const sizeInput = document.getElementById("size" + sizeId);
+    const quantityInput = document.getElementById("quantity");
+
+    const sizeValue = sizeInput.value;
+    const quantityValue = parseInt(quantityInput.value);
+
+    // lưu vào object, key là sizeId
+    cart[sizeValue] = quantityValue;
+
+    console.log(cart); // debug xem object thay đổi
+}
+</script>
 	<!-- footer -->
 	<footer th:replace="~{shopper/fragments/footer}"></footer>
 

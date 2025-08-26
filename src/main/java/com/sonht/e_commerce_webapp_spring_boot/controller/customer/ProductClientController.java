@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.ProductToCartDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.CategoryService;
@@ -83,7 +84,6 @@ public class ProductClientController {
     @GetMapping("/product/{id}")
     public String getProductDetailPage(@PathVariable Long id, Model model) {
         Product product = productService.findById(id);
-
         model.addAttribute("product", product);
 
         return "shopper/product";
