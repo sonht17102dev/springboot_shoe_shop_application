@@ -75,7 +75,7 @@
 										<input id="productId" type="hidden" th:value="${product.id}">
 									</ul>
 								</div>
-								
+
 								<h1 class="tt-title"
 									th:text="${product.brand.name + ' ' + product.name + ' - ' + product.versionName}">
 									Product name</h1>
@@ -105,9 +105,10 @@
 										</li>
 									</ul>
 								</div>
-								<div class="tt-wrapper product-information-buttons d-none">
-									<a data-toggle="modal" data-target="#modalProductInfo" href="#">Size Guide</a>
-									<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Shipping</a>
+								<div class="tt-wrapper product-information-buttons">
+									<a data-toggle="modal" data-target="#modalProductInfo" href="#">Hướng dẫn kích
+										thước</a>
+									<a data-toggle="modal" data-target="#modalProductInfo-02" href="#">Vận chuyển</a>
 								</div>
 								<div class="tt-wrapper">
 									<div class="tt-row-custom-01">
@@ -383,22 +384,22 @@
 			</div>
 		</div> -->
 	</div>
-<script th:inline="javascript">
-let cart = {};  // object lưu dữ liệu
+	<script th:inline="javascript">
+		let cart = {};  // object lưu dữ liệu
 
-function updateCart(sizeId) {
-    const sizeInput = document.getElementById("size" + sizeId);
-    const quantityInput = document.getElementById("quantity");
+		function updateCart(sizeId) {
+			const sizeInput = document.getElementById("size" + sizeId);
+			const quantityInput = document.getElementById("quantity");
 
-    const sizeValue = sizeInput.value;
-    const quantityValue = parseInt(quantityInput.value);
+			const sizeValue = sizeInput.value;
+			const quantityValue = parseInt(quantityInput.value);
 
-    // lưu vào object, key là sizeId
-    cart[sizeValue] = quantityValue;
+			// lưu vào object, key là sizeId
+			cart[sizeValue] = quantityValue;
 
-    console.log(cart); // debug xem object thay đổi
-}
-</script>
+			console.log(cart); // debug xem object thay đổi
+		}
+	</script>
 	<!-- footer -->
 	<footer th:replace="~{shopper/fragments/footer}"></footer>
 
@@ -408,7 +409,7 @@ function updateCart(sizeId) {
 
 	<script th:inline="javascript">
 		let sizeValue = 0;
-		
+
 		$(document).ready(function () {
 			$(".size_number a").on("click", function (e) {
 				e.preventDefault(); // chặn chuyển trang
@@ -419,7 +420,7 @@ function updateCart(sizeId) {
 
 				// Lấy giá trị của productId và productSizeId
 				var productId = [[${ product.id }]]; // Thay '1' bằng giá trị thực tế nếu cần
-				var username = [[${ username }]]; 
+				var username = [[${ username }]];
 				if (!sizeValue) {
 					toastr.error('Vui lòng chọn kích thước sản phẩm.');
 					return;
@@ -442,14 +443,14 @@ function updateCart(sizeId) {
 					data: JSON.stringify(data),
 					contentType: 'application/json',
 					success: function (response) {
-						if(!username) {
+						if (!username) {
 							toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.');
-							window.location.href = '/user/add-to-cart';
+							window.location.href = '/user/login';
 							return;
 						}
 						// Xử lý phản hồi từ server (nếu cần)
 						toastr.success('Sản phẩm đã được thêm vào giỏ hàng!');
-						window.location.href = '/user/cart';
+						window.location.href = '/cart';
 					},
 					error: function (xhr, status, error) {
 						// Xử lý lỗi (nếu có)

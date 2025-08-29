@@ -16,13 +16,15 @@
 		href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900'
 		rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/toastr.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
 	<!-- header -->
 	<header th:replace="~{shopper/fragments/header}"></header>
-
+	<div th:replace="~{shopper/fragments/modal :: deleteAllCart}"></div>
 	<div class="tt-breadcrumb">
 		<div class="container">
 			<ul>
@@ -100,7 +102,8 @@
 							<a class="btn-link" href="/index"><i class="icon-e-19"></i>Tiếp tục mua sắm</a>
 						</div>
 						<div class="col-right">
-							<a class="btn-link" href="#"><i class="icon-h-02"></i>Xóa hết</a>
+							<button id="deleteAll" type="button" data-bs-toggle="modal" data-bs-target="#deleteAllModal"
+							class="btn-link" ><i class="icon-h-02"></i>Xóa hết</button>
 							<!-- 						<a class="btn-link" href="#"><i class="icon-h-48"></i>UPDATE CART</a> -->
 						</div>
 					</div>
@@ -201,10 +204,17 @@
 	<footer th:replace="~{shopper/fragments/footer}"></footer>
 
 	<!-- modal -->
-	<div th:replace="~{shopper/fragments/modal :: addToCart}"></div>
+	<!-- <div th:replace="~{shopper/fragments/modal :: addToCart}"></div> -->
 	<div th:replace="~{shopper/fragments/modal :: quickView}"></div>
 	<div th:replace="~{shopper/fragments/modal :: subsribeGood}"></div>
+	
+	<script inline="javascript">
+		$(document).ready(function () {
+			// Delete all cart
 
+		});
+
+	</script>
 	<script src="external/jquery/jquery.min.js"></script>
 	<script src="external/bootstrap/js/bootstrap.min.js"></script>
 	<script src="external/slick/slick.min.js"></script>

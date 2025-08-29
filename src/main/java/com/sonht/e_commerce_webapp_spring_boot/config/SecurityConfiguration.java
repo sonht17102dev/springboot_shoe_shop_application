@@ -86,7 +86,7 @@ public class SecurityConfiguration {
                         configurer
                                 .requestMatchers("/assets/**").permitAll()
                                 .requestMatchers("/register").permitAll()
-                                .requestMatchers("/add-to-cart/**", "/cart", "/my-account").authenticated()
+                                .requestMatchers("/my-account").authenticated()
                                 .requestMatchers("/user/**").hasRole("CUSTOMER")
                                 .anyRequest().authenticated()
                 )

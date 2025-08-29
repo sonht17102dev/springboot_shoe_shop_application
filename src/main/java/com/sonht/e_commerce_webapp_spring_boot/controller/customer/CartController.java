@@ -3,6 +3,7 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
@@ -15,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CartController {
@@ -36,18 +39,21 @@ public class CartController {
         return "Thêm sản phẩm thành công"; // Redirect to the cart page
     }
 
-    @GetMapping("/user/cart")
+    @GetMapping("/cart")
     public String showCart(Model model, HttpServletRequest request) {
         // Get the current user's from session
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         CartItemRequest cartItemRequest=  (CartItemRequest) session.getAttribute("cartItemRequest");
         // System.out.println(cartItemRequest);
-        if(username == null || cartItemRequest == null) {
+        if(username == null && cartItemRequest == null) {
             return "redirect:/user/login"; // Redirect to login if not authenticated
         }
-        cartService.handleAddProductToCart(cartItemRequest, username);
+        if (cartItemRequest != null) {
 
+            cartService.handleAddProductToCart(cartItemRequest, username);
+            session.removeAttribute("cartItemRequest");
+        }
         // Fetch the user and their cart items
         User user = userService.findByEmail(username);
         model.addAttribute("cartItems", user.getCartItems());
@@ -55,5 +61,17 @@ public class CartController {
         return "shopper/cart"; // Return the cart view
     }
 
+    @GetMapping("/remove-cart/{cartItemId}")
+    public String removeCart(@PathVariable Long cartItemId) {
+        cartService.removeCartItem(cartItemId);
+
+        return "redirect:/cart"; // Redirect to the cart page
+    }
+    @GetMapping("/remove-all")
+    public String removeAllCartItems() {
+        cartService.removeAllCartItems();
+        return "redirect:/cart"; // Redirect to the cart page
+    }
+    
 
 }

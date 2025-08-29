@@ -49,7 +49,7 @@
 							<h3 class="tt-collapse-title">TÌM THEO</h3>
 							<div class="tt-collapse-content">
 								<ul class="tt-filter-list" id="list-filter">
-									
+
 								</ul>
 								<a href="#" id="remove-all-filter" class="btn-link-02">Loại bỏ tất cả lọc</a>
 							</div>
@@ -175,6 +175,8 @@
 								<h5 th:if="${#lists.isEmpty(products)}">Hiện không có sản phẩm</h5>
 								<div th:fragment="product-listing-item" class="col-6 col-md-4 tt-col-item"
 									th:each="product : ${products}">
+									<!-- modal -->
+									<div th:replace="~{shopper/fragments/modal :: addToCart}"></div>
 									<div class="tt-product thumbprod-center">
 										<div class="tt-image-box">
 											<a href="#" class="tt-btn-quickview d-none" data-toggle="modal"
@@ -187,11 +189,13 @@
 											<input class="productBoxId" type="hidden" th:value="${product.id}">
 
 											<a th:href="@{/product/} + ${product.id}">
-												<span class="tt-img"><img th:src="'/assets/images/'+${product.primaryImage()}"
+												<span class="tt-img"><img
+														th:src="'/assets/images/'+${product.primaryImage()}"
 														alt=""></span>
 												<span class="tt-img-roll-over"
 													th:each="image,iter : ${product.otherImages()}">
-													<img th:if="${iter.index==0}" th:src="'/assets/images/'+${image}" alt="">
+													<img th:if="${iter.index==0}" th:src="'/assets/images/'+${image}"
+														alt="">
 												</span>
 											</a>
 										</div>
@@ -217,9 +221,8 @@
 											</div>
 											<div class="tt-product-inside-hover">
 												<div class="tt-row-btn">
-													<a href="#" class="tt-btn-addtocart thumbprod-button-bg"
-														data-toggle="modal" data-target="#modalAddToCartProduct">ADD TO
-														CART</a>
+													<a th:href="'/product/'+${product.id}"
+														class="tt-btn-addtocart thumbprod-button-bg">Xem chi tiết</a>
 												</div>
 												<div class="tt-row-btn">
 													<a href="#" class="tt-btn-quickview" data-tooltip="Xem Trước"
@@ -247,9 +250,11 @@
 
 		<!-- footer -->
 		<footer th:replace="~{shopper/fragments/footer}"></footer>
-
-		<!-- modal -->
-		<div th:replace="~{shopper/fragments/modal :: addToCart}"></div>
+		<script th:inline="javascript">
+			function handleModal(id) {
+				console.log(id)
+			}
+		</script>
 		<!-- <div th:replace="shopper/fragments/modal :: quickView"></div> -->
 		<div th:replace="~{shopper/fragments/modal :: videoProduct}"></div>
 		<div th:replace="~{shopper/fragments/modal :: subsribeGood}"></div>
