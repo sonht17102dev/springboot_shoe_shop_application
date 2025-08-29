@@ -8,26 +8,50 @@
 </head>
 
 <body>
+	<!-- begin:Modal delete one-->
+	<div class="modal fade" th:id="'deleteItemCartModal'+${cartItem.id}" th:fragment="deleteItemCart" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					
 
-	<!-- begin:Modal delete-->
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center" 
+				th:text="'Bạn có chắc chắn muốn xóa sản phẩm ' + ${product.name} +  ' khỏi giỏ hàng?'">
+					
+					
+				<!-- Đưa user name admin vào đây-->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bỏ
+						qua</button>
+					<button id="deleteCartItemButton" 
+					th:data-cart-item-id = "${cartItem.id}" type="submit" class="btn btn-danger">Xoá</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- begin:Modal delete All-->
 	<div class="modal fade" id="deleteAllModal" th:fragment="deleteAllCart" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title" id="exampleModalLabel">
-						Bạn có chắc chắn muốn xoá tất cả sản phẩm này từ giỏ hàng?
-					</h1>
+					
 
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<!-- <div class="modal-body text-center" th:text="'Người dùng : '+${username}"> -->
+				<div class="modal-body text-center">
+					Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?
+					
 				<!-- Đưa user name admin vào đây-->
-				<!-- </div> -->
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bỏ
 						qua</button>
-					<button id="deleteAll" type="submit" class="btn btn-danger">Xoá</button>
+					<button id="deleteAllCartButton" type="submit" class="btn btn-danger">Xoá</button>
 				</div>
 			</div>
 		</div>

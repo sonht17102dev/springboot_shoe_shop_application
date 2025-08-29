@@ -57,20 +57,24 @@ public class CartController {
         // Fetch the user and their cart items
         User user = userService.findByEmail(username);
         model.addAttribute("cartItems", user.getCartItems());
+        model.addAttribute("customer", user);
 
         return "shopper/cart"; // Return the cart view
     }
 
-    @GetMapping("/remove-cart/{cartItemId}")
+    @PostMapping("/remove-cart/{cartItemId}")
+    @ResponseBody
     public String removeCart(@PathVariable Long cartItemId) {
         cartService.removeCartItem(cartItemId);
 
-        return "redirect:/cart"; // Redirect to the cart page
+        return "Xóa sản phẩm thành công"; 
     }
-    @GetMapping("/remove-all")
+    @PostMapping("/remove-all")
+    @ResponseBody
     public String removeAllCartItems() {
         cartService.removeAllCartItems();
-        return "redirect:/cart"; // Redirect to the cart page
+
+        return "Xóa sản phẩm tất cả sản phẩm thành công";
     }
     
 

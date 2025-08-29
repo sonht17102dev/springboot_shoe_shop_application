@@ -16,8 +16,7 @@
 		href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900'
 		rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/toastr.min.css">
-	<script src="https://code.jquery.com/jquery-3.7.1.js"
-		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	
 </head>
 
 <body>
@@ -25,6 +24,7 @@
 	<!-- header -->
 	<header th:replace="~{shopper/fragments/header}"></header>
 	<div th:replace="~{shopper/fragments/modal :: deleteAllCart}"></div>
+	
 	<div class="tt-breadcrumb">
 		<div class="container">
 			<ul>
@@ -41,6 +41,7 @@
 					<table>
 						<tbody>
 							<tr th:each="cartItem : ${cartItems}" th:with="product = ${cartItem.productSize.product}">
+								<div th:replace="~{shopper/fragments/modal :: deleteItemCart}"></div>
 							<td>
 								<div class="tt-product-img">
 									<img  th:data-src="'/assets/images/'+${product.primaryImage()}" alt="">
@@ -92,7 +93,8 @@
 								</div> -->
 							</td>
 							<td>
-								<a th:href="@{/remove-cart/} + ${cartItem.id}" class="tt-btn-close"></a>
+								<button  type="button" data-bs-toggle="modal" 
+								th:data-bs-target="'#deleteItemCartModal'+${cartItem.id}" class="tt-btn-close"></button>
 							</td>
 						</tr>
 						</tbody>
@@ -115,35 +117,40 @@
 								<h4 class="tt-title">
 									Thông tin giao hàng
 								</h4>
-								<!-- 							<p>Enter your destination to get a shipping estimate.</p> -->
-								<!-- <form id="checkout_info" method="post" action="/checkout" class="form-default">
+								<form id="checkout_info" method="post" action="/checkout" class="form-default">
 								<div class="form-group">
 									<label for="name">Người nhận hàng <sup>*</sup></label>
-									<input minlength="2" type="text" th:value="${customer.name}" id="name" name="name" placeholder="Nhập họ tên" class="form-control" required>
+									<input minlength="2" type="text" th:value="${customer.name}" 
+									id="name" name="name" placeholder="Nhập họ tên" class="form-control" required>
 									<div class="help-block"></div>
 								</div>
 								<div class="form-group">
 									<label for="phone">Điện thoại <sup>*</sup></label>
-									<input minlength="8" pattern="[0-9]*" th:value="${customer.phone}"  oninvalid="this.setCustomValidity('Số điện thoại không hợp lệ')" oninput="this.setCustomValidity('')" type="tel" name="phone" class="form-control" id="phone" placeholder="Nhập điện thoại" required>
+								
+									<input minlength="8" pattern="[0-9]*" th:value="${customer.phone}" 
+									 oninvalid="this.setCustomValidity('Số điện thoại không hợp lệ')" 
+									 oninput="this.setCustomValidity('')" type="tel" name="phone"
+									  class="form-control" id="phone" placeholder="Nhập điện thoại" required>
 									<div class="help-block"></div>
 								</div>
 								<div class="form-group">
 									<label minlength="2" for="address">Địa chỉ <sup>*</sup></label>
-									<textarea minlength="5" class="form-control" th:text="${customer.address}" id="address" name="address" rows="3" placeholder="Nhập địa chỉ giao hàng" required></textarea>
+									<textarea minlength="5" class="form-control" th:text="${customer.address}" 
+									id="address" name="address" rows="3" placeholder="Nhập địa chỉ giao hàng" required></textarea>
 									<div class="help-block"></div>
 								</div>
 								<div>
 									<input type="hidden" id="paymentMethod" name="paymentMethod">
-								</div> -->
+								</div>
 
-								<!-- 								<a href="#" class="btn btn-border">CALCULATE SHIPPING</a> -->
-								<!-- 								<p> -->
-								<!-- 									There is one shipping rate available for Alabama, Tanzania, United Republic Of. -->
-								<!-- 								</p> -->
-								<!-- <ul class="tt-list-dot list-dot-large">
+								<a href="#" class="btn btn-border">CALCULATE SHIPPING</a>
+								<p>
+									There is one shipping rate available for Alabama, Tanzania, United Republic Of.
+								</p>
+								<ul class="tt-list-dot list-dot-large">
 									<li><span class="check_info">Kiểm tra lại thông tin của bạn trước khi đặt mua</span></li>
 								</ul>
-							</form> -->
+							</form>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-4">
@@ -209,9 +216,44 @@
 	<div th:replace="~{shopper/fragments/modal :: subsribeGood}"></div>
 	
 	<script inline="javascript">
+		
 		$(document).ready(function () {
 			// Delete all cart
-
+			$('#deleteAllCartButton').click(function (e) {
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					url: "/remove-all",
+					success: function () {
+						
+						setTimeout(function () {
+							toastr.success('Đã xóa tất cả sản phẩm trong giỏ hàng');
+						}, 500); // Chờ 1 giây trước khi tải lại trang
+						window.location.href = "/cart";
+					},
+					error: function () {
+						toastr.error('Xóa tất cả sản phẩm thất bại. Vui lòng thử lại.');
+					}
+				});
+			});
+			// Delete item cart by id
+			$('#deleteCartItemButton').click(function (e) {
+				e.preventDefault();
+				var cartItemId = $(this).data('cart-item-id');
+				$.ajax({
+					type: "POST",
+					url: "/remove-cart/" + cartItemId,
+					success: function () {
+						setTimeout(function () {
+							toastr.success('Đã xóa sản phẩm khỏi giỏ hàng');
+						}, 500); // Chờ 1 giây trước khi tải lại trang
+						window.location.href = "/cart";
+					},
+					error: function () {
+						toastr.error('Xóa sản phẩm thất bại. Vui lòng thử lại.');
+					}
+				});
+			});
 		});
 
 	</script>
