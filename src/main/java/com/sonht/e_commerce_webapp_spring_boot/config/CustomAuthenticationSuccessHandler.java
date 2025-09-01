@@ -18,30 +18,29 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication)
+            HttpServletResponse response,
+            Authentication authentication)
             throws IOException, ServletException {
 
-          // Lấy thông tin user vừa login
-          String username = authentication.getName();
-          System.out.println("Login success for user: " + username);
-  
-          // Lấy session hiện tại
-          HttpSession session = request.getSession();
-          session.setAttribute("username", username);
-  
-          String redirectUrl = "/index"; // default
-          if (session != null) {
-              // Kiểm tra xem có productId được lưu trước khi login không
-              CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
-              if (cartItemRequest != null) {
-  
-                  // Redirect sang /cart kèm productId
-                  redirectUrl = "/user/cart";
-              }
-          }
-  
-          response.sendRedirect(redirectUrl);
+        // Lấy thông tin user vừa login
+        String username = authentication.getName();
+        System.out.println("Login success for user: " + username);
+
+        // Lấy session hiện tại
+        HttpSession session = request.getSession();
+        session.setAttribute("username", username);
+
+        String redirectUrl = "/index"; // default
+        if (session != null) {
+            // Kiểm tra xem có productId được lưu trước khi login không
+            CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
+            if (cartItemRequest != null) {
+
+                // Redirect sang /cart kèm productId
+                redirectUrl = "/cart";
+            }
+        }
+
+        response.sendRedirect(redirectUrl);
     }
 }
-

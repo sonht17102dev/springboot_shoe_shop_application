@@ -3,6 +3,7 @@ package com.sonht.e_commerce_webapp_spring_boot.service.impl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -65,5 +66,15 @@ public class UserServiceImpl implements UserService{
 
         userRepository.save(user);
     
+    }
+
+    @Override
+    public Optional<User> findByName(String consignee) {
+        return userRepository.findByName(consignee);
+    }
+
+    @Override
+    public Optional<User> findById(Long customerId) {
+        return userRepository.findById(customerId);
     }
 }

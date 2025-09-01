@@ -41,7 +41,7 @@ public class Product {
     private String description;
 
     @Column(name = "price")
-    private double price;
+    private Long price;
 
     @Column(name = "status")
     private String status;
@@ -98,7 +98,7 @@ public class Product {
         return otherImages; // Trả về danh sách các ảnh không phải là chính
     }
     public String formatPrice() {
-        return String.format("%,.0f", price) + " đ"; // Định dạng giá với dấu phẩy và thêm đơn vị tiền tệ
+        return String.format("%,d", this.price) + " đ";
     }
 
     public String name2() {

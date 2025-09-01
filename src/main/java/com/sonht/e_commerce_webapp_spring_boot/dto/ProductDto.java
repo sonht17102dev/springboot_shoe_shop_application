@@ -32,7 +32,7 @@ public class ProductDto {
 
     @NotNull(message = "Giá không được để trống")
     @DecimalMin(value = "0", inclusive = false, message = "Giá phải lớn hơn 0")
-    private double price;
+    private Long price;
 
     private Boolean isDelete;
     @NotNull(message = "Vui lòng chọn trạng thái")

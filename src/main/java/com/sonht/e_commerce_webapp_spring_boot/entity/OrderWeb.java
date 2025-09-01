@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -65,7 +66,7 @@ public class OrderWeb {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderWebDetail> orderWebDetails = new ArrayList<>();
 
     @ManyToOne
@@ -74,6 +75,10 @@ public class OrderWeb {
 
     public String formatPrice(BigDecimal price) {
         return String.format("%,.0f đ", price);
+    }
+
+    public String getFormatId() {
+        return "TS" + String.format("%02d", this.id);
     }
 }
 

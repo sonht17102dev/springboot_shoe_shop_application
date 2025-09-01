@@ -4,17 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
+import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
 import com.sonht.e_commerce_webapp_spring_boot.repository.OrderRepository;
+import com.sonht.e_commerce_webapp_spring_boot.service.OrderDetailService;
 import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailService orderWebDetailService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderDetailService orderWebDetailService) {
         this.orderRepository = orderRepository;
+        this.orderWebDetailService = orderWebDetailService;
     }
 
     @Override
@@ -41,5 +46,24 @@ public class OrderServiceImpl implements OrderService {
         order.setDeliveryStatus("cancel");
         orderRepository.save(order);
     }
-    
+
+    @Override
+    public void saveOrder(OrderWeb orderWeb) {
+        orderRepository.save(orderWeb);
+    }
+
+    @Override
+    public List<OrderWebDetail> convertCartItemsToOrderDetails(List<CartItem> cartItems, Long totalAmount, OrderWeb orderWeb) {
+        return cartItems.stream().map(cartItem -> {
+            OrderWebDetail orderWebDetail = new OrderWebDetail();
+            orderWebDetail.setPrice(cartItem.getProductSize().getProduct().getPrice());
+            orderWebDetail.setQuantity(cartItem.getQuantity());
+            orderWebDetail.setProductSize(cartItem.getProductSize());
+            orderWebDetail.setTotalAmount(totalAmount);
+            orderWebDetail.setOrderWeb(orderWeb);
+            orderWebDetailService.saveOrderWebDetail(orderWebDetail);
+            return orderWebDetail;
+        }).toList();
+    }
+
 }

@@ -7,7 +7,7 @@
 	<meta name="description" content="TopShoe - 404">
 	<meta name="author" content="wokiee">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<base th:replace="shopper/fragments/common :: base">
+	<base th:replace="~{shopper/fragments/common :: base}">
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/theme.css">
 	<link rel="stylesheet" href="css/custom.css">
@@ -17,7 +17,7 @@
 <body>
 
 <!-- header -->
-<header th:replace="shopper/fragments/header"></header>
+<header th:replace="~{shopper/fragments/header}"></header>
 
 <div class="tt-breadcrumb">
 	<div class="container">
@@ -44,10 +44,10 @@
 </div>
 
 <!-- footer -->
-<footer th:replace="shopper/fragments/footer"></footer>
+<footer th:replace="~{shopper/fragments/footer}"></footer>
 
 <!-- modal -->
-<div th:replace="shopper/fragments/modal :: subsribeGood"></div>
+<div th:replace="~{shopper/fragments/modal :: subsribeGood}"></div>
 
 <script src="external/jquery/jquery.min.js"></script>
 <script src="external/bootstrap/js/bootstrap.min.js"></script>

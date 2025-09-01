@@ -118,9 +118,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Double calculateTotalPrice(List<CartItem> cartItems) {
+    public Long calculateTotalPrice(List<CartItem> cartItems) {
         return cartItems.stream()
-                .mapToDouble(item -> item.getProductSize().getProduct().getPrice() * item.getQuantity())
+                .mapToLong(item -> (long) (item.getProductSize().getProduct().getPrice() * item.getQuantity()))
                 .sum();
     }
 

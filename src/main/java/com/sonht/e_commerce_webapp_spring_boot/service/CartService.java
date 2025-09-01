@@ -13,5 +13,5 @@ public interface CartService {
 
     void removeAllCartItems();
 
-    Double calculateTotalPrice(List<CartItem> cartItems);
+    Long calculateTotalPrice(List<CartItem> cartItems);
 }

@@ -17,24 +17,24 @@
 <body>
 
 <!-- header -->
-<header th:replace="shopper/fragments/header"></header>
+<header th:replace="~{shopper/fragments/header}"></header>
 
 <div class="tt-breadcrumb">
 	<div class="container">
 		<ul>
 			<li><a href="/index">Home</a></li>
-			<li>Order detail</li>
+			<li>Chi tiết đơn hàng</li>
 		</ul>
 	</div>
 </div>
 <div id="tt-pageContent">
 	<div class="container-indent">
 		<div class="container container-fluid-custom-mobile-padding">
-<!-- 			<h1 class="tt-title-subpages noborder">ORDER DETAIL</h1> -->
+			<h1 class="tt-title-subpages noborder">ORDER DETAIL</h1>
 			<div class="tt-shopping-layout">
 				<h2 class="tt-title-border">
-					Đơn hàng #<span th:text="${orderWeb.getFormatId()}" id="order_id"></span> - <span th:text="${orderWeb.deliveryStatus}" id="delivery_status"></span>
-					<span class="ordered_date">Ngày đặt hàng: <span th:text="${orderWeb.createdAt}" class="date">18:31 20/04/2020</span></span>
+					<!-- Đơn hàng #<span th:text="${orderWeb.getFormatId()}" id="order_id"></span> - <span th:text="${orderWeb.deliveryStatus}" id="delivery_status"></span>
+					<span class="ordered_date">Ngày đặt hàng: <span th:text="${orderWeb.createdAt}" class="date">18:31 20/04/2020</span></span> -->
 				</h2>
 				<div class="tt-wrapper">
 					<h3 class="tt-title">Chi tiết</h3>
@@ -50,17 +50,17 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="item : ${orderWeb.orderWebDetails}" th:with="product=${item.productSize.Product}">
+								<!-- <tr th:each="item : ${orderWeb.orderWebDetails}" th:with="product=${item.productSize.Product}">
 									<td><a th:href="'/product/' + ${product.id}" th:text="${product.name2()}"></a></td>
 									<td th:text="${item.productSize.size}"></td>
 									<td th:text="${orderWeb.formatPrice(item.price)}"></td>
 									<td th:text="${item.quantity}"></td>
 									<td th:text="${orderWeb.formatPrice(item.totalAmount)}" class="text-right price"></td>
-								</tr>
-								<tr>
+								</tr> -->
+								<!-- <tr>
 									<td colspan="4" class="lbl_total_amount text-right">Tổng cộng</td>
 									<td th:text="${orderWeb.formatPrice(orderWeb.totalAmount)}" class="total_amount text-right"></td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
 					</div>
@@ -73,28 +73,28 @@
 							<tbody>
 								<tr>
 									<td>Người nhận hàng:</td>
-									<td th:text="${orderWeb.consignee}"></td>
+									<!-- <td th:text="${orderWeb.consignee}"></td> -->
 								</tr>
 								<tr>
 									<td>Địa chỉ:</td>
-									<td th:text="${orderWeb.deliveryAddress}"></td>
+									<!-- <td th:text="${orderWeb.deliveryAddress}"></td> -->
 								</tr>
 								<tr>
 									<td>Điện thoại:</td>
-									<td th:text="${orderWeb.consigneePhone}"></td>
+									<!-- <td th:text="${orderWeb.consigneePhone}"></td> -->
 								</tr>
 								<tr>
 									<td>Hình thức thanh toán:</td>
-									<td th:text="${orderWeb.paymentMethod}"></td>
+									<!-- <td th:text="${orderWeb.paymentMethod}"></td> -->
 								</tr>
 								<tr>
 									<td>Trạng thái thanh toán:</td>
-									<td th:text="${orderWeb.paymentStatus}" th:class="${'roboto ' + psColor}"></td>
+									<!-- <td th:text="${orderWeb.paymentStatus}" th:class="${'roboto ' + psColor}"></td> -->
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<a href="javascript:;" th:if="${btnCancel}" id="cancel_order" class="btn btn-border d-none">HỦY ĐƠN HÀNG</a>
+					<!-- <a href="javascript:;" th:if="${btnCancel}" id="cancel_order" class="btn btn-border d-none">HỦY ĐƠN HÀNG</a> -->
 				</div>
 				
 				
@@ -103,14 +103,14 @@
 					<div class="tt-table-responsive">
 						<table class="tt-table-shop-02">
 							<tbody>
-								<tr th:each="d : ${dlog}">
+								<!-- <tr th:each="d : ${dlog}">
 									<td th:text="${d.createdAt}">Người nhận hàng:</td>
 									<td th:text="${d.deliveryStatus}"></td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
 					</div>
-					<a href="javascript:;" th:if="${btnCancel}" id="cancel_order" class="btn btn-border d-none">HỦY ĐƠN HÀNG</a>
+					<!-- <a href="javascript:;" th:if="${btnCancel}" id="cancel_order" class="btn btn-border d-none">HỦY ĐƠN HÀNG</a> -->
 				</div>
 			</div>
 		</div>
@@ -118,13 +118,13 @@
 </div>
 
 <!-- footer -->
-<footer th:replace="shopper/fragments/footer"></footer>
+<footer th:replace="~{shopper/fragments/footer}"></footer>
 
 <!-- modal -->
-<div th:replace="shopper/fragments/modal :: addToCart"></div>
-<div th:replace="shopper/fragments/modal :: quickView"></div>
-<div th:replace="shopper/fragments/modal :: videoProduct"></div>
-<div th:replace="shopper/fragments/modal :: subsribeGood"></div>
+<!-- <div th:replace="shopper/fragments/modal :: addToCart"></div> -->
+<!-- <div th:replace="shopper/fragments/modal :: quickView"></div> -->
+<!-- <div th:replace="shopper/fragments/modal :: videoProduct"></div> -->
+<!-- <div th:replace="shopper/fragments/modal :: subsribeGood"></div> -->
 
 <script src="external/jquery/jquery.min.js"></script>
 <script src="external/bootstrap/js/bootstrap.min.js"></script>

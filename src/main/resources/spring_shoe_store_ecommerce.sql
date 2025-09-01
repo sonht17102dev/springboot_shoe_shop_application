@@ -17,7 +17,7 @@ CREATE TABLE order_web (
     payment_status VARCHAR(50),
     sent_mail BIT(1),
     total_amount BIGINT,
-    customer_id BIGINT
+    customer_id INT
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 DROP TABLE IF EXISTS `user`;
@@ -166,6 +166,8 @@ CREATE TABLE product_size (
     size int NOT NULL,
     quantity int NOT NULL,
     product_id BIGINT NOT NULL,
+    order_web_detail_id BIGINT, 
+    CONSTRAINT fk_orderwebdetail FOREIGN KEY (order_web_detail_id) REFERENCES order_web_detail(id),
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES product(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4; 
 
@@ -188,7 +190,7 @@ CREATE TABLE order_web_detail (
     price BIGINT,
     quantity INT,
     total_amount BIGINT,
-    order_web_id BIGINT,
+     order_web_id BIGINT,
     product_size_id BIGINT NOT NULL,
 	CONSTRAINT fk_product_size FOREIGN KEY (product_size_id) REFERENCES product_size(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  

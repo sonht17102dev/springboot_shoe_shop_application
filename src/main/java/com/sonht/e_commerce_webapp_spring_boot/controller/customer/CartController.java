@@ -59,9 +59,16 @@ public class CartController {
         model.addAttribute("cartItems", user.getCartItems());
         model.addAttribute("customer", user);
 
-        Double totalPrice = cartService.calculateTotalPrice(user.getCartItems());
+        Long totalPrice = cartService.calculateTotalPrice(user.getCartItems());
         model.addAttribute("totalAmount", totalPrice);
-        model.addAttribute("orderWebDto", new OrderWebDto());
+        OrderWebDto orderWebDto = new OrderWebDto();
+        orderWebDto.setTotalAmount(totalPrice);
+        orderWebDto.setCustomerId(user.getId());
+        orderWebDto.setConsignee(user.getName());
+        orderWebDto.setConsigneePhone(user.getPhone());
+        orderWebDto.setDeliveryAddress(user.getAddress());
+        
+        model.addAttribute("orderWebDto", orderWebDto);
         
         return "shopper/cart"; // Return the cart view
     }

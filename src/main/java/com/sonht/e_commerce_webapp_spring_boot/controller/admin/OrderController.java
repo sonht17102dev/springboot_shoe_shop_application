@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sonht.e_commerce_webapp_spring_boot.dto.Action;
 import com.sonht.e_commerce_webapp_spring_boot.dto.OrderDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
-import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
 import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("admin")

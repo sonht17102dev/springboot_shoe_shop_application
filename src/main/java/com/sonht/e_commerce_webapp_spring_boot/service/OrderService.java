@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
+import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
 
 @Service
 public interface OrderService {
@@ -16,4 +18,8 @@ public interface OrderService {
     void updateDeliveryStatus(Long orderId, String deliveryStatus);
 
     void cancelOrder(Long orderId);
+
+    void saveOrder(OrderWeb orderWeb);
+
+    List<OrderWebDetail> convertCartItemsToOrderDetails(List<CartItem> cartItems,Long totalAmount, OrderWeb orderWeb);
 } 

@@ -1,6 +1,13 @@
 package com.sonht.e_commerce_webapp_spring_boot.dto;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,26 +20,23 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderWebDto {
     
+    @NotNull
+    @NotEmpty(message = "Tên người nhận hàng không được để trống")
     private String consignee;
 
+    @NotNull
+    @NotEmpty(message = "Số điện thoại không được để trống")
     private String consigneePhone;
 
+    @NotNull
+    @NotEmpty(message = "Địa chỉ không được để trống")
     private String deliveryAddress; 
-
-    private String deliveryStatus; //trạng thái vận chuyển
 
     private String paymentMethod;
 
-    private String paymentStatus; //trạng thái thanh toán
+    private Long totalAmount;
 
-    private boolean sentMail;
+    private Long customerId; 
 
-    private Double totalAmount;
-
-    private Long customerId;
-
-    private boolean activeATM;
-
-    private boolean activeCOD;
 
 }
