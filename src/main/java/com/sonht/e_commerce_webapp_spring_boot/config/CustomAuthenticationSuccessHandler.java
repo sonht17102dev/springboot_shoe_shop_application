@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
           String redirectUrl = "/index"; // default
           if (session != null) {
               // Kiểm tra xem có productId được lưu trước khi login không
-              CartItemRequest cartItemRequest = (CartItemRequest) session.getAttribute("cartItemRequest");
+              CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
               if (cartItemRequest != null) {
   
                   // Redirect sang /cart kèm productId

@@ -5,7 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
+import com.sonht.e_commerce_webapp_spring_boot.dto.OrderWebDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.CartService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
@@ -16,7 +17,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -31,7 +31,7 @@ public class CartController {
 
     @PostMapping("/saveItem")
     @ResponseBody
-    public String saveItemToSession(HttpServletRequest request, @RequestBody CartItemRequest cartItemRequest) {
+    public String saveItemToSession(HttpServletRequest request, @RequestBody CartItemDto cartItemRequest) {
         HttpSession session = request.getSession();
 
         session.setAttribute("cartItemRequest", cartItemRequest);
@@ -44,7 +44,7 @@ public class CartController {
         // Get the current user's from session
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
-        CartItemRequest cartItemRequest=  (CartItemRequest) session.getAttribute("cartItemRequest");
+        CartItemDto cartItemRequest=  (CartItemDto) session.getAttribute("cartItemRequest");
         // System.out.println(cartItemRequest);
         if(username == null && cartItemRequest == null) {
             return "redirect:/user/login"; // Redirect to login if not authenticated
@@ -59,6 +59,10 @@ public class CartController {
         model.addAttribute("cartItems", user.getCartItems());
         model.addAttribute("customer", user);
 
+        Double totalPrice = cartService.calculateTotalPrice(user.getCartItems());
+        model.addAttribute("totalAmount", totalPrice);
+        model.addAttribute("orderWebDto", new OrderWebDto());
+        
         return "shopper/cart"; // Return the cart view
     }
 

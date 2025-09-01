@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemRequest;
+import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.entity.ProductSize;
@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void handleAddProductToCart(CartItemRequest cartItemRequest, String email) {
+    public void handleAddProductToCart(CartItemDto cartItemRequest, String email) {
 
         User user = userService.findByEmail(email);
         Product product = productService.findById(cartItemRequest.getProductId());
@@ -79,7 +79,7 @@ public class CartServiceImpl implements CartService {
 
     }
 
-    public void saveCartItem(User user, Product product, CartItemRequest cartItemRequest, List<CartItem> cartItems) {
+    public void saveCartItem(User user, Product product, CartItemDto cartItemRequest, List<CartItem> cartItems) {
 
         CartItem cartItem = new CartItem();
         cartItem.setUser(user);
@@ -115,6 +115,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeAllCartItems() {
         cartRepository.deleteAll();
+    }
+
+    @Override
+    public Double calculateTotalPrice(List<CartItem> cartItems) {
+        return cartItems.stream()
+                .mapToDouble(item -> item.getProductSize().getProduct().getPrice() * item.getQuantity())
+                .sum();
     }
 
 }
