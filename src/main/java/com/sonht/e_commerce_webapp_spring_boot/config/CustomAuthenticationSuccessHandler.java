@@ -10,12 +10,19 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
+import com.sonht.e_commerce_webapp_spring_boot.entity.User;
+import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
 import java.io.IOException;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private final UserService userService;
+
+    public CustomAuthenticationSuccessHandler(UserService userService) {
+        this.userService = userService;
+    }
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response,
@@ -29,6 +36,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // Lấy session hiện tại
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
+        User user = userService.findByEmail(username);
+        session.setAttribute("user", user);
 
         String redirectUrl = "/index"; // default
         if (session != null) {

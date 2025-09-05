@@ -57,6 +57,34 @@
 		</div>
 	</div>
 	<!-- end::Model delete-->
+
+	<!-- begin:Modal cancle-->
+	<div class="modal fade" id="cancelModal" th:fragment="cancelModalFragment" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					
+
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center" 
+				th:text="'Bạn có chắc chắn muốn huỷ đơn hàng #' + ${orderWeb.getFormatId()} + ' ?'">
+					
+					
+				<!-- Đưa user name admin vào đây-->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bỏ
+						qua</button>
+					<button id="confirmCancel" type="button" class="btn btn-danger">Huỷ</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- end:Modal cancle-->
+	
 	<!-- Index Modal -->
 	<!-- modal (AddToCartProduct) -->
 	<div class="modal fade" th:fragment="addToCart" th:id="'modalAddToCartProduct'+${product.id}" tabindex="-1"

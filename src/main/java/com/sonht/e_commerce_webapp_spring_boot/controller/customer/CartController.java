@@ -49,11 +49,14 @@ public class CartController {
         if(username == null && cartItemRequest == null) {
             return "redirect:/user/login"; // Redirect to login if not authenticated
         }
+        if(username != null && userService.findByEmail(username).getCartItems().isEmpty() && cartItemRequest == null) {
+            return "shopper/empty-cart"; // Return the cart view
+        }
         if (cartItemRequest != null) {
 
             cartService.handleAddProductToCart(cartItemRequest, username);
             session.removeAttribute("cartItemRequest");
-        }
+        } 
         // Fetch the user and their cart items
         User user = userService.findByEmail(username);
         model.addAttribute("cartItems", user.getCartItems());

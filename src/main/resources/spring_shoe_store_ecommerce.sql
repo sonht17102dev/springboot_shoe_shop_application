@@ -191,7 +191,7 @@ CREATE TABLE order_web_detail (
     quantity INT,
     total_amount BIGINT,
      order_web_id BIGINT,
-    product_size_id BIGINT NOT NULL,
+    product_size_id BIGINT,
 	CONSTRAINT fk_product_size FOREIGN KEY (product_size_id) REFERENCES product_size(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 

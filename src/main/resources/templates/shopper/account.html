@@ -31,7 +31,7 @@
 		<div class="container container-fluid-custom-mobile-padding">
 			<h1 class="tt-title-subpages noborder padding-0">Tài khoản của tôi</h1>
 			<div class="tt-shopping-layout">
-<!-- 				<h2 class="tt-title-border">Tài khoản của tôi</h2> -->
+				<h2 class="tt-title-border">Tài khoản của tôi</h2>
 				<div class="tt-wrapper">
 					<h3 class="tt-title">Quản lý đơn hàng</h3>
 					<div class="tt-table-responsive">
@@ -47,7 +47,7 @@
 							</thead>
 							<tbody>
 								<tr th:each="orderWeb : ${orderWebs}">
-									<td><a th:href="${'/my-account/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
+									<td><a th:href="${'/user/my-account/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
 									<td th:text="${orderWeb.createdAt}"></td>
 									<td th:text="${orderWeb.paymentStatus}">Processing</td>
 									<td th:text="${orderWeb.deliveryStatus}">Processing</td>
@@ -81,7 +81,7 @@
 							</tbody>
 						</table>
 					</div>
-					<a href="/my-account/edit" class="btn btn-border">Sửa thông tin</a>
+					<a href="/user/my-account/edit" class="btn btn-border">Sửa thông tin</a>
 				</div>
 			</div>
 		</div>
@@ -89,13 +89,13 @@
 </div>
 
 <!-- footer -->
-<footer th:replace="shopper/fragments/footer"></footer>
+<footer th:replace="~{shopper/fragments/footer}"></footer>
 
 <!-- modal -->
-<div th:replace="shopper/fragments/modal :: addToCart"></div>
+<!-- <div th:replace="shopper/fragments/modal :: addToCart"></div>
 <div th:replace="shopper/fragments/modal :: quickView"></div>
 <div th:replace="shopper/fragments/modal :: videoProduct"></div>
-<div th:replace="shopper/fragments/modal :: subsribeGood"></div>
+<div th:replace="shopper/fragments/modal :: subsribeGood"></div> -->
 
 <script src="external/jquery/jquery.min.js"></script>
 <script src="external/bootstrap/js/bootstrap.min.js"></script>

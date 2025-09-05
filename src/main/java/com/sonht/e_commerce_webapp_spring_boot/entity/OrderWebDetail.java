@@ -1,5 +1,6 @@
 package com.sonht.e_commerce_webapp_spring_boot.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,5 +52,8 @@ public class OrderWebDetail {
     @JoinColumn(name = "product_size_id", nullable = false)
     private ProductSize productSize;
 
+    public String formatPrice(BigDecimal price) {
+        return String.format("%,.0f đ", price);
+    }
 }
 

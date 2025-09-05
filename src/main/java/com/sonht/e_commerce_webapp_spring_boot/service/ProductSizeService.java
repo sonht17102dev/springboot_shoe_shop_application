@@ -12,4 +12,6 @@ public interface ProductSizeService {
 
     Optional<ProductSize> findProductSizeByProductAndSize(Product product, Integer size);
 
+    Optional<ProductSize> findById(Long id);
+
 }

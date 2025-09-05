@@ -978,7 +978,7 @@
 						<div class="tt-cart tt-dropdown-obj" data-tooltip="Giỏ hàng" data-tposition="bottom">
 							<button class="tt-dropdown-toggle">
 								<i class="icon-f-39"></i>
-								<span id="cartTotalQuantity" class="tt-badge-cart">0</span>
+								<!-- <span id="cartTotalQuantity" class="tt-badge-cart" th:text="${session.user != null ? session.user.cartItems.size() : '0'}">0</span> -->
 							</button>
 							<div id="cart-header-layout" class="tt-dropdown-menu">
 								<div class="tt-mobile-add">

@@ -1,6 +1,7 @@
 package com.sonht.e_commerce_webapp_spring_boot.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,7 @@ public interface OrderService {
 
     void saveOrder(OrderWeb orderWeb);
 
-    List<OrderWebDetail> convertCartItemsToOrderDetails(List<CartItem> cartItems,Long totalAmount, OrderWeb orderWeb);
+    List<OrderWebDetail> convertCartItemsToOrderDetails(List<CartItem> cartItems, OrderWeb orderWeb);
+
+    Optional<OrderWeb> findById(Long orderWebId);
 } 
