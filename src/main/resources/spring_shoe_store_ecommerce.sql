@@ -149,14 +149,14 @@ CREATE TABLE product_color (
     CONSTRAINT fk_product_color_product FOREIGN KEY (product_id) REFERENCES product(id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
--- DROP TABLE IF EXISTS `user_wishlist`;
--- CREATE TABLE user_wishlist (
---     id BIGINT PRIMARY KEY AUTO_INCREMENT,
---     created_at DATETIME(6),
---     updated_at DATETIME(6),
---     product_id BIGINT,
---     customer_id BIGINT
--- )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
+DROP TABLE IF EXISTS `user_wishlist`;
+CREATE TABLE user_wishlist (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    created_at DATETIME(6),
+    updated_at DATETIME(6),
+    product_id BIGINT,
+    customer_id BIGINT
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;  
 
 DROP TABLE IF EXISTS `product_size`;
 CREATE TABLE product_size (

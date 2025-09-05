@@ -14,4 +14,6 @@ public interface CartService {
     void removeAllCartItems();
 
     Long calculateTotalPrice(List<CartItem> cartItems);
+
+    void changeQuantity(Long cartItem, String change);
 }

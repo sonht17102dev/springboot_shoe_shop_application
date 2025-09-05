@@ -75,6 +75,10 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductColor> productColors = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserWishlist> wishlists = new ArrayList<>();
+
+
     public String primaryImage() {
         if (productImages != null && !productImages.isEmpty()) {
             for (ProductImage image : productImages) {

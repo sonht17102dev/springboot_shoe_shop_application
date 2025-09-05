@@ -76,4 +76,7 @@ public class User {
     // Một Customer có nhiều CartItem
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserWishlist> wishlists;
 }

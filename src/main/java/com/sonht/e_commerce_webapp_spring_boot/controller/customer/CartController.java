@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -89,6 +91,12 @@ public class CartController {
         cartService.removeAllCartItems();
 
         return "Xóa sản phẩm tất cả sản phẩm thành công";
+    }
+    
+    @GetMapping("/change-quantity")
+    public String getMethodName(@RequestParam("id") String cartItem, @RequestParam("change") String change) {
+        cartService.changeQuantity(Long.parseLong(cartItem), change);
+        return "redirect:/cart";
     }
     
 

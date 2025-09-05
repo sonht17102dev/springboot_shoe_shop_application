@@ -124,4 +124,24 @@ public class CartServiceImpl implements CartService {
                 .sum();
     }
 
+    @Override
+    public void changeQuantity(Long cartItem, String change) {
+        
+        Optional<CartItem> cartItemOp = cartRepository.findById(cartItem);
+        if (cartItemOp.isPresent()) {
+            CartItem cartItemEntity = cartItemOp.get();
+            if (change.equals("plus")) {
+                cartItemEntity.setQuantity(cartItemEntity.getQuantity() + 1);
+            } else if (change.equals("minus")) {
+                if (cartItemEntity.getQuantity() > 1) {
+                    cartItemEntity.setQuantity(cartItemEntity.getQuantity() - 1);
+                }
+            }
+            cartItemEntity.setUpdatedAt(java.time.LocalDateTime.now());
+            cartRepository.save(cartItemEntity);
+        } else {
+            throw new RuntimeException("Cart item not found");
+        }
+    }
+
 }
