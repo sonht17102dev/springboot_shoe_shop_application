@@ -14,6 +14,67 @@
 	<link rel="stylesheet" href="css/toastr.min.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.js"
 		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<style th:inline="css">
+		@charset "UTF-8";
+   	
+.rate {
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 30px;
+    font-weight: 300;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+.buttons {
+    top: 36px;
+    position: relative
+}
+
+.rating-submit {
+    border-radius: 8px;
+    color: #fff;
+    height: auto
+}
+
+.rating-submit:hover {
+    color: #fff
+}
+	</style>
 </head>
 
 <body class="tt-page-product-single">
@@ -323,7 +384,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="container-indent wrapper-social-icon">
+		<div class="container-indent wrapper-social-icon">
 			<div class="container">
 				<ul class="tt-social-icon justify-content-center">
 					<li><a class="icon-g-64" href="http://www.facebook.com/"></a></li>
@@ -333,8 +394,8 @@
 					<li><a class="icon-g-70" href="https://instagram.com/"></a></li>
 				</ul>
 			</div>
-		</div> -->
-		<!-- <div class="container-indent">
+		</div>
+		<div class="container-indent">
 			<div class="container container-fluid-custom-mobile-padding">
 				<div class="tt-block-title text-left">
 					<h3 class="tt-title-small">Thương hiệu <span th:text="${product.brand.name}"></span></h3>
@@ -386,7 +447,55 @@
 
 				</div>
 			</div>
-		</div> -->
+		</div>
+		<div class="container-indent">
+			<div class="row">
+			<!-- <h3>${list_comments.size()} comments</h3> -->
+			<!-- <c:forEach var="comment" items="${list_comments}">
+				<div class="col-lg-12">
+					<h5>${comment.name}</h5>
+					<p>
+						<span>${comment.createdDate}</span>
+					</p>
+					<p>${comment.commentMessage}</p>
+					<p>${comment.rate} star</p>
+				</div>
+			</c:forEach> -->
+		</div>
+			<div class="row">
+			<div class="col-lg-12">
+				<h3 class="heading mb-2">Star Rating</h3>
+
+				<form method="post" class="star-rating" >
+					<input type="hidden" name="userId"> 
+					<!-- <input type="hidden"
+						name="postId" value="${param.id}"> -->
+					<div class=" d-flex  mt-2">
+						<div class=" text-center mb-5">
+							<div class="rating">
+								<input type="radio" name="rating" value="5" id="5"><label
+									for="5">☆</label> <input type="radio" name="rating" value="4"
+									id="4"><label for="4">☆</label> <input type="radio"
+									name="rating" value="3" id="3"><label for="3">☆</label>
+								<input type="radio" name="rating" value="2" id="2"><label
+									for="2">☆</label> <input type="radio" name="rating" value="1"
+									id="1"><label for="1">☆</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="message">Message</label>
+						<textarea name="comment" id="" cols="30" rows="7"
+							class="form-control" placeholder="Leave your idea about this post"></textarea>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Post Comment"
+							class="btn btn-primary py-3 px-5">
+					</div>
+				</form>
+			</div>
+		</div>
+		</div>
 	</div>
 	<script th:inline="javascript">
 		let cart = {};  // object lưu dữ liệu
@@ -446,23 +555,17 @@
 			});
 			$('#addToCart').on('click', function (event) {
 				event.preventDefault(); // Ngăn chặn hành vi mặc định của nút submit
-
-				
 				if (!sizeValue) {
 					toastr.error('Vui lòng chọn kích thước sản phẩm.');
 					return;
 				}
-
 				var quantity = 1; // Mặc định số lượng là 1, bạn có thể thay đổi nếu cần
-
 				// Tạo đối tượng dữ liệu để gửi
 				var data = {
 					productId: productId,
 					size: sizeValue,
 					quantity: quantity,
-
 				};
-
 				// Gửi yêu cầu AJAX
 				$.ajax({
 					type: 'POST',

@@ -197,7 +197,19 @@ CREATE TABLE order_web_detail (
 
 
 
-
+--
+-- Table structure for table `comment`
+--
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE comment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+	created_at DATETIME(6),
+    updated_at DATETIME(6),
+    comment_message text,
+    rate INT NOT NULL
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
 (NOW(), NOW(), 'NIKE'),  
