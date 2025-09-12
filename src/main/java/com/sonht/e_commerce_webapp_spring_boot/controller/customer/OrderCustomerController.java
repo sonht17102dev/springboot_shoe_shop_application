@@ -7,12 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.OrderWebDto;
-import com.sonht.e_commerce_webapp_spring_boot.entity.CartItem;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
@@ -38,6 +35,9 @@ public class OrderCustomerController {
         if (result.hasErrors()) {
             model.addAttribute("orderWebDto", orderWebDto);
             return "shopper/cart";
+        }
+        if(orderWebDto.getPaymentMethod().equals("ATM") ) {
+            return "shopper/vnpay-demo";
         }
         // Tạo mới orderWeb từ orderWebDto
         OrderWeb orderWeb = new OrderWeb();

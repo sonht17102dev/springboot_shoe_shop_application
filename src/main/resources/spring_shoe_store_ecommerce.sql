@@ -278,7 +278,7 @@ INSERT INTO order_web (created_at, updated_at, consignee, consignee_phone, deliv
 VALUES 
 (NOW(), NOW(), 'Nguyen Van A', '0912345678', '123 Le Loi, HCMC', 'successful', 'COD', 'Đã thanh toán', 0, 1500000, 1),
 (NOW(), NOW(), 'Tran Thi B', '0987654321', '456 Tran Hung Dao, HN', 'successful', 'ATM', 'Đã thanh toán', 1, 2200000, 2),
-(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery2', 'ATM', 'Chưa thanh toán', 1, 1000000, 1),
+(NOW(), NOW(), 'Le Van C', '0909009009', '789 Hai Ba Trung, HCMC', 'delivery2', 'COD', 'Chưa thanh toán', 1, 1000000, 1),
 (NOW(), NOW(), 'Pham Thi D', '0922334455', '321 Nguyen Trai, HN', 'cancel', 'COD', 'Đã hủy bỏ', 0, 500000, 3),
 (NOW(), NOW(), 'Do Van E', '0933221122', '147 Le Thanh Ton, HCMC', 'wait', 'COD', 'Chưa thanh toán', 0, 1750000, 2),
 (NOW(), NOW(), 'Truong Van F', '0933221444', '79 Au Co, HCMC', 'unprocessed', 'ATM', 'Chưa thanh toán', 0, 1750000, 1);
@@ -329,4 +329,16 @@ VALUES
 (NOW(), NOW(), 350000, 3, 1050000, 1,1),
 (NOW(), NOW(), 350000, 1, 350000, 6,4);
 
- 
+ INSERT INTO `comment` (user_id, product_id, created_at, updated_at, comment_message, rate)
+VALUES
+(1, 1, NOW(), NOW(), 'Sản phẩm rất tốt, chất lượng vượt mong đợi!', 5),
+(2, 1, NOW(), NOW(), 'Hàng giao nhanh, đóng gói cẩn thận.', 4),
+(3, 2, NOW(), NOW(), 'Chất lượng tạm ổn, giá hơi cao.', 3),
+(1, 3, NOW(), NOW(), 'Không hài lòng lắm, sản phẩm khác mô tả.', 2),
+(2, 4, NOW(), NOW(), 'Sẽ ủng hộ thêm lần nữa, shop uy tín.', 5),
+(3, 5, NOW(), NOW(), 'Dịch vụ hỗ trợ khách hàng tốt, sản phẩm ok.', 4),
+(1, 2, NOW(), NOW(), 'Cần cải thiện về mẫu mã.', 3),
+(2, 3, NOW(), NOW(), 'Sản phẩm bị lỗi nhỏ nhưng shop hỗ trợ đổi trả nhanh.', 4),
+(3, 4, NOW(), NOW(), 'Khá ổn, đúng như quảng cáo.', 4),
+(1, 5, NOW(), NOW(), 'Sản phẩm tuyệt vời, giá hợp lý.', 5);
+

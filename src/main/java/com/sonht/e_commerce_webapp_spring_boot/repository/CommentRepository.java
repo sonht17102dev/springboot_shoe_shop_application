@@ -8,5 +8,5 @@ import com.sonht.e_commerce_webapp_spring_boot.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     
-    List<Comment> findTopByProductIdOrderByCreatedAtDesc(Long productId);
+    List<Comment> findByProductIdOrderByCreatedAtDesc(Long productId);
 }

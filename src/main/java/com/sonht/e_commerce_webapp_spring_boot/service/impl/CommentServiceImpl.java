@@ -16,8 +16,8 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository = commentRepository;
     }
     @Override
-    public List<Comment> findByLastCreatedAt(Long productId) {
-        return commentRepository.findTopByProductIdOrderByCreatedAtDesc(productId);
+    public List<Comment> findByProductIdOrderByCreatedAtDesc(Long productId) {
+        return commentRepository.findByProductIdOrderByCreatedAtDesc(productId);
     }
     @Override
     public void saveComment(Comment comment) {

@@ -113,7 +113,7 @@ public class ProductClientController {
             model.addAttribute("isSignedIn", false);
             return "shopper/product";
         }
-        List<Comment> comments = commentService.findByLastCreatedAt(id);
+        List<Comment> comments = commentService.findByProductIdOrderByCreatedAtDesc(id);
         // Thêm dữ liệu cho form bình luận
         CommentDto commentDto = new CommentDto();
         commentDto.setProductId(id);
@@ -145,7 +145,7 @@ public class ProductClientController {
                 model.addAttribute("isSignedIn", false);
                 return "shopper/product";
             }
-            List<Comment> comments = commentService.findByLastCreatedAt(commentDto.getProductId());
+            List<Comment> comments = commentService.findByProductIdOrderByCreatedAtDesc(commentDto.getProductId());
 
             model.addAttribute("username", username);
             model.addAttribute("isSignedIn", true);
