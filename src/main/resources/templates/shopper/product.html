@@ -16,64 +16,64 @@
 		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	<style th:inline="css">
 		@charset "UTF-8";
-   	
-.rate {
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px
-}
 
-.rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center
-}
+		.rate {
+			border-bottom-right-radius: 12px;
+			border-bottom-left-radius: 12px
+		}
 
-.rating>input {
-    display: none
-}
+		.rating {
+			display: flex;
+			flex-direction: row-reverse;
+			justify-content: center
+		}
 
-.rating>label {
-    position: relative;
-    width: 1em;
-    font-size: 30px;
-    font-weight: 300;
-    color: #FFD600;
-    cursor: pointer
-}
+		.rating>input {
+			display: none
+		}
 
-.rating>label::before {
-    content: "\2605";
-    position: absolute;
-    opacity: 0
-}
+		.rating>label {
+			position: relative;
+			width: 1em;
+			font-size: 30px;
+			font-weight: 300;
+			color: #FFD600;
+			cursor: pointer
+		}
 
-.rating>label:hover:before,
-.rating>label:hover~label:before {
-    opacity: 1 !important
-}
+		.rating>label::before {
+			content: "\2605";
+			position: absolute;
+			opacity: 0
+		}
 
-.rating>input:checked~label:before {
-    opacity: 1
-}
+		.rating>label:hover:before,
+		.rating>label:hover~label:before {
+			opacity: 1 !important
+		}
 
-.rating:hover>input:checked~label:before {
-    opacity: 0.4
-}
+		.rating>input:checked~label:before {
+			opacity: 1
+		}
 
-.buttons {
-    top: 36px;
-    position: relative
-}
+		.rating:hover>input:checked~label:before {
+			opacity: 0.4
+		}
 
-.rating-submit {
-    border-radius: 8px;
-    color: #fff;
-    height: auto
-}
+		.buttons {
+			top: 36px;
+			position: relative
+		}
 
-.rating-submit:hover {
-    color: #fff
-}
+		.rating-submit {
+			border-radius: 8px;
+			color: #fff;
+			height: auto
+		}
+
+		.rating-submit:hover {
+			color: #fff
+		}
 	</style>
 </head>
 
@@ -102,6 +102,7 @@
 
 				</div>
 			</div>
+
 			<!-- /mobile product slider  -->
 			<div class="container container-fluid-mobile">
 				<div class="row airSticky_stop-block">
@@ -245,6 +246,7 @@
 													</tr>
 												</tbody>
 											</table>
+
 										</div>
 									</div>
 									<div class="tt-item">
@@ -382,6 +384,65 @@
 
 					</div>
 				</div>
+				<div class="container-indent">
+					<div class="row">
+						<h3 th:if="${comments}" th:text="${comments.size()} + ' comments'"></h3>
+
+						<div th:if="${comments}" th:each="comment : ${comments}" class="col-lg-12">
+							<h5 th:text="${comment.user.name}"></h5>
+							<p>
+								<span th:text="${comment.formatDate()}"></span>
+							</p>
+							<p th:text="${comment.commentMessage}"></p>
+							<p th:text="${comment.rate} + ' star'"></p>
+						</div>
+
+
+					</div>
+					<div class="row" th:if="${isSignedIn}">
+						<div class="col-lg-12">
+							<h3 class="heading mb-2">Star Rating</h3>
+							<form method="post" class="star-rating" th:action="@{/saveComment}"
+								th:object="${commentDto}">
+								<input type="hidden" th:field="*{username}">
+								<input type="hidden" th:field="*{productId}">
+								<div class=" d-flex  mt-2">
+									<div class=" text-center mb-5">
+										<div class="rating">
+											<input type="radio" th:field="*{rate}" value="5" id="5">
+											<label for="5">☆</label>
+											<input type="radio" th:field="*{rate}" value="4" id="4">
+											<label for="4">☆</label>
+											<input type="radio" th:field="*{rate}" value="3" id="3">
+											<label for="3">☆</label>
+											<input type="radio" th:field="*{rate}" value="2" id="2">
+											<label for="2">☆</label>
+											<input type="radio" th:field="*{rate}" value="1" id="1">
+											<label for="1">☆</label>
+										</div>
+										<p th:if="${#fields.hasErrors('rate')}" th:errors="*{rate}"
+												class="text-danger"></p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="message">Message</label>
+									<textarea name="comment" id="" cols="30" rows="7" class="form-control"
+										placeholder="Để lại bình luận của bạn về sản phẩm"
+										th:field="*{commentMessage}"></textarea>
+
+									<p th:if="${#fields.hasErrors('commentMessage')}" th:errors="*{commentMessage}"
+										class="text-danger"></p>
+
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary py-3 px-5">
+										Gửi bình luận
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="container-indent wrapper-social-icon">
@@ -395,7 +456,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="container-indent">
+		<!-- <div class="container-indent">
 			<div class="container container-fluid-custom-mobile-padding">
 				<div class="tt-block-title text-left">
 					<h3 class="tt-title-small">Thương hiệu <span th:text="${product.brand.name}"></span></h3>
@@ -431,10 +492,11 @@
 									price
 								</div>
 								<div class="tt-product-inside-hover">
-				<div class="tt-row-btn">
-													<a href="#" class="tt-btn-addtocart thumbprod-button-bg" data-toggle="modal" data-target="#modalAddToCartProduct">ADD TO CART</a>
-												</div>
-				<div class="tt-row-btn">
+									<div class="tt-row-btn">
+										<a href="#" class="tt-btn-addtocart thumbprod-button-bg" data-toggle="modal"
+											data-target="#modalAddToCartProduct">ADD TO CART</a>
+									</div>
+									<div class="tt-row-btn">
 										<a href="#" class="tt-btn-quickview" data-toggle="modal"
 											data-target="#ModalquickView"></a>
 										<a href="#" class="tt-btn-wishlist"></a>
@@ -447,55 +509,8 @@
 
 				</div>
 			</div>
-		</div>
-		<div class="container-indent">
-			<div class="row">
-			<!-- <h3>${list_comments.size()} comments</h3> -->
-			<!-- <c:forEach var="comment" items="${list_comments}">
-				<div class="col-lg-12">
-					<h5>${comment.name}</h5>
-					<p>
-						<span>${comment.createdDate}</span>
-					</p>
-					<p>${comment.commentMessage}</p>
-					<p>${comment.rate} star</p>
-				</div>
-			</c:forEach> -->
-		</div>
-			<div class="row">
-			<div class="col-lg-12">
-				<h3 class="heading mb-2">Star Rating</h3>
+		</div> -->
 
-				<form method="post" class="star-rating" >
-					<input type="hidden" name="userId"> 
-					<!-- <input type="hidden"
-						name="postId" value="${param.id}"> -->
-					<div class=" d-flex  mt-2">
-						<div class=" text-center mb-5">
-							<div class="rating">
-								<input type="radio" name="rating" value="5" id="5"><label
-									for="5">☆</label> <input type="radio" name="rating" value="4"
-									id="4"><label for="4">☆</label> <input type="radio"
-									name="rating" value="3" id="3"><label for="3">☆</label>
-								<input type="radio" name="rating" value="2" id="2"><label
-									for="2">☆</label> <input type="radio" name="rating" value="1"
-									id="1"><label for="1">☆</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="message">Message</label>
-						<textarea name="comment" id="" cols="30" rows="7"
-							class="form-control" placeholder="Leave your idea about this post"></textarea>
-					</div>
-					<div class="form-group">
-						<input type="submit" value="Post Comment"
-							class="btn btn-primary py-3 px-5">
-					</div>
-				</form>
-			</div>
-		</div>
-		</div>
 	</div>
 	<script th:inline="javascript">
 		let cart = {};  // object lưu dữ liệu
@@ -520,7 +535,7 @@
 	<div th:replace="~{shopper/fragments/modal :: size_guide}"></div>
 	<div th:replace="~{shopper/fragments/modal :: shipping}"></div>
 
-	
+
 
 	<script src="external/jquery/jquery.min.js"></script>
 	<script src="external/bootstrap/js/bootstrap.min.js"></script>
@@ -546,7 +561,7 @@
 	<script th:inline="javascript">
 		let sizeValue = 0;
 		// Lấy giá trị của productId và username
-		var productId = [[${ product.id }]]; 
+		var productId = [[${ product.id }]];
 		var username = [[${ username }]];
 		$(document).ready(function () {
 			$(".size_number a").on("click", function (e) {
@@ -575,12 +590,16 @@
 					success: function (response) {
 						if (!username) {
 							toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.');
-							window.location.href = '/user/login';
+							setTimeout(function () {
+								window.location.href = '/user/login';
+							}, 1000); // Thời gian hiển thị thông báo (1 giây)
 							return;
 						}
 						// Xử lý phản hồi từ server (nếu cần)
 						toastr.success('Sản phẩm đã được thêm vào giỏ hàng!');
-						window.location.href = '/cart';
+						setTimeout(function () {
+							window.location.href = '/cart';
+						}, 1000); // Thời gian hiển thị thông báo (1 giây)
 					},
 					error: function (xhr, status, error) {
 						// Xử lý lỗi (nếu có)
@@ -610,21 +629,21 @@
 					type: 'POST',
 					dataType: 'html',
 				})
-				.done(function (res) {
-					if (res == 'added') {
-						toastr.options.positionClass = 'toast-bottom-right';
-						toastr.success("Đã thêm vào danh sách yêu thích");
-					} else if (res == 'removed') {
-						toastr.options.positionClass = 'toast-bottom-right';
-						toastr.info("Đã xóa khỏi danh sách yêu thích");
-					}
-				})
-				.fail(function () {
-					console.log("error");
-				})
-				.always(function (res) {
+					.done(function (res) {
+						if (res == 'added') {
+							toastr.options.positionClass = 'toast-bottom-right';
+							toastr.success("Đã thêm vào danh sách yêu thích");
+						} else if (res == 'removed') {
+							toastr.options.positionClass = 'toast-bottom-right';
+							toastr.info("Đã xóa khỏi danh sách yêu thích");
+						}
+					})
+					.fail(function () {
+						console.log("error");
+					})
+					.always(function (res) {
 
-				});
+					});
 			}
 
 		});

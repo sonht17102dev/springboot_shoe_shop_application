@@ -1,6 +1,8 @@
 package com.sonht.e_commerce_webapp_spring_boot.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,5 +50,10 @@ public class Comment {
 
     @Column(name = "rate", nullable = false)
     private Integer rate;
+
+    public String formatDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return this.createdAt.format(formatter);
+    }
 
 }

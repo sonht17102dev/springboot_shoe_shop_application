@@ -210,6 +210,7 @@ CREATE TABLE comment (
     comment_message text,
     rate INT NOT NULL
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 -- Thêm dữ liệu mẫu cho bảng brand  
 INSERT INTO brand (created_at, updated_at, name) VALUES  
 (NOW(), NOW(), 'NIKE'),  
