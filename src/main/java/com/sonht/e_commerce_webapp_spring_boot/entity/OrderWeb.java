@@ -80,5 +80,24 @@ public class OrderWeb {
     public String getFormatId() {
         return "TS" + String.format("%02d", this.id);
     }
+
+    public String getFormatDeliveryStatus() {
+        switch (this.deliveryStatus) {
+            case "successful":
+                return "Giao hàng thành công";
+            case "delivery2":
+                return "Đang giao hàng lần 2";
+            case "delivery":
+                return "Đang giao hàng";
+            case "cancel":
+                return "Đã huỷ";
+            case "wait":
+                return "Chờ giao hàng";
+            case "unprocessed":
+                return "Chưa xét duyệt";
+            default:
+                return this.deliveryStatus;
+        }
+    }
 }
 

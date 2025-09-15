@@ -47,10 +47,10 @@
 							</thead>
 							<tbody>
 								<tr th:each="orderWeb : ${orderWebs}">
-									<td><a th:href="${'/user/my-account/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
+									<td><a th:href="${'/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
 									<td th:text="${orderWeb.createdAt}"></td>
 									<td th:text="${orderWeb.paymentStatus}">Processing</td>
-									<td th:text="${orderWeb.deliveryStatus}">Processing</td>
+									<td th:text="${orderWeb.getFormatDeliveryStatus()}">Processing</td>
 									<td th:text="${orderWeb.formatPrice(orderWeb.totalAmount)}" class="font-weight-400"></td>
 								</tr>
 							</tbody>
@@ -64,7 +64,7 @@
 							<tbody>
 								<tr>
 									<td>Họ tên:</td>
-									<td th:text="${user.email}"></td>
+									<td th:text="${user.name}"></td>
 								</tr>
 								<tr>
 									<td>Địa chỉ</td>
@@ -81,7 +81,7 @@
 							</tbody>
 						</table>
 					</div>
-					<a href="/user/my-account/edit" class="btn btn-border">Sửa thông tin</a>
+					<!-- <a href="/user/my-account/edit" class="btn btn-border">Sửa thông tin</a> -->
 				</div>
 			</div>
 		</div>

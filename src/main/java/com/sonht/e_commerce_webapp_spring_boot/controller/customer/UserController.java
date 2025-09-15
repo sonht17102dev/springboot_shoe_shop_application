@@ -40,18 +40,7 @@ public class UserController {
         return "shopper/account";
     }
 
-    @GetMapping("my-account/order/{orderWebId}")
-    public String getMethodName(@PathVariable Long orderWebId, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        Optional<OrderWeb> orderWebOp = orderService.findById(orderWebId);
-        if(orderWebOp.isPresent()) {
-            model.addAttribute("orderWeb", orderWebOp.get());
-            model.addAttribute("user", userService.findByEmail(email));
-        }
-
-        return "shopper/account_order";
-    }
+    
     
     
     
@@ -61,13 +50,7 @@ public class UserController {
         return "shopper/account_address_fields.html";
     }
 
-    @PostMapping("my-account/cancel-order/{orderWebId}")
-    @ResponseBody
-    public String handleConfirmOrder(@PathVariable Long orderWebId) {
-        orderService.cancelOrder(orderWebId);
-        
-        return "cancelled";
-    }
+    
     
     
 }

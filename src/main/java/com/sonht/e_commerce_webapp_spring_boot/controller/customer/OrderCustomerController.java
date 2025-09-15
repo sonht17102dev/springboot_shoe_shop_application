@@ -3,10 +3,13 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.OrderWebDto;
@@ -17,6 +20,10 @@ import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 public class OrderCustomerController {
@@ -37,7 +44,7 @@ public class OrderCustomerController {
             return "shopper/cart";
         }
         if(orderWebDto.getPaymentMethod().equals("ATM") ) {
-            return "shopper/vnpay-demo";
+            return "redirect:/paybill";
         }
         // Tạo mới orderWeb từ orderWebDto
         OrderWeb orderWeb = new OrderWeb();
@@ -71,5 +78,32 @@ public class OrderCustomerController {
         return "shopper/order-result";
     }
 
- 
+    @GetMapping("/paybill")
+    public String getVNPAYPage() {
+        
+        return "shopper/vnpay-demo";
+    }
+
+    @GetMapping("/order/{orderWebId}")
+    public String getMethodName(@PathVariable Long orderWebId, Model model) {
+        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // String email = authentication.getName();
+        Optional<OrderWeb> orderWebOp = orderService.findById(orderWebId);
+        if(orderWebOp.isPresent()) {
+            model.addAttribute("orderWeb", orderWebOp.get());
+           
+            // model.addAttribute("user", userService.findByEmail(email));
+        }
+
+        return "shopper/order-detail";
+    }
+
+    @PostMapping("/cancel-order/{orderWebId}")
+    @ResponseBody
+    public String handleConfirmOrder(@PathVariable Long orderWebId) {
+        orderService.cancelOrder(orderWebId);
+        
+        return "cancelled";
+    }
+    
 }
