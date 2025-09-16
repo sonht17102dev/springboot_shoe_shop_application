@@ -86,13 +86,9 @@ public class OrderCustomerController {
 
     @GetMapping("/order/{orderWebId}")
     public String getMethodName(@PathVariable Long orderWebId, Model model) {
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // String email = authentication.getName();
         Optional<OrderWeb> orderWebOp = orderService.findById(orderWebId);
         if(orderWebOp.isPresent()) {
             model.addAttribute("orderWeb", orderWebOp.get());
-           
-            // model.addAttribute("user", userService.findByEmail(email));
         }
 
         return "shopper/order-detail";

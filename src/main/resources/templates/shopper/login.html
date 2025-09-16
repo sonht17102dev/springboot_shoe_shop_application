@@ -37,7 +37,7 @@
 								Bằng cách tạo tài khoản với cửa hàng của chúng tôi, bạn sẽ có thể chuyển qua quy trình thanh toán nhanh hơn, lưu trữ nhiều địa chỉ giao hàng, xem và theo dõi đơn hàng của bạn trong tài khoản của bạn và hơn thế nữa
 							</p>
 							<div class="form-group">
-								<a href="/signup" class="btn btn-top btn-border">TẠO TÀI KHOẢN</a>
+								<a href="/register" class="btn btn-top btn-border">TẠO TÀI KHOẢN</a>
 							</div>
 						</div>
 					</div>
@@ -45,6 +45,9 @@
 						<div class="tt-item">
 							<h2 class="tt-title">ĐĂNG NHẬP</h2>
 							Nếu bạn có tài khoản với chúng tôi, vui lòng đăng nhập.
+							<div th:if="${param.error}">  
+								<p class="text-danger">Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại!</p>  
+							</div>
 							<div class="form-default form-top">
 								<form id="customer_login"  method="POST" th:action="@{/user/login}">
 									<div class="form-group">

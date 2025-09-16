@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
+import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserWishListService;
 
@@ -20,11 +21,13 @@ public class UserWishListController {
 
     private final UserService userService;
     private final UserWishListService userWishlistService;
+    private final BrandService brandService;
     
 
-    public UserWishListController(UserService userService, UserWishListService userWishlistService) {
+    public UserWishListController(UserService userService, UserWishListService userWishlistService, BrandService brandService) {
         this.userService = userService;
         this.userWishlistService = userWishlistService;
+        this.brandService = brandService;
     }
 
 
@@ -48,7 +51,7 @@ public class UserWishListController {
         var userWishlists = userWishlistService.findAllWishlistProducts();
         var products = userWishlists.stream().map(wishlist -> wishlist.getProduct()).toList();
         model.addAttribute("products", products);
-
+        model.addAttribute("brands", brandService.findAll());
         return "shopper/wishlist";
     }
     

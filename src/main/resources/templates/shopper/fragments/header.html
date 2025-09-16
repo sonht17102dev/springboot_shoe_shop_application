@@ -493,7 +493,7 @@
 							<!-- desktop category -->
 							<nav>
 								<ul id="header-dropdown">
-									<li th:each="br : ${brands}"><a th:href="@{/product-listing/} + ${br.id}"
+									<li th:each="br : ${brands}"><a th:href="@{/product-listing/} + ${br.name}"
 											th:text="${br.name}"></a></li>
 
 								</ul>
@@ -512,18 +512,18 @@
 									</li>
 									<li class="dropdown megamenu"><a th:href="@{/product-listing}">SẢN PHẨM</a></li>
 									<li class="dropdown tt-megamenu-col-01">
-										<a href="about.html">HỖ TRỢ</a>
+										<a href="/about">HỖ TRỢ</a>
 										<div class="dropdown-menu">
 											<div class="row tt-col-list">
 												<div class="col">
-													<h6 class="tt-title-submenu"><a href="about.html">HỖ TRỢ KHÁCH
+													<h6 class="tt-title-submenu"><a href="/about">HỖ TRỢ KHÁCH
 															HÀNG</a></h6>
 													<ul class="tt-megamenu-submenu">
-														<li><a href="about.html">Hướng dẫn mua hàng</a></li>
-														<li><a href="contact.html">Chính sách đổi trả, Bảo hành</a></li>
-														<li><a href="services.html">Hướng dẫn đổi trả hàng</a></li>
-														<li><a href="faq.html">Điều khoản Website</a></li>
-														<li><a href="coming-soon.html">Chính sách bảo mật</a></li>
+														<li><a href="/about">Hướng dẫn mua hàng</a></li>
+														<li><a href="/contact">Chính sách đổi trả, Bảo hành</a></li>
+														<li><a href="/services">Hướng dẫn đổi trả hàng</a></li>
+														<li><a href="/faq">Điều khoản Website</a></li>
+														<li><a href="/coming-soon">Chính sách bảo mật</a></li>
 													</ul>
 												</div>
 											</div>
@@ -989,7 +989,7 @@
 									<div class="tt-cart-layout">
 
 										<div class="tt-cart-content">
-											<a class="tt-cart-empty" href="/cart" title="Xem giỏ hàng">
+											<a class="tt-cart-empty" th:href="@{/user/cart}" title="Xem giỏ hàng">
 												<i class="icon-f-39"></i>
 												<p class="roboto">Chưa có sản phẩm</p>
 											</a>
@@ -1051,11 +1051,7 @@
 													class="icon-n-072"></i>Danh Sách Yêu Thích</a></li>
 										<li id="menu_login"><a href="/user/login"><i class="icon-f-76"></i>Đăng Nhập</a>
 										</li>
-										<li id="menu_logout">
-											<form th:action="@{/user/logout}" method="post">
-												<input type="submit" value="Logout" />
-											</form>
-										</li>
+										<li id="menu_logout"><a href="/user/logout"><i class="icon-f-77"></i>Đăng Xuất</a></li>
 										<li id="menu_reg"><a href="/register"><i class="icon-f-94"></i>Đăng Ký</a></li>
 									</ul>
 								</div>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
+import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,10 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     private final UserService userService;
     private final OrderService orderService;
+    private final BrandService brandService;
 
-    public UserController(UserService userService, OrderService orderService) {
+    public UserController(UserService userService, OrderService orderService, BrandService brandService) {
         this.userService = userService;
         this.orderService = orderService;
+        this.brandService = brandService;
     }
 
     @GetMapping("my-account")
@@ -36,7 +39,7 @@ public class UserController {
         String email = authentication.getName();
         model.addAttribute("orderWebs", userService.findByEmail(email).getOrderWebs());
         model.addAttribute("user", userService.findByEmail(email));
-
+        model.addAttribute("brands", brandService.findAll());
         return "shopper/account";
     }
 

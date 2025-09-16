@@ -36,5 +36,12 @@ public class BrandServiceImpl implements BrandService{
                 
     }
 
+    @Override
+    public List<Product> findProductsByBrandName(String brandName) {
+        return brandRepository.findByName(brandName).stream()
+                .flatMap(brand -> brand.getProducts().stream())
+                .toList();
+    }
+
     
 }

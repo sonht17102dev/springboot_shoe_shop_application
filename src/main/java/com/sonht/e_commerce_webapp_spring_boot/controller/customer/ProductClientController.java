@@ -2,7 +2,6 @@ package com.sonht.e_commerce_webapp_spring_boot.controller.customer;
 
 import java.util.List;
 
-import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,13 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.CommentDto;
 import com.sonht.e_commerce_webapp_spring_boot.dto.ProductWishListDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Comment;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
-import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.CategoryService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ColorService;
@@ -31,7 +28,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ProductClientController {
@@ -43,6 +39,7 @@ public class ProductClientController {
     private final UserWishListService userWishlistService;
     private final UserService userService;
     private final CommentService commentService;
+    private final List<Integer> listSize = List.of(35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45);
 
     public ProductClientController(CategoryService categoryService, BrandService brandService,
             ProductSizeService productSizeService, ColorService colorService, ProductService productService,
@@ -56,6 +53,18 @@ public class ProductClientController {
         this.userService = userService;
         this.commentService = commentService;
     }
+    @GetMapping("/product-listing/{brandName}")
+    public String getProductListingPageByBrandName(@PathVariable String brandName, Model model) {
+        List<Product> products = brandService.findProductsByBrandName(brandName);
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("sizes", listSize);
+        model.addAttribute("colors", colorService.findAll());
+
+        return "shopper/product-listing";
+    }
+    
 
     @GetMapping("/product-listing")
     public String getProductListingPage(Model model,
@@ -67,30 +76,30 @@ public class ProductClientController {
             @RequestParam(required = false) Long colorId) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("brands", brandService.findAll());
-        model.addAttribute("sizes", productSizeService.findAll());
+        model.addAttribute("sizes", listSize);
         model.addAttribute("colors", colorService.findAll());
         List<Product> products = null;
         if (categoryId == null && brandId == null && priceMin == null && priceMax == null && size == null
                 && colorId == null) {
             products = productService.findAllByStatus("Đang bán");
         }
-        if (categoryId != null) {
+        else if (categoryId != null) {
             products = productService.filterProducts(categoryId, null, null, null, null, null);
         }
-        if (brandId != null) {
+        else if (brandId != null) {
             products = brandService.findProductsByBrandId(brandId);
         }
-        if (priceMax != null) {
-            products = productService.filterProducts(null, null, null, priceMax, null, null);
-        }
-        if (priceMax != null && priceMin != null) {
+        // else if (priceMax != null) {
+        //     products = productService.filterProducts(null, null, null, priceMax, null, null);
+        // }
+        else if (priceMax != null && priceMin != null) {
             products = productService.filterProducts(null, null, priceMin, priceMax, null, null);
         }
-        if (size != null) {
+        else if (size != null) {
             products = productService.filterProducts(null, null, null, null, size, null);
         }
 
-        if (colorId != null) {
+        else if (colorId != null) {
             products = productService.filterProducts(null, null, null, null, null, colorId);
         }
 
@@ -124,6 +133,7 @@ public class ProductClientController {
         model.addAttribute("isWishlist", productWishListDto.isWishlist());
         model.addAttribute("comments", comments);
         model.addAttribute("commentDto", commentDto);
+        model.addAttribute("brands", brandService.findAll());
 
         return "shopper/product";
     }
@@ -143,6 +153,7 @@ public class ProductClientController {
             String username = (String) session.getAttribute("username");
             if (username == null) {
                 model.addAttribute("isSignedIn", false);
+                model.addAttribute("brands", brandService.findAll());
                 return "shopper/product";
             }
             List<Comment> comments = commentService.findByProductIdOrderByCreatedAtDesc(commentDto.getProductId());
@@ -152,6 +163,7 @@ public class ProductClientController {
             model.addAttribute("isWishlist", productWishListDto.isWishlist());
             model.addAttribute("comments", comments);
             model.addAttribute("commentDto", commentDto);
+            model.addAttribute("brands", brandService.findAll());
             return "shopper/product";
         }
         Comment comment = new Comment();

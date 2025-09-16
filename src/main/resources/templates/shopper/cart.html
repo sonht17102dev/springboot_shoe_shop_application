@@ -129,7 +129,7 @@
 										<label for="consignee">Người nhận hàng <sup>*</sup></label>
 										<input minlength="2" type="text" th:value="${customer.name}"
 											th:field="*{consignee}"  placeholder="Nhập họ tên"
-											class="form-control" required>
+											class="form-control" >
 										<div class="help-block">
 											<p th:if="${#fields.hasErrors('consignee')}" th:errors="*{consignee}"></p>
 										</div>
@@ -141,7 +141,7 @@
 											oninvalid="this.setCustomValidity('Số điện thoại không hợp lệ')"
 											oninput="this.setCustomValidity('')" type="tel" 
 											th:field="*{consigneePhone}" class="form-control" 
-											placeholder="Nhập điện thoại" required>
+											placeholder="Nhập điện thoại" >
 										<div class="help-block">
 											<p th:if="${#fields.hasErrors('consigneePhone')}" th:errors="*{consigneePhone}"></p>
 										</div>
@@ -150,7 +150,7 @@
 										<label minlength="2" for="address">Địa chỉ <sup>*</sup></label>
 										<textarea minlength="5" class="form-control" th:text="${customer.address}"
 											th:field="*{deliveryAddress}"  rows="3"
-											placeholder="Nhập địa chỉ giao hàng" required></textarea>
+											placeholder="Nhập địa chỉ giao hàng" ></textarea>
 										<div class="help-block">
 											<p th:if="${#fields.hasErrors('deliveryAddress')}" th:errors="*{deliveryAddress}"></p>
 										</div>
@@ -264,7 +264,7 @@
 						setTimeout(function () {
 							toastr.success('Đã xóa tất cả sản phẩm trong giỏ hàng');
 						}, 500); // Chờ 1 giây trước khi tải lại trang
-						window.location.href = "/cart";
+						window.location.href = "/user/cart";
 					},
 					error: function () {
 						toastr.error('Xóa tất cả sản phẩm thất bại. Vui lòng thử lại.');
@@ -282,7 +282,7 @@
 						setTimeout(function () {
 							toastr.success('Đã xóa sản phẩm khỏi giỏ hàng');
 						}, 500); // Chờ 1 giây trước khi tải lại trang
-						window.location.href = "/cart";
+						window.location.href = "/user/cart";
 					},
 					error: function () {
 						toastr.error('Xóa sản phẩm thất bại. Vui lòng thử lại.');

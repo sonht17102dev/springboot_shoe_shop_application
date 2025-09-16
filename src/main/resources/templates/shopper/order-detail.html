@@ -37,10 +37,11 @@
 				<h1 class="tt-title-subpages noborder">CHI TIẾT ĐƠN HÀNG</h1>
 				<div class="tt-shopping-layout">
 					<h2 class="tt-title-border">
-						Đơn hàng #<span th:text="${orderWeb.getFormatId()}" id="order_id"></span> - <span
+						Đơn hàng #<span th:text="${orderWeb.getFormatId()}" id="order_id"></span> - <span 
 							th:text="${orderWeb.getFormatDeliveryStatus()}" id="delivery_status"></span>
 						<span class="ordered_date">Ngày đặt hàng: <span th:text="${orderWeb.createdAt}"
 								class="date">18:31 20/04/2020</span></span>
+						<div id="orderWebId" th:text="${orderWeb.id}" class="d-none"></div>
 					</h2>
 					<div class="tt-wrapper">
 						<h3 class="tt-title">Chi tiết</h3>
@@ -104,7 +105,8 @@
 								</tbody>
 							</table>
 						</div>
-						<a href="javascript:;" id="cancel_order" class="btn btn-border">HỦY ĐƠN HÀNG</a>
+						<a href="javascript:;" id="cancel_order" 
+						th:class="${orderWeb.deliveryStatus == 'cancel'} ? 'btn btn-border d-none' : 'btn btn-border'">HỦY ĐƠN HÀNG</a>
 					</div>
 
 
@@ -153,7 +155,7 @@
 	<!-- <script src="js/order-detail.js" type="text/javascript"></script> -->
 
 	<script inline="javascript">
-		var orderId = [[${ orderWeb.id }]];
+		var orderId = $('#orderWebId').text();
 		$(document).ready(function () {
 			$('#cancel_order').click(function (event) {
 				swal.fire({
@@ -174,7 +176,8 @@
 									response,
 									'success'
 								);
-								window.location.href = '/order/' + orderId;
+								$('#delivery_status').text('Đã hủy');
+								$('#cancel_order').hide()
 							},
 							error: function (xhr, status, error) {
 								toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau!');
@@ -185,26 +188,7 @@
 
 				})
 			});
-			// $('#confirmCancel').on('click', function() {
-			// 	$.ajax({
-			// 		url: '/user/my-account/cancel-order/' + orderId,
-			// 		type: 'POST',
-			// 		success: function(response) {
-			// 			if (response == 'cancelled') {
-			// 				toastr.success('Huỷ đơn hàng thành công!');
-			// 				$('#showCancel').hide();
-			// 				setTimeout(function() {
-			// 					location.reload();
-			// 				}, 500);
-			// 			} else {
-			// 				toastr.error('Đơn hàng không thể huỷ!');
-			// 			}
-			// 		},
-			// 		error: function(xhr, status, error) {
-			// 			toastr.error('Có lỗi xảy ra. Vui lòng thử lại sau!');
-			// 		}
-			// 	});
-			// });
+			
 		});
 	</script>
 </body>

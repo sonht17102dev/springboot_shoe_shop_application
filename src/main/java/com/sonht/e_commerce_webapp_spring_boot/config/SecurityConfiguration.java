@@ -86,7 +86,7 @@ public class SecurityConfiguration {
                         configurer
                                 .requestMatchers("/assets/**").permitAll()
                                 .requestMatchers("/register").permitAll()
-                                .requestMatchers("/my-account").authenticated()
+                                // .requestMatchers("/my-account", "/cart").authenticated()
                                 .requestMatchers("/user/**").hasRole("CUSTOMER")
                                 .anyRequest().authenticated()
                 )
@@ -94,7 +94,7 @@ public class SecurityConfiguration {
                         form
                                 .loginPage("/user/login")
                                 .loginProcessingUrl("/user/login")
-                                .defaultSuccessUrl("/user/index")
+                                //.defaultSuccessUrl("/user/index")
                                 .successHandler(successHandler)   // sử dụng custom handler
 
                                 .permitAll()

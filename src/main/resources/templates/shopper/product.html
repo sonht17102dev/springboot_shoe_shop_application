@@ -591,14 +591,14 @@
 						if (!username) {
 							toastr.error('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.');
 							setTimeout(function () {
-								window.location.href = '/user/login';
+								window.location.href = '/user/cart';
 							}, 1000); // Thời gian hiển thị thông báo (1 giây)
 							return;
 						}
 						// Xử lý phản hồi từ server (nếu cần)
 						toastr.success('Sản phẩm đã được thêm vào giỏ hàng!');
 						setTimeout(function () {
-							window.location.href = '/cart';
+							window.location.href = '/user/cart';
 						}, 1000); // Thời gian hiển thị thông báo (1 giây)
 					},
 					error: function (xhr, status, error) {

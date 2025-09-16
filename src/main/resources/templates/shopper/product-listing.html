@@ -78,7 +78,7 @@
 							<h3 class="tt-collapse-title">TÌM THEO MỨC GIÁ</h3>
 							<div class="tt-collapse-content">
 								<ul class="tt-list-row" id="list-price">
-									<li><a href="#" priceMax="1000000">0 — 1.000.000</a></li>
+									<li><a href="#" priceMin="0" priceMax="1000000">0 — 1.000.000</a></li>
 									<li><a href="#" priceMin="1000000" priceMax="2000000">1.000.000 — 2.000.000</a></li>
 									<li><a href="#" priceMin="2000000" priceMax="3000000">2.000.000 — 3.000.000</a></li>
 									<li><a href="#" priceMin="3000000">> 3.000.000</a></li>
@@ -89,7 +89,7 @@
 							<h3 class="tt-collapse-title">TÌM THEO KÍCH THƯỚC</h3>
 							<div class="tt-collapse-content">
 								<ul class="tt-options-swatch options-middle" id="list-size">
-									<li th:each="size : ${sizes}"><a href="#" th:text="${size.size}"></a></li>
+									<li th:each="size : ${sizes}"><a href="#" th:text="${size}"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -235,13 +235,13 @@
 									</div>
 								</div>
 							</div>
-							<div class="text-center" style="margin-top: 30px;">
-								<a id="show_more" href="load-more" class="btn btn-border"
+							<!-- <div class="text-center" style="margin-top: 30px;">
+								<a id="show_more" href="load-more" class="btn btn-border d-none"
 									th:if="${#lists.size(products)!=0}">XEM THÊM</a>
 								<div id="last_page" class="tt_item_all d-none">
 									<a href="end" class="btn btn-border01">CUỐI TRANG</a>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

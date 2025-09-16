@@ -42,5 +42,16 @@ public class HomeController {
         return "shopper/search";
     }
 
+    @GetMapping("/about")
+    public String getAboutPage() {
+        return "shopper/about";
+    }
+    
+    @GetMapping("/contact")
+    public String getContactPage() {
+        return "shopper/contact";
+    }
+    
+
     
 }

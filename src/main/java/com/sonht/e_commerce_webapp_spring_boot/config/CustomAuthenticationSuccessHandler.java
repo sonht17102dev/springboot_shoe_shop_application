@@ -6,7 +6,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
@@ -20,9 +24,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final UserService userService;
 
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     public CustomAuthenticationSuccessHandler(UserService userService) {
         this.userService = userService;
     }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response,
@@ -39,17 +46,31 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         User user = userService.findByEmail(username);
         session.setAttribute("user", user);
 
-        String redirectUrl = "/index"; // default
-        if (session != null) {
-            // Kiểm tra xem có productId được lưu trước khi login không
-            CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
-            if (cartItemRequest != null) {
+        // String redirectUrl = "/index"; // default
+        // if (session != null) {
 
-                // Redirect sang /cart kèm productId
-                redirectUrl = "/cart";
+            // Lấy URL mà Spring Security đã lưu
+            SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+
+            if (savedRequest != null) {
+                String targetUrl = savedRequest.getRedirectUrl();
+                // Kiểm tra xem có productId được lưu trước khi login không
+                // CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
+                // if (cartItemRequest != null) {
+
+                    // Redirect sang /cart kèm productId
+                    // redirectUrl = "/cart";
+                //     redirectStrategy.sendRedirect(request, response, "/cart");
+                // }
+                redirectStrategy.sendRedirect(request, response, targetUrl);
+
+            } else {
+                // Nếu không có thì về trang chủ
+                redirectStrategy.sendRedirect(request, response, "/");
+
             }
-        }
+        // }
 
-        response.sendRedirect(redirectUrl);
+        // response.sendRedirect(redirectUrl);
     }
 }

@@ -41,7 +41,7 @@ public class CartController {
         return "Thêm sản phẩm thành công"; // Redirect to the cart page
     }
 
-    @GetMapping("/cart")
+    @GetMapping("/user/cart")
     public String showCart(Model model, HttpServletRequest request) {
         // Get the current user's from session
         HttpSession session = request.getSession();
@@ -49,6 +49,7 @@ public class CartController {
         CartItemDto cartItemRequest=  (CartItemDto) session.getAttribute("cartItemRequest");
         // System.out.println(cartItemRequest);
         if(username == null && cartItemRequest == null) {
+            System.out.println("Chưa đăng nhập");
             return "redirect:/user/login"; // Redirect to login if not authenticated
         }
         if(username != null && userService.findByEmail(username).getCartItems().isEmpty() && cartItemRequest == null) {

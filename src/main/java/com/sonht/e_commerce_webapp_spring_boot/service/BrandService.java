@@ -12,4 +12,6 @@ public interface BrandService {
     List<Brand> findByName(String brandName);
 
     List<Product> findProductsByBrandId(Long brandId);
+
+    List<Product> findProductsByBrandName(String brandName);
 }
