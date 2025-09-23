@@ -24,5 +24,7 @@ public class OrderDto {
     private String paymentStatus;//trạng thái thanh toán
 
     private Long formatTotalAmount;
+
+    
   
 }

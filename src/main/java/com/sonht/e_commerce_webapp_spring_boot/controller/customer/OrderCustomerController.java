@@ -44,7 +44,7 @@ public class OrderCustomerController {
             return "shopper/cart";
         }
         if(orderWebDto.getPaymentMethod().equals("ATM") ) {
-            return "redirect:/paybill";
+            return "redirect:/payment/create" + "?amount=" + orderWebDto.getTotalAmount() ;
         }
         // Tạo mới orderWeb từ orderWebDto
         OrderWeb orderWeb = new OrderWeb();

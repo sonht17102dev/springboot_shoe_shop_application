@@ -38,5 +38,8 @@ public class OrderWebDto {
 
     private Long customerId; 
 
+    public String getFormatId(Long id) {
+        return "TS" + String.format("%02d", id);
+    }
 
 }
