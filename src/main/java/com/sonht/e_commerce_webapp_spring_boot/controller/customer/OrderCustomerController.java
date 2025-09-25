@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.OrderWebDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWeb;
-import com.sonht.e_commerce_webapp_spring_boot.entity.OrderWebDetail;
-import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
+import com.sonht.e_commerce_webapp_spring_boot.util.Ultilities;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -44,30 +42,11 @@ public class OrderCustomerController {
             return "shopper/cart";
         }
         if(orderWebDto.getPaymentMethod().equals("ATM") ) {
-            return "redirect:/payment/create" + "?amount=" + orderWebDto.getTotalAmount() ;
+            Long orderId = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, true).getId();
+            
+            return "redirect:/payment/create" + "?amount=" + orderWebDto.getTotalAmount() + "&orderId=" + String.valueOf(orderId);
         }
-        // Tạo mới orderWeb từ orderWebDto
-        OrderWeb orderWeb = new OrderWeb();
-        orderWeb.setConsignee(orderWebDto.getConsignee());
-        orderWeb.setConsigneePhone(orderWebDto.getConsigneePhone());
-        orderWeb.setDeliveryAddress(orderWebDto.getDeliveryAddress());
-        orderWeb.setPaymentMethod(orderWebDto.getPaymentMethod());
-        orderWeb.setTotalAmount(orderWebDto.getTotalAmount());
-        orderWeb.setDeliveryStatus("unprocessed");
-        orderWeb.setPaymentStatus("Chưa thanh toán");
-        orderWeb.setSentMail(false);
-        // Lấy thông tin user từ customerId và gán vào orderWeb
-        Optional<User> user = userService.findById(orderWebDto.getCustomerId());
-        if (user.isPresent()) {
-            orderWeb.setUser(user.get());
-        }
-        // Lưu orderWeb và các orderWebDetails
-        orderService.saveOrder(orderWeb);
-        // mapping dữ liệu từ cartItems sang orderWebDetails
-        List<OrderWebDetail> orderWebDetails = orderService.convertCartItemsToOrderDetails(user.get().getCartItems(), orderWeb);
-        orderWeb.setOrderWebDetails(orderWebDetails);
-        orderWeb.setCreatedAt(java.time.LocalDateTime.now());
-        orderWeb.setUpdatedAt(java.time.LocalDateTime.now());
+        OrderWeb orderWeb = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, false);
 
         // hiện thị thông tin lên order-result
         model.addAttribute("orderWeb", orderWeb);
@@ -101,5 +80,6 @@ public class OrderCustomerController {
         
         return "cancelled";
     }
+
     
 }
