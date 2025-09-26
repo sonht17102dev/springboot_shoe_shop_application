@@ -18,6 +18,8 @@ import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 import com.sonht.e_commerce_webapp_spring_boot.util.Ultilities;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,16 +37,18 @@ public class OrderCustomerController {
     }
 
     @PostMapping("/checkout")
-    public String handleOrder(@Valid @ModelAttribute OrderWebDto orderWebDto, BindingResult result, Model model) {
+    public String handleOrder(@Valid @ModelAttribute OrderWebDto orderWebDto, BindingResult result, Model model, HttpServletRequest re) {
+        HttpSession session = re.getSession();
         // validate form
         if (result.hasErrors()) {
             model.addAttribute("orderWebDto", orderWebDto);
             return "shopper/cart";
         }
         if(orderWebDto.getPaymentMethod().equals("ATM") ) {
-            Long orderId = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, true).getId();
-            
-            return "redirect:/payment/create" + "?amount=" + orderWebDto.getTotalAmount() + "&orderId=" + String.valueOf(orderId);
+            // Long orderId = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, true).getId();
+            // return "redirect:/payment/create" + "?amount=" + orderWebDto.getTotalAmount() + "&orderId=" + String.valueOf(orderId);
+            session.setAttribute("orderWebDto", orderWebDto);
+            return "redirect:/payment/create";
         }
         OrderWeb orderWeb = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, false);
 

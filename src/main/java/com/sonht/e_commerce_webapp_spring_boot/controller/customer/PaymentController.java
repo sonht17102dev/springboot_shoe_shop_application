@@ -6,16 +6,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sonht.e_commerce_webapp_spring_boot.dto.OrderWebDto;
+import com.sonht.e_commerce_webapp_spring_boot.service.OrderService;
+import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 import com.sonht.e_commerce_webapp_spring_boot.util.Ultilities;
 import com.sonht.e_commerce_webapp_spring_boot.util.VNPAYUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class PaymentController {
+
+    private final UserService userService;
+    private final OrderService orderService;
+
+    public PaymentController(UserService userService, OrderService orderService) {
+        this.userService = userService;
+        this.orderService = orderService;
+    }
 
     @Value("${vnpay.tmnCode}")
     private String vnp_TmnCode;
@@ -30,8 +42,16 @@ public class PaymentController {
     private String vnp_Returnurl;
 
     @GetMapping("/payment/create")
-    public String createPayment(HttpServletRequest request, @RequestParam("amount") long amount, @RequestParam("orderId") String orderId) throws Exception {
-        String vnp_TxnRef = Ultilities.getFormatId(orderId); // mã giao dịch duy nhất
+    public String createPayment(HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        OrderWebDto orderWebDto = (OrderWebDto) session.getAttribute("orderWebDto");
+        if (orderWebDto == null) {
+            return "redirect:/user/cart"; // Redirect to cart if orderWebDto is not found in session
+        }
+        Long amount = orderWebDto.getTotalAmount(); // Số tiền cần thanh toán
+
+        Long orderId = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, true).getId();
+        String vnp_TxnRef = Ultilities.getFormatId(String.valueOf(orderId)); // mã giao dịch duy nhất
         String vnp_IpAddr = request.getRemoteAddr();
 
         Map<String, String> vnp_Params = new HashMap<>();
@@ -59,8 +79,9 @@ public class PaymentController {
 
         String query = VNPAYUtil.buildQuery(vnp_Params);
         String vnp_SecureHash = VNPAYUtil.hmacSHA512(vnp_HashSecret, query);
+        
         String paymentUrl = vnp_Url + "?" + query + "&vnp_SecureHash=" + vnp_SecureHash;
-
+        session.removeAttribute("orderWebDto");
         return "redirect:" + paymentUrl;
     }
 
@@ -86,12 +107,12 @@ public class PaymentController {
         String resultMessage;
         if ("00".equals(responseCode)) {
             resultMessage = "Giao dịch thành công";
+            model.addAttribute("message", resultMessage);
+    
+            return "shopper/vnpay-return";
         } else {
-            resultMessage = "Giao dịch Không thành công";
+            return "redirect:/user/cart";
         }
-        model.addAttribute("message", resultMessage);
-
-        return "shopper/vnpay-return";
     }
 
 }

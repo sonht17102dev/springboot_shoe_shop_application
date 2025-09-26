@@ -97,7 +97,7 @@ public class CartController {
     @GetMapping("/change-quantity")
     public String getMethodName(@RequestParam("id") String cartItem, @RequestParam("change") String change) {
         cartService.changeQuantity(Long.parseLong(cartItem), change);
-        return "redirect:/cart";
+        return "redirect:/user/cart";
     }
     
 
