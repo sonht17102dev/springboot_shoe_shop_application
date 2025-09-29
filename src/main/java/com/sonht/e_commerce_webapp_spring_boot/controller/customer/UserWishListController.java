@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
-import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserWishListService;
 
@@ -21,16 +20,16 @@ public class UserWishListController {
 
     private final UserService userService;
     private final UserWishListService userWishlistService;
-    private final BrandService brandService;
     
 
-    public UserWishListController(UserService userService, UserWishListService userWishlistService, BrandService brandService) {
+    public UserWishListController(UserService userService, UserWishListService userWishlistService) {
         this.userService = userService;
         this.userWishlistService = userWishlistService;
-        this.brandService = brandService;
     }
 
-
+    /*
+     * Xử lý thêm/xóa sản phẩm yêu thích
+     */
     @PostMapping("/product-wishlist/{productId}")
     @ResponseBody
     public String handleLike(@PathVariable Long productId, HttpServletRequest request) {
@@ -41,17 +40,21 @@ public class UserWishListController {
         if (user == null) {
             throw new RuntimeException("User not found");
         }
-        boolean isLiked = userWishlistService.toggleWishlist(user.getId(), productId); // Giả sử userId là 1
+        // Chuyển đổi trạng thái yêu thích / không yêu thích
+        boolean isLiked = userWishlistService.toggleWishlist(user.getId(), productId); 
 
         return isLiked ? "added" : "removed";
     }
 
+    /*
+     * Xử lý trang danh sách yêu thích
+     */
     @GetMapping("/user/my-account/wishlist")
     public String getWishListPage(Model model) {
+        // Lấy danh sách sản phẩm yêu thích của người dùng
         var userWishlists = userWishlistService.findAllWishlistProducts();
         var products = userWishlists.stream().map(wishlist -> wishlist.getProduct()).toList();
         model.addAttribute("products", products);
-        model.addAttribute("brands", brandService.findAll());
         return "shopper/wishlist";
     }
     

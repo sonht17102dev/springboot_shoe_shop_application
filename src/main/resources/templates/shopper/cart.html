@@ -99,7 +99,7 @@
 									<!-- <button type="button" data-bs-toggle="modal"
 										th:data-bs-target="'#deleteItemCartModal'+${cartItem.id}"
 										class="tt-btn-close"></button> -->
-										<a th:id="'deleteItem' + ${cartItem.id}" href="#" class="tt-btn-close"></a>
+										<a th:id="${cartItem.id}" href="#" class="tt-btn-close"></a>
 								</td>
 							</tr>
 						</tbody>
@@ -291,10 +291,10 @@
 				e.preventDefault();
 
 				// lấy id của thẻ được click
-				let itemId = $(this).attr("id"); 
+				let cartItemId = $(this).attr("id"); 
 
 				// nếu muốn lấy số cartItem.id (bỏ chữ 'deleteItem')
-				let cartItemId = itemId.replace("deleteItem", "");
+				// let cartItemId = itemId.replace("deleteItem", "");
 
 				swal.fire({
 					title: 'Xác nhận xóa đơn hàng này?',

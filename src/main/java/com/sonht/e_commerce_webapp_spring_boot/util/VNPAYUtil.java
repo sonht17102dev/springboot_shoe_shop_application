@@ -5,6 +5,10 @@ import java.net.URLEncoder;
 import java.util.*;
 
 public class VNPAYUtil {
+
+    /*
+     * Hàm băm HMAC SHA512
+     */
     public static String hmacSHA512(String key, String data) {
         try {
             javax.crypto.Mac hmac512 = javax.crypto.Mac.getInstance("HmacSHA512");
@@ -21,6 +25,9 @@ public class VNPAYUtil {
         }
     }
 
+    /*
+     * Hàm xây dựng chuỗi truy vấn từ map các tham số
+     */
     public static String buildQuery(Map<String, String> params) throws UnsupportedEncodingException {
         List<String> fieldNames = new ArrayList<>(params.keySet());
         Collections.sort(fieldNames);
@@ -39,22 +46,6 @@ public class VNPAYUtil {
         return sb.toString();
     }
 
-    public static String generateRandomNumber(int length) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("Length must be greater than 0");
-        }
-
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-
-        // đảm bảo chữ số đầu tiên khác 0
-        sb.append(random.nextInt(9) + 1);
-
-        for (int i = 1; i < length; i++) {
-            sb.append(random.nextInt(10)); // từ 0-9
-        }
-
-        return sb.toString();
-    }
+   
 }
 

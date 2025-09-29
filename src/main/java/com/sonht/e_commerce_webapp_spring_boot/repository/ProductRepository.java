@@ -12,13 +12,29 @@ import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
+    /*
+     * Lấy tất cả sản phẩm chưa bị xóa (isDelete = false)
+     */
     List<Product> findAllByIsDelete(boolean isDelete);
+
+    /*
+     * Kiểm tra sự tồn tại của một sản phẩm dựa trên ID
+     */
     boolean existsById(Long id);
 
-    // Không phân biệt hoa thường
+    /*
+     * Tìm kiếm sản phẩm theo từ khóa trong tên sản phẩm, không phân biệt chữ hoa chữ thường
+     */
     List<Product> findByNameContainingIgnoreCase(String keyword);
+
+    /*
+     * Lấy tất cả sản phẩm theo trạng thái (status)
+     */
     List<Product> findAllByStatus(String status);
 
+    /*
+     * Lọc sản phẩm dựa trên nhiều tiêu chí: categoryId, brandId, priceMin, priceMax, size, colorId
+     */
      @Query("SELECT p FROM Product p " +
            "JOIN p.category c " +
            "JOIN p.brand b " +

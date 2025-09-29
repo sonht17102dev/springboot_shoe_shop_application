@@ -29,7 +29,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
    
-
+    /*
+     * Tạo mới sản phẩm trong hệ thống
+     */
     @Override
     public void createProduct(ProductDto newProduct) {
         Product newProductEntity = new Product();
@@ -60,9 +62,12 @@ public class ProductServiceImpl implements ProductService {
         newProductEntity.setCreatedAt(new java.util.Date());
         newProductEntity.setUpdatedAt(new java.util.Date());
 
-        productRepository.save(newProductEntity);
+        productRepository.save(newProductEntity); // Lưu sản phẩm mới vào cơ sở dữ liệu
     }
 
+    /*
+     * Cập nhật trạng thái sản phẩm (Đang bán <-> Ngừng bán)
+     */
     @Override
     public void updateStatusProduct(Long productId) {
         productRepository.findById(productId).ifPresent(product -> {
@@ -75,13 +80,17 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
+    /*
+     * Lấy tất cả sản phẩm chưa bị xoá trong hệ thống
+     */
     @Override
     public List<Product> findAllByIsDelete(boolean isDelete) {
         return productRepository.findAllByIsDelete(false);
     }
 
-
-
+    /*
+     * Lấy sản phẩm dựa trên productId
+     */
     @Override
     @Transactional
     public Product findById(Long productId) {
@@ -92,6 +101,10 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("Product not found with id: " + productId);
         }
     }
+
+    /*
+     * Xoá sản phẩm (chuyển isDelete sang true) dựa trên productId
+     */
     @Override
     @Transactional
     public void deleteProductById(Long productId) {
@@ -101,7 +114,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
+    /*
+     * Cập nhật thông tin sản phẩm
+     */
     @Override
     public void updateProduct(ProductDto currentProduct) {
         // 1. Lấy product từ DB
@@ -134,9 +149,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-/*
- * Tìm kiếm sản phẩm theo từ khoá
- */
+    /*
+    * Tìm kiếm sản phẩm theo từ khoá
+    */
     @Override
     public List<Product> searchProducts(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
@@ -145,13 +160,17 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
 
+    /*
+     * Lấy tất cả sản phẩm theo trạng thái
+     */
     @Override
     public List<Product> findAllByStatus(String status) {
         return productRepository.findAllByStatus(status);
     }
 
-
-
+    /*
+     * Lọc sản phẩm theo nhiều tiêu chí
+     */
     @Override
     public List<Product> filterProducts(Long categoryId, Long brandId, Long priceMin, Long priceMax, Integer size, Long colorId) {
         System.out.println("Filtering products with parameters: " +

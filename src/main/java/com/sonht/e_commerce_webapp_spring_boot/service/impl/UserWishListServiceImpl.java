@@ -25,7 +25,9 @@ public class UserWishListServiceImpl implements UserWishListService {
         this.productService = productService;
     }
 
-
+    /*
+     * Thêm hoặc xóa sản phẩm khỏi danh sách yêu thích của người dùng
+     */
     @Override
     @Transactional
     public boolean toggleWishlist(long userId, Long productId) {
@@ -49,7 +51,9 @@ public class UserWishListServiceImpl implements UserWishListService {
         }
     }
 
-
+    /*
+     * Lấy tất cả sản phẩm trong danh sách yêu thích
+     */
     @Override
     public List<UserWishlist> findAllWishlistProducts() {
         return userWishListRepository.findAll();

@@ -18,6 +18,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/*
+ * Lớp OrderWebDto đại diện cho dữ liệu đơn hàng web với các thuộc tính như tên người nhận, số điện thoại,
+ * địa chỉ giao hàng, phương thức thanh toán, tổng số tiền và ID khách hàng.
+ * 
+ */
 public class OrderWebDto {
     
     @NotNull
@@ -38,6 +43,9 @@ public class OrderWebDto {
 
     private Long customerId; 
 
+    /*
+     * Phương thức để định dạng ID đơn hàng theo mẫu "TSXX", trong đó XX là số thứ tự với hai chữ số.
+     */
     public String getFormatId(Long id) {
         return "TS" + String.format("%02d", id);
     }

@@ -11,6 +11,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+/*
+ * Lớp OrderDto đại diện cho dữ liệu đơn hàng với các thuộc tính như ID, tên người nhận, 
+ * trạng thái vận chuyển, phương thức thanh toán, trạng thái thanh toán và tổng số tiền đã định dạng.
+ */
 public class OrderDto {
 
     private Long id;

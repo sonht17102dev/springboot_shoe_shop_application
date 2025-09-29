@@ -52,6 +52,9 @@ public class OrderWebDetail {
     @JoinColumn(name = "product_size_id", nullable = false)
     private ProductSize productSize;
 
+    /*
+     * Định dạng giá tiền với định dạng có dấu phẩy và ký hiệu đồng
+     */
     public String formatPrice(BigDecimal price) {
         return String.format("%,.0f đ", price);
     }

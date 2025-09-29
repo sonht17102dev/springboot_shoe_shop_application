@@ -66,21 +66,29 @@ public class OrderWeb {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-   @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orderWeb", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderWebDetail> orderWebDetails = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User user;
 
+    /*
+     * Định dạng giá tiền với định dạng có dấu phẩy và ký hiệu đồng
+     */
     public String formatPrice(BigDecimal price) {
         return String.format("%,.0f đ", price);
     }
-
+    /*
+     * Định dạng ID đơn hàng với tiền tố "TS" và định dạng số có hai chữ số
+     */
     public String getFormatId() {
         return "TS" + String.format("%02d", this.id);
     }
 
+    /*
+     * Định dạng trạng thái vận chuyển thành chuỗi mô tả tương ứng
+     */
     public String getFormatDeliveryStatus() {
         switch (this.deliveryStatus) {
             case "successful":

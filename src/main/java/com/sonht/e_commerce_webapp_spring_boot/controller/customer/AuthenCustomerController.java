@@ -22,14 +22,18 @@ public class AuthenCustomerController {
     public AuthenCustomerController(UserService userService) {
         this.userService = userService;
     }
-
+    /*
+     * Xử lý trang đăng nhập khách hàng
+     */
     @GetMapping("/user/login")
     public String userLogin() {
 
         return "shopper/login";
     }
 
-
+    /*
+     * Xử lý trang đăng ký khách hàng
+     */
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -38,18 +42,22 @@ public class AuthenCustomerController {
         return "shopper/register";
     }
 
-    // handler method to handle user registration form submit request
+    /*
+     * Xử lý đăng ký khách hàng
+     */
     @PostMapping("/register-user")
     public String registerUser(@Valid @ModelAttribute("user") RegistrationDto user, BindingResult bindingResult, Model model) {
+        // kiểm tra email đã tồn tại chưa
         User userExists = userService.findByEmail(user.getEmail());
         if(userExists != null && userExists.getEmail()!= null && !userExists.getEmail().isEmpty()) {
             bindingResult.rejectValue("email", null, "Email này đã được sử dụng!");
         }
-
+        // validate form
         if(bindingResult.hasErrors()) {
             model.addAttribute("user", user);
             return "shopper/register";
         }
+        // lưu user
         userService.saveUser(user);
         return "redirect:/register?success";
     }

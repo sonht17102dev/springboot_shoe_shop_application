@@ -32,7 +32,9 @@ public class CartServiceImpl implements CartService {
         this.productSizeService = productSizeService;
         this.cartRepository = cartRepository;
     }
-
+    /*
+     * Xử lý thêm sản phẩm vào giỏ hàng của người dùng
+     */
     @Override
     public void handleAddProductToCart(CartItemDto cartItemRequest, String email) {
 
@@ -78,7 +80,9 @@ public class CartServiceImpl implements CartService {
         }
 
     }
-
+    /*
+     * Lưu sản phẩm vào giỏ hàng của người dùng
+     */
     public void saveCartItem(User user, Product product, CartItemDto cartItemRequest, List<CartItem> cartItems) {
 
         CartItem cartItem = new CartItem();
@@ -106,24 +110,33 @@ public class CartServiceImpl implements CartService {
         }
 
     }
-
+    /*
+     * Xoá sản phẩm khỏi giỏ hàng dựa trên cartItemId
+     */
     @Override
     public void removeCartItem(Long cartItemId) {
         cartRepository.deleteById(cartItemId);
     }
 
+    /*
+     * Xoá tất cả sản phẩm khỏi giỏ hàng
+     */
     @Override
     public void removeAllCartItems() {
         cartRepository.deleteAll();
     }
-
+    /*
+     * Tính tổng tiền giỏ hàng
+     */
     @Override
     public Long calculateTotalPrice(List<CartItem> cartItems) {
         return cartItems.stream()
                 .mapToLong(item -> (long) (item.getProductSize().getProduct().getPrice() * item.getQuantity()))
                 .sum();
     }
-
+    /*
+     * Thay đổi số lượng sản phẩm trong giỏ hàng (tăng hoặc giảm)
+     */
     @Override
     public void changeQuantity(Long cartItem, String change) {
         

@@ -1,12 +1,10 @@
 package com.sonht.e_commerce_webapp_spring_boot.controller.admin;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sonht.e_commerce_webapp_spring_boot.dto.ProductDto;
-import com.sonht.e_commerce_webapp_spring_boot.entity.Brand;
-import com.sonht.e_commerce_webapp_spring_boot.entity.Category;
 import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
-import com.sonht.e_commerce_webapp_spring_boot.repository.BrandRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.BrandService;
 import com.sonht.e_commerce_webapp_spring_boot.service.CategoryService;
 import com.sonht.e_commerce_webapp_spring_boot.service.ProductService;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
-import com.sonht.e_commerce_webapp_spring_boot.service.impl.UploadService;
 
 import jakarta.validation.Valid;
 
@@ -63,7 +55,7 @@ public class ProductController {
     }
 
     /*
-     * Handles the display of the products page.
+     * Xử lý hiển thị trang danh sách sản phẩm
      */
     @GetMapping("/products")
     public String productsData(Model model) {
@@ -75,10 +67,10 @@ public class ProductController {
                 .toList();
 
         model.addAttribute("products", products);
-        // get user from spring security context
+        // lấy username từ security context
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        // get user from security context
+        // lấy user từ database
         User user = userService.findByEmail(username);
         model.addAttribute("username", username);
 
@@ -86,7 +78,7 @@ public class ProductController {
     }
 
     /*
-     * Handles the display of the add new product page.
+     * Xử lý hiển thị trang thêm sản phẩm mới
      */
     @GetMapping("/products/create")
     public String getAddNewProductPage(Model model) {
@@ -99,7 +91,7 @@ public class ProductController {
     }
 
     /*
-     * Handles the display of the update product page.
+     * Xử lý hiển thị trang cập nhật sản phẩm
      */
     @GetMapping("/products/update/{productId}")
     public String getAddUpdateProductPage(Model model, @PathVariable("productId") Long productId) {
@@ -128,17 +120,14 @@ public class ProductController {
     }
 
     /*
-     * Handles the creation of a new product.
+     * Xử lý trang tạo mới sản phẩm
      */
     @PostMapping("/products/create")
     public String createNewProduct(@Valid @ModelAttribute("newProduct") ProductDto newProduct,
             BindingResult result,
             Model model,
             @RequestParam("imageFile") MultipartFile file) throws IOException {
-        List<FieldError> errors = result.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(">>>>" + error.getField() + " - " + error.getDefaultMessage());
-        }
+        // Kiểm tra nếu có lỗi trong việc binding dữ liệu
         if (result.hasErrors()) {
             model.addAttribute("newProduct", newProduct);
             model.addAttribute("brands", brandService.findAll());
@@ -153,6 +142,7 @@ public class ProductController {
             return "admin/products/add-product";
         }
 
+        // Lưu file ảnh vào thư mục tĩnh
         Path staticPath = Paths.get("static");
         Path imagePath = Paths.get("uploaded/images");
         if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
@@ -163,16 +153,16 @@ public class ProductController {
         try (OutputStream os = Files.newOutputStream(filepath)) {
             os.write(file.getBytes());
         }
-
+        // thiết lập tên ảnh cho product
         newProduct.setImageUrl(file.getOriginalFilename());
 
-        // Save product
+        // Lưu product
         productService.createProduct(newProduct);
         return "redirect:/admin/products";
     }
 
     /*
-     * Handles the update of an existing product.
+     * Xử lý trang cập nhật sản phẩm submit form
      */
     @PostMapping("/products/update")
     public String handleUpdateProduct(@Valid @ModelAttribute("currentProduct") ProductDto currentProduct,
@@ -180,7 +170,7 @@ public class ProductController {
             Model model,
             @RequestParam("imageFile") MultipartFile file) throws IOException {
 
-        // Check if product is valid
+        // Kiểm tra nếu có lỗi trong việc binding dữ liệu
         if (result.hasErrors()) {
             model.addAttribute("currentProduct", currentProduct);
             model.addAttribute("brands", brandService.findAll());
@@ -211,7 +201,7 @@ public class ProductController {
         }
         currentProduct.setImageUrl(file.getOriginalFilename());
 
-        // Save product
+        // Lưu product
         productService.updateProduct(currentProduct);
         return "redirect:/admin/products";
     }
@@ -220,9 +210,9 @@ public class ProductController {
     @ResponseBody
     public List<ProductDto> handleUpdateStatus(@PathVariable("productId") Long productId) {
         if (productId != null) {
-
+            // cập nhật trạng thái sản phẩm
             productService.updateStatusProduct(productId);
-
+            // trả về danh sách sản phẩm đã được cập nhật
             return productService.findAllByIsDelete(false).stream()
                     .map(product -> new ProductDto(product.getId(), product.getName(), product.getVersionName(),
                             product.getDescription(), product.getPrice(), false,
@@ -237,15 +227,16 @@ public class ProductController {
     @ResponseBody
     public List<ProductDto> handleDeleteProduct(@PathVariable("productId") Long productId) {
         if (productId != null) {
-
+            // Xóa sản phẩm (thực tế chỉ đánh dấu isDelete = true)
             productService.deleteProductById(productId);
+
             List<ProductDto> products = productService.findAllByIsDelete(false).stream()
                     .map(product -> new ProductDto(product.getId(), product.getName(), product.getVersionName(),
                             product.getDescription(), product.getPrice(), false,
                             product.getStatus(), null, null, null))
                     .toList();
             return products;// Trả về trang danh sách sản phẩm sau khi xóa
-            // return "redirect:/admin/products";
+           
         }
         return new ArrayList<ProductDto>(); // Trả về danh sách rỗng nếu productId không hợp lệ
     }

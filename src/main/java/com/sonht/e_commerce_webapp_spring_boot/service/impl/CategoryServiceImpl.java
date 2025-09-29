@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.sonht.e_commerce_webapp_spring_boot.entity.Category;
-import com.sonht.e_commerce_webapp_spring_boot.entity.Product;
 import com.sonht.e_commerce_webapp_spring_boot.repository.CategoryRepository;
 import com.sonht.e_commerce_webapp_spring_boot.service.CategoryService;
 

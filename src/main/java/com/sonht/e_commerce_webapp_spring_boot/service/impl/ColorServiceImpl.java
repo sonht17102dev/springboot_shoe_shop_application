@@ -17,6 +17,9 @@ public class ColorServiceImpl implements ColorService {
         this.colorRepository = colorRepository;
     }
 
+    /*
+     * Lấy tất cả Color trong hệ thống
+     */
     @Override
     public List<Color> findAll() {
         return colorRepository.findAll();

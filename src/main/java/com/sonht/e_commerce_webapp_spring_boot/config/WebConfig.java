@@ -9,7 +9,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class WebConfig  {
 
     /**
-     * Character encoding filter to ensure UTF-8 encoding for requests and responses.
+     * Cấu hình bộ lọc mã hóa ký tự để đảm bảo rằng tất cả các yêu cầu và phản hồi sử dụng mã hóa UTF-8.
      * @return
      */
 

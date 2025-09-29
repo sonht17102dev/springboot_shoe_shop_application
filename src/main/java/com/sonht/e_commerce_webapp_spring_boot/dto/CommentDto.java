@@ -13,6 +13,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/*
+ * Lớp CommentDto đại diện cho dữ liệu bình luận với các thuộc tính như tên người dùng, 
+ * nội dung bình luận, đánh giá sao và ID sản phẩm.
+ */
 public class CommentDto {
     
     private String username;

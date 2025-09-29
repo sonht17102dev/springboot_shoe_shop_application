@@ -15,6 +15,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+/*
+ * Lớp ProductDto đại diện cho dữ liệu sản phẩm với các thuộc tính như ID, tên, phiên bản, mô tả, giá, trạng thái xóa,
+ * trạng thái, tên thương hiệu, danh mục và URL hình ảnh.
+ * 
+ */
 public class ProductDto {
 
     private Long id;
@@ -46,6 +51,9 @@ public class ProductDto {
 
     private String imageUrl;
 
+    /*
+     * Phương thức để lấy URL hình ảnh chính của sản phẩm. Nếu không có URL hình ảnh, trả về URL mặc định.
+     */
     public String primaryImage() {
         return imageUrl != null && !imageUrl.isEmpty() ? imageUrl : "https://via.placeholder.com/150";
     }

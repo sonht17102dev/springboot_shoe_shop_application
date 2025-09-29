@@ -15,10 +15,16 @@ public class CommentServiceImpl implements CommentService {
     public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
+    /*
+     * Lấy danh sách bình luận của một sản phẩm theo productId, sắp xếp theo thời gian tạo mới nhất (giảm dần)
+     */
     @Override
     public List<Comment> findByProductIdOrderByCreatedAtDesc(Long productId) {
         return commentRepository.findByProductIdOrderByCreatedAtDesc(productId);
     }
+    /*
+     * Lưu bình luận vào cơ sở dữ liệu
+     */
     @Override
     public void saveComment(Comment comment) {
         commentRepository.save(comment);

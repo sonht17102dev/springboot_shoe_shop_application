@@ -14,6 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+/*
+ * Lớp RegistrationDto đại diện cho dữ liệu đăng ký người dùng với các thuộc tính như ID, 
+ * mật khẩu, email, tên và số điện thoại.
+ */
 public class RegistrationDto {
     private Long id;
     @NotEmpty(message =  "Password không được để trống!")

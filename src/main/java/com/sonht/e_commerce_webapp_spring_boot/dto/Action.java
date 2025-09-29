@@ -12,9 +12,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+/*
+ * Lớp Action đại diện cho một hành động với các thuộc tính như tiêu đề, tên lớp CSS và trạng thái.
+ */
 public class Action {
     private String title;
-
     private String className;
     private String status;
 }

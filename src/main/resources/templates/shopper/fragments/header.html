@@ -1044,14 +1044,14 @@
 								</div>
 								<div class="tt-dropdown-inner">
 									<ul>
-										<li id="menu_user">Xin chào, <b id="menu_username" th:text="${session.username}"></b></li>
-										<li id="menu_myaccount"><a href="/user/my-account"><i class="icon-f-94"></i>Tài
+										<li th:if="${session.user != null}" id="menu_user">Xin chào, <b id="menu_username" th:text="${session.user.name}"></b></li>
+										<li th:if="${session.user != null}" id="menu_myaccount"><a  href="/user/my-account"><i class="icon-f-94"></i>Tài
 												Khoản</a></li>
-										<li id="menu_favor"><a href="/user/my-account/wishlist"><i
+										<li th:if="${session.user != null}" id="menu_favor"><a href="/user/my-account/wishlist"><i
 													class="icon-n-072"></i>Danh Sách Yêu Thích</a></li>
-										<li id="menu_login"><a href="/user/login"><i class="icon-f-76"></i>Đăng Nhập</a>
+										<li th:if="${session.user == null}"id="menu_login"><a href="/user/login"><i class="icon-f-76"></i>Đăng Nhập</a>
 										</li>
-										<li id="menu_logout"><a href="/user/logout"><i class="icon-f-77"></i>Đăng Xuất</a></li>
+										<li th:if="${session.user != null}" id="menu_logout"><a href="/user/logout"><i class="icon-f-77"></i>Đăng Xuất</a></li>
 										<li id="menu_reg"><a href="/register"><i class="icon-f-94"></i>Đăng Ký</a></li>
 									</ul>
 								</div>

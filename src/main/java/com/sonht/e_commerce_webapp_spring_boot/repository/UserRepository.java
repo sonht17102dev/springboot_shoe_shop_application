@@ -7,7 +7,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    /*
+     * Lấy User dựa trên email
+     */
     User findByEmail(String email);
-
+    /*
+     * Lấy User dựa trên tên người nhận (consignee)
+     */
     Optional<User> findByName(String consignee);
 }

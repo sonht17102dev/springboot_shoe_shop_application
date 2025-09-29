@@ -11,6 +11,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+/*
+ * Lớp ProductWishListDto đại diện cho dữ liệu sản phẩm trong danh sách yêu thích
+ * với các thuộc tính như sản phẩm và trạng thái yêu thích.
+ */
 public class ProductWishListDto {
     
     private Product product;

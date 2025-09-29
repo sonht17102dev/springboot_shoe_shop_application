@@ -81,7 +81,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-
+    /*
+     * Lấy URL của ảnh chính (primary image) của sản phẩm
+     */
     public String primaryImage() {
         if (productImages != null && !productImages.isEmpty()) {
             for (ProductImage image : productImages) {
@@ -93,6 +95,9 @@ public class Product {
         return null; // Hoặc có thể trả về một URL mặc định nếu không có ảnh chính
     }
 
+    /*
+     * Lấy danh sách các ảnh không phải là ảnh chính (other images) của sản phẩm
+     */
     public List<ProductImage> otherImages() {
         List<ProductImage> otherImages = new ArrayList<>();
         if (productImages != null && !productImages.isEmpty()) {
@@ -104,10 +109,16 @@ public class Product {
         }
         return otherImages; // Trả về danh sách các ảnh không phải là chính
     }
+    /*
+     * Định dạng giá tiền với định dạng có dấu phẩy và ký hiệu đồng
+     */
     public String formatPrice() {
         return String.format("%,d", this.price) + " đ";
     }
 
+    /*
+     * Trả về tên sản phẩm (dùng trong Thymeleaf tránh lỗi trùng tên hàm getName)
+     */
     public String name2() {
         return this.name;
     }

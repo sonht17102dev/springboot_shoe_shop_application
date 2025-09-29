@@ -15,6 +15,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         this.orderWebDetailRepository = orderWebDetailRepository;
     }
 
+    /*
+     * Lưu chi tiết đơn hàng vào cơ sở dữ liệu
+     */
     @Override
     public void saveOrderWebDetail(OrderWebDetail orderWebDetail) {
         orderWebDetailRepository.save(orderWebDetail);

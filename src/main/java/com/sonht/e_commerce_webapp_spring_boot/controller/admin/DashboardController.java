@@ -18,6 +18,9 @@ public class DashboardController {
         this.productService = productService;
     }
 
+    /*
+     * Xử lý trang dashboard
+     */
     @GetMapping({"/", "/home" })
     public String dashboard() {
 

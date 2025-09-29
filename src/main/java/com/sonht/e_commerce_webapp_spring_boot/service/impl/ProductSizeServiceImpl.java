@@ -19,17 +19,25 @@ public class ProductSizeServiceImpl implements ProductSizeService {
         this.productSizeRepository = productSizeRepository;
     }
 
+    /*
+     * Lấy tất cả ProductSize trong hệ thống
+     */
     @Override
     public List<ProductSize> findAll() {
         return productSizeRepository.findAll();
     }
-
+    /*
+     * Tìm ProductSize dựa trên Product và Size
+     */
     @Override
     public Optional<ProductSize> findProductSizeByProductAndSize(Product product, Integer size) {
         
         return productSizeRepository.findByProductAndSize(product, size);
     }
 
+    /*
+     * Tìm ProductSize dựa trên id
+     */
     @Override
     public Optional<ProductSize> findById(Long id) {
         return productSizeRepository.findById(id);

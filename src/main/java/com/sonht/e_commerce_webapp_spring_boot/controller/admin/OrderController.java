@@ -27,10 +27,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    /*
+     * Xử lý trang danh sách đơn hàng
+     */
     @GetMapping("/orders")
     public String getOrderPage(Model model) {
         List<OrderWeb> orders = orderService.getAllOrders();
         if (!orders.isEmpty()) {
+            // chuyển đổi danh sách OrderWeb thành danh sách OrderDto
             List<OrderDto> orderDtos = orders.stream()
                     .map(order -> new OrderDto(
                             order.getId(),
@@ -45,26 +49,33 @@ public class OrderController {
         return "admin/orders";
     }
 
+    /*
+     * Xử lý trang chi tiết đơn hàng
+     */
     @GetMapping("/orders/detail/{orderId}")
     public String getOrderDetailPage(@PathVariable("orderId") Long orderId, Model model) {
         OrderWeb order = orderService.getOrderById(orderId);
         if (order != null) {
-            // List<OrderWebDetail> orderDetails = order.getOrderWebDetails();
+            
             model.addAttribute("orderWeb", order);
-
+            // tùy vào trạng thái đơn hàng để hiển thị các nút hành động tương ứng
             switch (order.getDeliveryStatus()) {
-                case "unprocessed" -> {
+                // unprocessed -> Chưa xét duyệt
+                case "unprocessed" -> { 
                     model.addAttribute("actions", List.of(
                             new Action("Duyệt đơn hàng này", "btn btn-success", "wait")));
                     model.addAttribute("undoAction", "not_undo");
                     model.addAttribute("hasCancelled", true);
                 }
+
+                // wait -> Chờ giao hàng
                 case "wait" -> {
                     model.addAttribute("actions", List.of(
                             new Action("Bắt đầu giao hàng", "btn btn-primary", "delivery")));
                     model.addAttribute("hasCancelled", true);
                     model.addAttribute("undoAction", "unprocessed");
                 }
+                // delivery -> Đang giao hàng
                 case "delivery" -> {
                     model.addAttribute("actions", List.of(
 
@@ -73,6 +84,8 @@ public class OrderController {
                     model.addAttribute("hasCancelled", true);
                     model.addAttribute("undoAction", "wait");
                 }
+
+                // delivery2 -> Giao hàng lần 2
                 case "delivery2" -> {
                     model.addAttribute("actions", List.of(
 
@@ -80,24 +93,27 @@ public class OrderController {
                             new Action("Giao hàng không thành công", "btn btn-warning", "cancel")));
                     model.addAttribute("hasCancelled", true);
                 }
+
+                // successful -> Giao hàng thành công
                 case "successful" -> {
                     model.addAttribute("actions", null);
                     model.addAttribute("undoAction", "not_undo");
                     model.addAttribute("hasCancelled", null);
                 }
+
+                // cancel -> Đơn hàng bị hủy
                 case "cancel" -> {
                     // model.addAttribute("hasCancelled", false);
                     model.addAttribute("actions", null);
                     model.addAttribute("undoAction", "not_undo");
                     model.addAttribute("hasCancelled", null);
                 }
-            }
-            ;
+            };
 
             return "admin/order-detail";
         } else {
             model.addAttribute("error", "Order not found");
-            return "admin/orders"; // Redirect to orders page if order not found
+            return "admin/orders"; // chuyển hướng về trang danh sách đơn hàng nếu không tìm thấy
 
         }
 
@@ -107,13 +123,13 @@ public class OrderController {
     @ResponseBody
     public String handleChangeStatusOrder(@RequestParam("id") Long orderId,
             @RequestParam("status") String status, Model model) {
-
+        // Lấy order từ database
         OrderWeb order = orderService.getOrderById(orderId);
 
         if (order != null) {
-            // change status of delivery
+            // thay đổi trạng thái đơn hàng
             orderService.updateDeliveryStatus(orderId, status);
-            // send data to client to rerender
+            // gửi thông báo về client
             return "Successfully updated order status";
         }
 
@@ -122,10 +138,11 @@ public class OrderController {
     @PostMapping("/orders/cancel/{orderId}")
     @ResponseBody
     public String handleCancelOrder(@PathVariable("orderId") Long orderId) {
-        System.out.println(orderId);
+        // Lấy order từ database
         OrderWeb order = orderService.getOrderById(orderId);
         
         if (order != null) {
+            // hủy đơn hàng
             orderService.cancelOrder(orderId);
             return "Successfully cancelled order";
         }

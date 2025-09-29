@@ -51,6 +51,9 @@ public class Comment {
     @Column(name = "rate", nullable = false)
     private Integer rate;
 
+    /*
+     * Định dạng ngày tháng thành chuỗi theo định dạng "yyyy-MM-dd"
+     */
     public String formatDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return this.createdAt.format(formatter);

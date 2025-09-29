@@ -30,12 +30,17 @@ public class UserServiceImpl implements UserService{
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+    /*
+     * Tìm User dựa trên email
+     */
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    /*
+     * Tải thông tin User dựa trên username (email) cho Spring Security
+     */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(userName);
@@ -46,33 +51,42 @@ public class UserServiceImpl implements UserService{
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
-
+    /*
+     * Chuyển đổi từ Role sang GrantedAuthority cho Spring Security
+     */
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
+    /*
+     * Lưu thông tin User mới đăng ký
+     */
     @Override
     public void saveUser(RegistrationDto registrationDto) {
         User user = new User();
         user.setName(registrationDto.getName());
         user.setEmail(registrationDto.getEmail());
-        // use spring security to encrypt the password
+        // sử dụng PasswordEncoder để mã hóa mật khẩu
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_CUSTOMER");
+        Role role = roleRepository.findByName("ROLE_CUSTOMER"); // Gán vai trò mặc định là "ROLE_CUSTOMER"
         user.setRoles(Arrays.asList(role));
         user.setPhone(registrationDto.getPhone());
-        user.setEnabled(true); // enable user by default
+        user.setEnabled(true); // kích hoạt tài khoản
         user.setCreatedAt(Date.from(java.time.Instant.now()));
 
         userRepository.save(user);
     
     }
-
+    /*
+     * Tìm User dựa trên tên
+     */
     @Override
     public Optional<User> findByName(String consignee) {
         return userRepository.findByName(consignee);
     }
-
+    /*
+     * Tìm User dựa trên customerId
+     */
     @Override
     public Optional<User> findById(Long customerId) {
         return userRepository.findById(customerId);

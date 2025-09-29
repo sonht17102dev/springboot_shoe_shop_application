@@ -17,17 +17,25 @@ public class BrandServiceImpl implements BrandService{
     public BrandServiceImpl(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
-    
+    /*
+     * Lấy tất cả Brand trong hệ thống
+     */
     @Override
     public List<Brand> findAll() {
         return brandRepository.findAll();
     }
 
+    /*
+     * Lấy Brand dựa trên brandName
+     */
     @Override
     public List<Brand> findByName(String brandName) {
         return brandRepository.findByName(brandName);
     }
 
+    /*
+     * Lấy danh sách sản phẩm theo brandId
+     */
     @Override
     public List<Product> findProductsByBrandId(Long brandId) {
         return brandRepository.findById(brandId)
@@ -35,7 +43,9 @@ public class BrandServiceImpl implements BrandService{
                 .orElseThrow(() -> new RuntimeException("Brand not found with id: " + brandId));
                 
     }
-
+    /*
+     * Lấy danh sách sản phẩm theo brandName
+     */
     @Override
     public List<Product> findProductsByBrandName(String brandName) {
         return brandRepository.findByName(brandName).stream()

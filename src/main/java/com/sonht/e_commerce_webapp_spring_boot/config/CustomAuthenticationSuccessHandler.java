@@ -13,7 +13,6 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
-import com.sonht.e_commerce_webapp_spring_boot.dto.CartItemDto;
 import com.sonht.e_commerce_webapp_spring_boot.entity.User;
 import com.sonht.e_commerce_webapp_spring_boot.service.UserService;
 
@@ -43,34 +42,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // Lấy session hiện tại
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
+        // Lấy thông tin user từ database và lưu vào session
         User user = userService.findByEmail(username);
         session.setAttribute("user", user);
 
-        // String redirectUrl = "/index"; // default
-        // if (session != null) {
 
-            // Lấy URL mà Spring Security đã lưu
-            SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+        // Lấy URL mà Spring Security đã lưu
+        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+        // Nếu có URL lưu thì chuyển hướng đến URL đó
+        if (savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            
+            redirectStrategy.sendRedirect(request, response, targetUrl);
 
-            if (savedRequest != null) {
-                String targetUrl = savedRequest.getRedirectUrl();
-                // Kiểm tra xem có productId được lưu trước khi login không
-                // CartItemDto cartItemRequest = (CartItemDto) session.getAttribute("cartItemRequest");
-                // if (cartItemRequest != null) {
+        } else {
+            // Nếu không có thì về trang chủ
+            redirectStrategy.sendRedirect(request, response, "/");
 
-                    // Redirect sang /cart kèm productId
-                    // redirectUrl = "/cart";
-                //     redirectStrategy.sendRedirect(request, response, "/cart");
-                // }
-                redirectStrategy.sendRedirect(request, response, targetUrl);
-
-            } else {
-                // Nếu không có thì về trang chủ
-                redirectStrategy.sendRedirect(request, response, "/");
-
-            }
-        // }
-
-        // response.sendRedirect(redirectUrl);
+        }
     }
 }

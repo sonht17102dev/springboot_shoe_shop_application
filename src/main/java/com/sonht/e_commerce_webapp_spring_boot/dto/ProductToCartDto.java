@@ -11,6 +11,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+/*
+ * Lớp ProductToCartDto đại diện cho dữ liệu sản phẩm được thêm vào giỏ hàng với các thuộc tính như ID sản phẩm, 
+ * kích thước và số lượng (mặc định là 1).
+ */
 public class ProductToCartDto {
     private Long productId;
     private Integer size;

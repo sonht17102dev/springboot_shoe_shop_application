@@ -28,7 +28,7 @@ public class PaymentController {
         this.userService = userService;
         this.orderService = orderService;
     }
-
+    // Cấu hình thông tin VNPAY từ application.properties
     @Value("${vnpay.tmnCode}")
     private String vnp_TmnCode;
 
@@ -41,19 +41,25 @@ public class PaymentController {
     @Value("${vnpay.returnUrl}")
     private String vnp_Returnurl;
 
+    /*
+     * Xử lý tạo thanh toán và chuyển hướng đến trang thanh toán của VNPAY
+     * 
+     */
     @GetMapping("/payment/create")
     public String createPayment(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         OrderWebDto orderWebDto = (OrderWebDto) session.getAttribute("orderWebDto");
         if (orderWebDto == null) {
-            return "redirect:/user/cart"; // Redirect to cart if orderWebDto is not found in session
+            return "redirect:/user/cart"; // Chuyển hướng về trang giỏ hàng nếu không có đơn hàng nào trong session
         }
         Long amount = orderWebDto.getTotalAmount(); // Số tiền cần thanh toán
 
+        // Chuyển đổi dữ liệu và lưu đơn hàng, lấy ra orderId
         Long orderId = Ultilities.mappingDataDtoToEntity(orderWebDto, userService, orderService, true).getId();
-        String vnp_TxnRef = Ultilities.getFormatId(String.valueOf(orderId)); // mã giao dịch duy nhất
+        String vnp_TxnRef = Ultilities.getFormatId(String.valueOf(orderId)); // Xử lý định dạng mã đơn hàng
         String vnp_IpAddr = request.getRemoteAddr();
 
+        // Tạo các tham số cho URL thanh toán
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", "2.1.0");
         vnp_Params.put("vnp_Command", "pay");
@@ -77,14 +83,19 @@ public class PaymentController {
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
+        // Sắp xếp tham số theo key
         String query = VNPAYUtil.buildQuery(vnp_Params);
+        // tạo chữ ký
         String vnp_SecureHash = VNPAYUtil.hmacSHA512(vnp_HashSecret, query);
         
         String paymentUrl = vnp_Url + "?" + query + "&vnp_SecureHash=" + vnp_SecureHash;
-        session.removeAttribute("orderWebDto");
+        session.removeAttribute("orderWebDto"); // Xóa đơn hàng trong session sau khi tạo URL thanh toán
         return "redirect:" + paymentUrl;
     }
 
+    /*
+     * Xử lý trang kết quả thanh toán từ VNPAY trả về
+     */
     @GetMapping("/vnpay-return")
     public String paymentReturn(
             @RequestParam(name = "vnp_TxnRef", required = false) String txnRef,
@@ -108,7 +119,6 @@ public class PaymentController {
         if ("00".equals(responseCode)) {
             resultMessage = "Giao dịch thành công";
             model.addAttribute("message", resultMessage);
-    
             return "shopper/vnpay-return";
         } else {
             return "redirect:/user/cart";

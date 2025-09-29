@@ -31,7 +31,7 @@
 		<div class="container container-fluid-custom-mobile-padding">
 			<h1 class="tt-title-subpages noborder padding-0">Tài khoản của tôi</h1>
 			<div class="tt-shopping-layout">
-				<h2 class="tt-title-border">Tài khoản của tôi</h2>
+				<!-- <h2 class="tt-title-border">Tài khoản của tôi</h2> -->
 				<div class="tt-wrapper">
 					<h3 class="tt-title">Quản lý đơn hàng</h3>
 					<div class="tt-table-responsive">
@@ -47,7 +47,7 @@
 							</thead>
 							<tbody>
 								<tr th:each="orderWeb : ${orderWebs}">
-									<td><a th:href="${'/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
+									<td><a th:href="${'/user/my-account/order/' + orderWeb.id}"><span th:text="${'#' + orderWeb.getFormatId()}"></span></a></td>
 									<td th:text="${orderWeb.createdAt}"></td>
 									<td th:text="${orderWeb.paymentStatus}">Processing</td>
 									<td th:text="${orderWeb.getFormatDeliveryStatus()}">Processing</td>
